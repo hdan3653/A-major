@@ -1,0 +1,986 @@
+Updated 11/05/14 09:15 PM
+- updated 1 example
+-- cv_pb_font.pb: draw text using PureBasic commands with any font onto an OpenCV generated image
+- added 1 example
+-- cv_addweighted.pb: alpha blend multiple images to simulate face morphing
+- added 4 images
+
+Updated 10/09/14 12:40 AM
+- added 1 example
+-- cv_standard_deviation.pb: applies Standard Deviation to an image by calculating the square root of the variance
+
+Updated 10/07/14 05:40 PM
+- added 1 example
+-- cv_cam_hsv_bgr.pb: display the HSV and BGR color space values determined by the X/Y mouse pointer location
+
+Updated 10/04/14 11:20 PM
+- added 1 example (jointly contributed by applePi)
+-- pb_gl_parametric_curve.pb: using OpenGL to display various parametric curves
+
+Updated 09/30/14 01:10 PM
+- added 2 examples
+-- cv_cam_glow_color.pb: adds a glow effect to red objects
+-- cv_thinning_3.pb: repeated iterations using multiple filters on a grayscale image producing a skeleton effect
+
+Updated 09/29/14 01:45 AM
+- added 1 example
+-- cv_parametric_curve.pb: Parametric Curve: A curve defined as a function of independent variables
+
+Updated 09/17/14 09:00 PM
+- renamed 1 example
+-- cv_cam_chessboard.pb to cv_cam_chessboard_2.pb
+- added 1 example
+-- cv_cam_chessboard_1.pb: after finding the positions of internal corners for a 10 x 7 chessboard pattern, a video is embedded using a warping algorithm
+
+Updated 09/15/14 10:10 AM
+- added 2 examples
+-- cv_cam_detect_hand.pb: contour extraction and calculation is used to determine finger, palm, and depth locations, displayed on the webcam interface
+-- cv_detect_hand.pb: contour extraction and calculation is used to determine finger locations
+- added 4 files to the subfolder binaries\default
+-- cv_cam_default.pb: OpenCV webcam template
+-- cv_default_1.pb: OpenCV image template
+-- cv_default_2.pb: OpenCV drawing template
+-- pb_cam_default.pb: PureBasic webcam template
+
+Updated 09/10/14 05:45 PM
+- renamed 1 example
+-- cv_thinning.pb to cv_thinning_1.pb
+- added 2 examples
+-- cv_analog_clock.pb: creates an analog clock synchronized with the system time
+-- cv_thinning_2.pb: a five stage two-dimensional filter applied to a grayscale image producing a skeleton effect
+
+Updated 09/09/14 07:30 AM
+- added 2 examples
+-- cv_distortion_1.pb: distort a color image by manipulating pixel locations
+-- cv_distortion_2.pb: distort a grayscale image by manipulating pixel locations
+
+Updated 09/04/14 08:20 PM
+- deleted 2 example
+-- cv_canny_1.pb
+-- cv_convexhull_1.pb
+- renamed 2 example
+-- cv_canny_2.pb to cv_canny.pb
+-- cv_convexhull_3.pb to cv_convexhull_1.pb
+- added 1 example
+-- cv_fractal_4.pb: generates an iterative Mandelbrot Set, the most popular geometrical fractal
+
+Updated 09/03/14 05:30 PM
+- added 3 examples
+-- cv_cam_foreground.pb: displays a threshold foreground view using filters to return the difference between frames, from the webcam interface
+-- cv_cam_convexitydefects.pb: calculates the contour areas, finding the convex hull of point sets to convexity defects, displayed on the webcam interface
+-- cv_fractal_3.pb: Fractal Art: Created by calculating fractal objects represented as images
+- updated 4 examples
+-- cv_cam_warpperspective.pb
+-- cv_inpaint.pb
+-- cv_warpaffine.pb
+-- cv_warpperspective_1.pb
+
+Updated 08/30/14 11:10 PM
+- added Constants, 1 Macro, Structures
+- added 4 examples
+-- cv_cam_haar_training_1.pb: Haar-Training in stages for single face recognition (new version)
+-- cv_cam_haar_training_2.pb: Haar-Training in stages for single face recognition (old version)
+-- cv_bezier_curve.pb: Bézier Curve: A parametric curve frequently used in computer graphics and related fields
+-- cv_goodfeatures.pb: determines strong corners on an image, marked by circles
+- added 4 executable files
+-- opencv_createsamples.exe, opencv_traincascade.exe, opencv_haartraining.exe, opencv_performance.exe
+- added 1 trained file
+-- neg_train.txt
+- added 2 trained folders
+-- \binaries\trained\negatives
+-- \binaries\trained\positives
+- added 1 reference file
+-- haarcascade.txt
+
+Updated 08/21/14 06:15 PM
+- added 1 example
+-- cv_LBP.pb: Local Binary Pattern: An efficient texture operator thresholding the neighborhood of each pixel
+
+Updated 08/20/14 09:00 PM
+- added 1 example
+-- cv_CAPTCHA.pb: CAPTCHA: Completely Automated Public Turing test to tell Computers and Humans Apart
+- added 4 images
+
+Updated 08/18/14 08:25 PM
+- added 3 examples
+-- cv_encode_decode.pb: encode / decode a 4 channel image where the black areas have been converted to transparency
+-- cv_mask_black.pb: create an image mask by replacing any non-black pixels with white
+-- cv_mask_color.pb: create an image mask by replacing any pixel colors that fall within the selected range with black, and any other pixels with white
+
+Updated 08/17/14 05:00 AM
+- added 2 examples
+-- cv_cam_DCT.pb: performs a discrete Cosine transform of a 1D array, displaying its power spectrum from the webcam interface
+-- cv_cam_DFT.pb: performs a discrete Fourier transform of a 1D floating-point array, displaying its power spectrum from the webcam Interface
+
+Updated 08/16/14 09:40 PM
+- added 1 example
+-- cv_DCT.pb: performs a discrete Cosine transform of a 1D array, first displaying its power spectrum then incrementally reducing noise
+
+Updated 08/14/14 09:40 PM
+- added 1 example
+-- cv_cam_haar_wavelet.pb: builds a direct and inverse Haar Wavelet transform, applied to the webcam interface
+
+Updated 08/11/14 03:50 AM
+- added 1 example (jointly contributed by AAT)
+-- cv_cam_zone_tracking.pb: calculates the weighted sum of the input image and the accumulator creating a silhouette effect, detecting objects found within one or more zones, from the webcam interface
+
+Updated 08/09/14 01:00 PM
+- added 2 examples
+-- cv_mov_runningavg.pb_1: calculates the weighted sum of the input image and the accumulator creating a silhouette effect used to detect objects of a certain size
+-- cv_mov_runningavg.pb_2: calculates the weighted sum of the input image and the accumulator so that the new image becomes a running average of a frame sequence
+
+Updated 08/07/14 05:30 PM
+- renamed 2 example
+-- cv_overlay.pb to cv_overlay_1.pb
+-- cv_seam_carving.pb to cv_seam_carving_1.pb
+- added 4 examples
+-- cv_overlay_2.pb: apply a perspective transform calculated from four pairs of points to an image, overlayed onto another image
+-- cv_seam_carving_2.pb: deleting vertical seams in an image by calculating the intensity of grayscale pixels (experimental)
+-- cv_saliency.pb: a fine-grained saliency algorithm is applied to an image
+-- cv_lomo.pb: simulates the LOMO (Leningrad Optical Mechanical Association) camera lens effect
+- deleted 1 image
+- added 3 images
+
+Updated 07/28/14 08:00 AM
+- added 1 example
+-- cv_vignette.pb: applies the Vignette effect, the process by which there is loss in clarity towards the corners and sides of an image
+- added 2 images
+
+Updated 07/27/14 07:40 AM
+- renamed 1 example
+-- cv_transparent.pb to cv_transparent_1.pb
+- added 1 example
+-- cv_transparent_2.pb: using the watershed algorithm, an object can be extracted and saved to a transparent PNG file
+
+Updated 07/26/14 01:50 AM
+- added 2 examples
+-- cv_fractal_1.pb: generates a Mandelbrot Set, the most popular geometrical fractal
+-- cv_fractal_2.pb: generates a Julia Set, a popular geometrical fractal
+
+Updated 07/23/14 02:45 AM
+- added 2 examples
+-- cv_dithering_1.pb: implementation of the Floyd-Steinberg dithering algorithm applied to a grayscale image
+-- cv_dithering_2.pb: implementation of the Floyd-Steinberg dithering algorithm applied to a color image
+
+Updated 07/10/14 07:50 PM
+- added 1 example
+-- pb_gl_cam_invert.pb: using OpenGL and textures, the webcam interface is displayed onto the front and inverted onto the back of a revolving rectangle
+
+Updated 07/10/14 01:45 PM
+- renamed 2 examples
+-- cv_cam_pb_database.pb to cv_pb_cam_database.pb
+-- pb_cam_gl_cube.pb to pb_gl_cam_cube.pb
+- added 1 example
+-- pb_gl_photo_cube.pb: using OpenGL and textures, multiple images are displayed onto the surfaces of a rotating cube
+
+Updated 07/06/14 08:00 AM
+- added 1 example (jointly contributed by Shardik)
+-- pb_cam_gl_cube.pb: using OpenGL and textures, the webcam interface is displayed onto the surfaces of a rotating cube
+
+Updated 06/15/14 09:15 PM
+- added 1 example
+-- cv_pseudo_colors.pb: augment an image with a set of predetermined colors
+- added 4 images
+
+Updated 05/31/14 03:15 PM
+- renamed 2 examples
+-- cv_smooth_edge.pb to cv_smooth_edges_1.pb
+-- cv_stylization.pb to cv_stylize_1.pb
+- added 4 examples
+-- cv_depth_of_field.pb: using a second image as a mask to compare against an object in the original image, depth of field is simulated
+-- cv_enhance_edges.pb: enhance the edges of an image using various filters
+-- cv_smooth_edges_2.pb: smooth the edges of an image using a normalized convolution filter
+-- cv_stylize_2.pb: stylize an image by applying various filters
+- updated 1 example
+-- cv_norm.pb: using a default image, the absolute difference is calculated against a directory of images, returning the closest match
+- added 4 images
+
+Updated 05/30/14 04:30 PM
+- updated cv_functions.pbi
+-- added a CompilerIf statement to the IncludeFile locations to work with the new release of PureBasic
+- added 3 examples
+-- cv_enhance_detail.pb: enhance the details of an image
+-- cv_smooth_edge.pb: smooth the edges of an image using a recursive filter
+-- cv_stylization.pb: stylize an image by applying various filters
+- added 6 images
+
+Updated 05/27/14 02:20 PM
+- renamed 9 examples
+-- cv_boundingrectangle.pb to cv_bounding_rectangle.pb
+-- cv_cam_fallingballs.pb to cv_cam_falling_balls.pb
+-- cv_cam_pbdatabase.pb to cv_cam_pb_database.pb
+-- cv_imagedots.pb to cv_image_dots.pb
+-- cv_pbfont.pb to cv_pb_font.pb
+-- cv_pbimage_1.pb to cv_pb_image_1.pb
+-- cv_pbimage_2.pb to cv_pb_image_2.pb
+-- cv_solvemaze.pb to cv_solve_maze.pb
+-- le_nearestneighbor.pb to le_nearest_neighbor.pb
+- added 1 example
+-- cv_pencil_sketch.pb: simulate a color / black & white pencil sketch from an image
+- added 2 images
+
+Updated 05/24/14 03:40 AM
+- added 1 example (contributed by AAT)
+-- cv_gamma.pb: Gamma Correction: The relationship between a pixels numerical value and its actual luminance
+- added 2 images
+
+Updated 05/23/14 12:00 PM
+- updated 1 example
+-- cv_transparent.pb: flood fill a color area to transparency, applied when the image has been saved to a PNG file
+- added 1 example
+-- cv_calculate.pb: add, subtract, multiply, or divide every array element of an image
+
+Updated 05/21/14 04:00 AM
+- renamed 1 example
+-- cv_poisson_blending.pb to cv_poisson_blending_1.pb
+- added 4 examples
+-- cv_poisson_blending_2.pb: using a mixed Poisson blending algorithm, two images are blended together
+-- cv_poisson_blending_3.pb: using a Poisson blending algorithm, a monochrome transfer is achieved between two images
+-- cv_poisson_blending_4.pb: using a Poisson blending algorithm, a localized color change is achieved
+-- cv_poisson_blending_5.pb: using a Poisson blending algorithm, a localized illumination change is achieved
+- added 20 images
+
+Updated 05/19/14 08:00 AM
+- added 1 example
+-- cv_transparent.pb: flood fill a color area to transparency, applied when the image has been saved to a PNG file
+- added 2 images
+
+Updated 05/16/14 06:20 PM
+- added 1 example
+-- cv_poisson_blending.pb: using a Poisson blending algorithm, two similarly colored images are blended together
+- added 10 images
+
+Updated 05/08/14 12:15 AM
+- added 3 examples
+-- cv_DFT.pb: taking the DFT (Discrete Fourier Transform) of an image, and displaying its power spectrum
+-- cv_fisheye.pb: standard fisheye lens effect derived from mathematical equations
+-- cv_seam_carving.pb: deleting vertical seams in an image, detected by calculating the intensity of pixels, reducing the image width
+
+Updated 04/29/14 05:00 PM
+- added 1 example
+-- cv_thinning.pb: repeated iterations using an edge detection algorithm on a grayscale image produces increasingly thinner edges
+- added 2 images
+
+Updated 04/25/14 06:30 PM
+- added 2 examples
+-- cv_cam_histogram.pb: calculates a histogram for the Red, Green, and Blue channels of captured webcam frames
+-- cv_stereobm.pb: computes disparity using the BM (Block Matching) algorithm for a rectified stereo pair of images
+- added 3 images
+
+Updated 04/22/14 03:20 AM
+- updated the OpenCV binaries
+-- from v2.4.8 to v2.4.9
+- updated Structures
+- added 5 examples
+-- cv_cam_skin_1.pb: detect skin tone using the HSV (Hue, Saturation and Value) color space
+-- cv_cam_skin_2.pb: detect skin tone using the YUV (Luma [Y] and Chroma [UV]) color space
+-- cv_cam_skin_3.pb: detect skin tone using the YCrCb (Luma [Y] and Chroma [CrCb]) color space
+-- cv_cam_skin_4.pb: detect skin tone using the RGB (Red, Green and Blue) color space
+-- cv_cam_skin_5.pb: detect skin tone using the RG (Red and Green) color space
+
+Updated 04/19/14 02:45 PM
+- renamed 1 example
+-- cv_rotate.pb to cv_rotate_1.pb
+- added 1 example
+-- cv_rotate_2.pb: retrieves pixel quadrangle with sub-pixel accuracy, applying 2D rotation to an image
+
+Updated 04/16/14 03:30 PM
+- renamed 1 example
+-- cv_cam_game.pb to cv_cam_fallingballs.pb
+- added 1 example
+-- cv_solvemaze.pb: maze game / solve a maze using a morphological transformation
+- added 3 images
+
+Updated 04/14/14 11:15 PM
+- added 1 Function
+- added 2 examples
+-- cv_pyrmeanshift.pb: performing the meanshift segmentation of an image, a cartoon effect is achieved
+-- le_pyrsegmentation.pb: implementing image segmentation by pyramids, a cartoon effect is achieved
+
+Updated 04/14/14 01:40 AM
+- added 1 example
+-- cv_floodfill.pb: demonstration of the floodfill function, filling a connected component with a given color
+
+Updated 04/11/14 02:45 PM
+- updated 1 Function
+- added Procedures
+- added 1 example
+-- cv_cam_pbdatabase.pb: captures and saves webcam frames to a database, displaying a thumbnail version of the image loaded from the database
+
+Updated 04/10/14 09:40 PM
+- renamed 1 example
+-- le_mov_bgstatmodel.pb to le_mov_bgstatmodel_1.pb
+- added 1 example
+-- le_mov_bgstatmodel_2.pb: using a background/foreground detection algorithm, foreground objects are highlighted/removed by comparing the current frame with a static frame
+
+Updated 04/09/14 09:00 PM
+- added Constants, Structures, Functions
+- added 2 examples
+-- cv_sepia.pb: convert a color image to sepia
+-- le_mov_bgstatmodel.pb: using a Gaussian mixture-based background/foreground detection algorithm, foreground objects are highlighted by comparing the current frame with a static frame
+- added 1 movie file: walking.avi
+
+Updated 04/07/14 06:00 PM
+- added 3 examples
+-- cv_logpolar.pb: remaps an image to log-polar space
+-- le_delaunay_1.pb: manual construction of delaunay triangulation
+-- le_delaunay_2.pb: random construction of delaunay triangulation
+- changed the naming convention from 1a, 1b, etc. to 1, 2, etc.
+
+Updated 04/06/14 01:35 AM
+- updated Functions
+- added 2 examples
+-- cv_cam_pixelate.pb: pixelate a webcam stream by averaging NxN block regions, and applying the color values to grid squares
+-- cv_imagedots.pb: creates an image by averaging 10x10 block regions, and applying the color values to a dot matrix
+
+Updated 04/04/14 03:00 PM
+- added 1 example
+-- cv_calcbackproject.pb: calculating the back projection of a histogram, frequent density values are displayed as bright pixels
+
+Updated 03/30/14 04:30 PM
+- added 1 example
+-- cv_retro.pb: retro-style photo effect done by adding noise to the luminance channel and reducing intensity of the chroma channels
+- added 2 images
+
+Updated 03/30/14 10:00 AM
+- updated 2 examples
+-- le_stitching_1.pb: stitch together 2 images in stages; based on the SIFT (Scale Invariant Feature Transform) algorithm
+-- le_stitching_2.pb: stitch together 2, 3, 4, or 5 images; based on the SIFT (Scale Invariant Feature Transform) algorithm
+- deleted 4 images
+- replaced 7 images
+
+Updated 03/28/14 12:40 AM
+- renamed 1 example
+-- le_stitching.pb to le_stitching_1.pb
+- added 1 example
+-- le_stitching_2.pb: stitches images together; based on the SIFT (Scale Invariant Feature Transform) algorithm
+- added 14 images
+
+Updated 03/26/14 12:20 AM
+- renamed 5 example
+-- cv_cam_PIP.pb to cv_cam_setimageROI.pb
+-- cv_ROI.pb to cv_setimageROI.pb
+-- le_cam_SURF.pb to le_cam_extractSURF.pb
+-- le_SURF.pb to le_extractSURF.pb
+-- le_SURF_NN.pb to le_nearestneighbor.pb
+- updated 1 example
+-- cv_convexitydefects.pb: calculates the contour areas, finding the convex hull of point sets to convexity defects
+- added 1 example
+-- le_stitching.pb: stitches two images together in stages; based on the SIFT (Scale Invariant Feature Transform) algorithm
+- added 9 images
+
+Updated 03/24/14 02:10 AM
+- added Constants, Prototype Functions
+- added 1 example
+-- cv_writeframe_FFMPEG.pb: saves an online video to a local folder using FFMPEG
+- renamed 1 image
+- added 1 image
+
+Updated 03/22/14 02:40 AM
+- added Macros, 1 Inline Function (converted to a Procedure), 1 Procedure
+- updated Functions
+- deleted 1 example
+-- cv_pyrup_pyrdown.pb
+- renamed 8 examples
+-- cv_boundingcircle_1.pb to cv_minareacircle_1.pb
+-- cv_boundingcircle_2.pb to cv_minareacircle_2.pb
+-- cv_canny.pb to cv_canny_1a.pb
+-- cv_contours.pb to cv_contours_1a.pb
+-- cv_cornerharris.pb to cv_cornerharris_1a.pb
+-- cv_disttransform.pb to cv_disttransform_1a.pb
+-- cv_histogram.pb to cv_histogram_1a.pb
+-- cv_precornerdetect.pb to cv_precornerdetect_1a.pb
+- added 9 examples
+-- cv_canny_1b.pb: finds edges in an image using the Canny86 algorithm
+-- cv_contours_1b.pb: calculates the contour areas
+-- cv_convexhull_3.pb: finds the convex hull of a point set
+-- cv_cornerharris_1b.pb: calculates a feature map for corner detection using the Harris edge detector
+-- cv_disttransform_1b.pb: calculates the distance to the closest zero pixel for each pixel of the source image
+-- cv_histogram_1b.pb: calculates a histogram based on brightness and contrast levels
+-- cv_minarea.pb: finds the minimal area of a point set
+-- cv_precornerdetect_1b.pb: calculates a feature map for corner detection
+-- cv_watershed.pb: performs a marker-based image segmentation using the watershed algorithm
+- updated 4 examples
+-- cv_contours_1a.pb: calculates the contour areas
+-- cv_convexitydefects.pb: calculates the contour areas, finding the convex hull of point sets to convexity defects
+-- cv_kalman_2.pb: Kalman filter demonstrated by tracking the mouse
+-- cv_resize.pb: resizes an image to a specified percent
+- renamed 1 image
+- added 2 images
+
+Updated 03/15/14 10:30 PM
+- combined 4 examples
+-- cv_disttransform.pb and cv_normalize.pb to cv_disttransform.pb
+-- cv_equalize.pb and cv_cam_split_merge.pb to cv_cam_split_merge.pb
+- updated 14 examples
+-- cv_canny.pb: finds edges in an image using the [Canny86] algorithm
+-- cv_cornerharris.pb: harris edge detector
+-- cv_cvtcolor.pb: converts an image from one color space to another
+-- cv_filter2d.pb: convolves an image with the kernel
+-- cv_kmeans_1b.pb: image segmentation by k-means clustering and color reduction
+-- cv_laplace.pb: calculates the Laplacian of an image
+-- cv_norm.pb: using a default image, the absolute difference is calculated against a directory of images, returning the closest match
+-- cv_overlay.pb: calculates the weighted sum of two arrays
+-- cv_pow.pb: raises every array element to a power
+-- cv_precornerdetect.pb: calculates a feature map for corner detection
+-- cv_sobel.pb: calculates the first, second, third, or mixed image derivatives using an extended Sobel operator
+-- cv_split_merge.pb: divides a multi-channel array into several single-channel arrays
+-- cv_threshold_1.pb: applies a fixed-level threshold to each array element
+-- cv_threshold_2.pb: applies an adaptive threshold to each array element
+
+Updated 03/15/14 04:30 AM
+- renamed 45 examples
+-- cv_cam_motion.pb to cv_cam_motionhistory.pb
+-- cv_borders.pb to cv_copymakeborder.pb
+-- cv_mov_text.pb to cv_mov_writeframe.pb
+-- cv_compare.pb to cv_norm.pb
+-- cv_plate.pb to cv_find_plate.pb
+-- cv_distance.pb to cv_disttransform.pb
+-- cv_harris.pb to cv_cornerharris.pb
+-- cv_corner.pb to cv_precornerdetect.pb
+-- cv_faces.pb to cv_haardetect_face.pb
+-- cv_cam_face.pb to cv_cam_haardetect_face.pb
+-- cv_squares.pb to cv_find_squares.pb
+-- cv_cam_flow_1a.pb to cv_cam_flowpyrlk_1a.pb
+-- cv_cam_flow_1b.pb to cv_cam_flowpyrlk_1b.pb
+-- cv_cam_flow_2.pb to cv_cam_flowfarneback.pb
+-- cv_cam_good.pb to cv_cam_goodfeatures.pb
+-- cv_cam_capture_1.pb to cv_cam_saveimage.pb
+-- cv_cam_capture_2a.pb to cv_cam_writeframe_1.pb
+-- cv_cam_capture_2b.pb to cv_cam_writeframe_2.pb
+-- cv_hough_1a.pb to cv_houghlines_1a.pb
+-- cv_hough_1b.pb to cv_houghlines_1b.pb
+-- cv_hough_2.pb to cv_houghcircles.pb
+-- cv_mov_hough.pb to cv_mov_houghcircles.pb
+-- cv_warp_1 to cv_warpaffine.pb
+-- cv_warp_2a.pb to cv_warpperspective_1a.pb
+-- cv_warp_2b.pb to cv_warpperspective_1b.pb
+-- cv_cam_warp.pb to cv_cam_warpperspective.pb
+-- cv_approxpoly.pb to cv_find_shapes.pb
+-- cv_contours_1.pb to cv_contours.pb
+-- cv_contours_2a.pb to cv_boundingrectangle.pb
+-- cv_contours_2b.pb to cv_boundingcircle_1.pb
+-- cv_contours_3.pb to cv_convexhull_1.pb
+-- cv_contours_4a.pb to cv_approxpoly_1a.pb
+-- cv_contours_4b.pb to cv_approxpoly_1b.pb
+-- cv_contours_5.pb to cv_convexhull_2.pb
+-- cv_contours_6a.pb to cv_minarearect_1.pb
+-- cv_contours_6b.pb to cv_fitellipse_1.pb
+-- cv_contours_7.pb to cv_convexitydefects.pb
+-- cv_sequence_1.pb to cv_boundingcircle_2.pb
+-- cv_sequence_2a.pb to cv_minarearect_2.pb
+-- cv_sequence_2b.pb to cv_fitellipse_2.pb
+-- le_contours_6a.pb to le_minarearect_1.pb
+-- le_contours_6b.pb to le_fitellipse_1.pb
+-- le_sequence_2a.pb to le_minarearect_2.pb
+-- le_sequence_2b.pb to le_fitellipse_2.pb
+-- le_delaunay.pb to le_delaunay_voronoi.pb
+- updated 1 example
+-- cv_convexitydefects.pb: calculates the contour areas, finding the convex hull of point sets to convexity defects
+- replaced 1 image
+
+Updated 03/14/14 06:10 PM
+- merged / updated 6 examples
+-- cv_gray.pb and cv_swap_2.pb to cv_cvtcolor.pb
+-- cv_pyrup.pb and cv_pyrdown.pb to cv_pyrup_pyrdown.pb
+-- cv_threshold_1a.pb and cv_threshold_1b.pb to cv_threshold_1.pb
+- renamed 3 example
+-- cv_swap_1.pb to cv_convertimage.pb
+-- cv_swap_3.pb to cv_split_merge.pb
+-- cv_cam_split_colors.pb to cv_cam_split_merge.pb
+- updated 3 examples
+-- cv_cvtcolor.pb: converts an image from one color space to another
+-- cv_convertimage.pb: converts from one image to another with optional vertical flip
+-- cv_kalman_2.pb: Kalman filter demonstrated by tracking the mouse
+- added the OpenCV file: highgui.mht
+
+Updated 03/14/14 04:20 AM
+- deleted 1 example
+-- cv_rotate_1a.pb
+- renamed 2 examples
+-- cv_rotate_1b.pb to cv_rotate.pb
+-- cv_warp_2.pb to cv_warp_2a.pb
+- combined 2 examples
+-- cv_erode.pb and cv_dilate.pb to cv_erode_dilate.pb
+- added 1 example
+-- cv_warp_2b.pb: calculates a perspective transform from four pairs of corresponding points
+- updated 3 examples
+-- cv_morphology.pb: performs advanced morphological transformations using a specific structuring element
+-- cv_warp_1.pb: calculates an affine transform from three pairs of corresponding points
+-- cv_warp_2a.pb: calculates a perspective transform from four pairs of corresponding points
+- added 2 default images
+
+Updated 03/12/14 07:00 PM
+- added Constants, Macros, Structures, Functions, Inline Functions (converted to Procedures), Procedures
+- renamed 3 examples
+-- cv_kalman.pb to cv_kalman_1.pb
+-- cv_chessboard.pb to cv_cam_chessboard.pb
+-- cv_face.pb to cv_faces.pb
+- added 6 examples
+-- cv_kalman_2.pb: Kalman filter demonstrated by tracking the mouse
+-- cv_chessboard.pb: generates the top view of a chessboard pattern from its perspective view
+-- cv_cam_camshift.pb: using the Camshift algorithm, color information is used to track on object along an image sequence
+-- cv_cam_select_1a.pb: utilizing OpenCV's mouse callback, adds the ability to select an area on the webcam interface
+-- cv_cam_select_1b.pb: utilizing OpenCV's mouse callback, adds the ability to select an area on the webcam interface
+-- cv_cam_effects.pb: pixel manipulation through direct memory access, demonstrating webcam effects
+- updated / renamed / split 1 example
+-- cv_border.pb
+--- cv_borders.pb: shows OpenCV's available border styles on a loaded image
+--- cv_doodle.pb: utilizing OpenCV's mouse callback, adds the ability to doodle on the loaded image
+- updated 2 examples
+-- cv_kalman_1.pb: tracks a rotating point at a constant rotation speed
+-- cv_cam_chessboard.pb: finds the positions of internal corners for an 8 x 8 chessboard pattern
+- added 1 default image
+
+Updated 03/06/14 08:15 PM
+- added Functions
+- added 1 example
+-- cv_chessboard.pb: finds the positions of internal corners for a 10 x 7 chessboard pattern
+
+Updated 03/06/14 12:45 AM
+- added 2 examples
+-- pb_cam_preferences.pb: creates an interface to the webcam's parameters (contributed by AAT)
+-- le_SURF_NN.pb: Detects keypoints and computes SURF (Speeded-Up Robust Features) descriptors
+- added 2 default images
+- added 4 default objects
+
+Updated 03/02/14 03:20 PM
+- updated Procedures
+- added 1 example
+-- cv_cam_split_colors.pb: from the webcam interface, divides a multi-channel array into several single-channel arrays
+
+Updated 03/01/14 01:00 PM
+- added Constants, Macros, Functions, Inline Functions (converted to Procedures), Procedures
+- updated Functions
+- renamed 1 example
+-- cv_cam_trackcolor.pb to cv_cam_track_color.pb
+- added 1 example
+-- cv_cam_warp.pb: from the webcam interface, calculates a perspective transform from four pairs of corresponding points
+
+Updated 02/27/14 10:00 PM
+- updated Functions
+- updated 1 example
+-- le_SURF.pb: detects keypoints and computes SURF (Speeded-Up Robust Features) descriptors
+- added 2 default object files
+
+Updated 02/26/14 07:00 PM
+- added 1 example
+-- cv_compare.pb: using a default image, the absolute difference is calculated against a directory of images, returning the closest match
+- added 2 default images
+
+Updated 02/24/14 08:20 PM
+- added 1 example
+-- cv_cam_trackcolor.pb: tracks red objects, drawing a line that traces the objects location
+
+Updated 02/22/14 11:50 PM
+- added Constants
+- updated 1 Function
+- added 1 example
+-- cv_template.pb: compares a template against overlapped image regions; matching one face against many faces
+- added 1 default image
+
+Updated 02/22/14 04:10 PM
+- renamed 1 example
+-- cv_kmeans.pb to cv_kmeans_1a.pb
+- added 1 example
+-- cv_kmeans_1b.pb: image segmentation by k-means clustering and color reduction
+
+Updated 02/21/14 04:30 AM
+- added 2 examples (contributed by AAT)
+-- cv_pbfont.pb: draw text using PureBasic commands with any font onto an OpenCV generated image
+-- cv_plate.pb: number plate recognition (experimental)
+- added 2 default images
+
+Updated 02/20/14 11:20 PM
+- added Constants, Functions, Inline Functions (converted to Procedures)
+- added 1 example
+-- cv_kmeans.pb: generates an image with random points grouped by a random number of cluster centers
+
+Updated 02/18/14 10:30 PM
+- added 1 Function, 1 Inline Function (converted to a Procedure), 1 Procedure
+- added 1 example
+-- cv_drawing.pb: a demonstration of OpenCV's drawing and text output functions
+
+Updated 02/12/14 05:00 PM
+- added 1 Function
+- updated Structures
+- added 1 example
+-- cv_cam_motion.pb: gradients of motion history are used to detect direction of motion
+
+Updated 02/11/14 08:40 PM
+- added Macros, Constants
+- added 1 example
+-- cv_cam_flow_2.pb: dense optical flow technique using the Gunnar Farneback algorithm
+
+Updated 02/11/14 12:20 AM
+- added Macros
+- added 1 example
+-- cv_squares.pb: find squares in an image
+
+Updated 02/09/14 01:45 AM
+- added Constants, Structures, Macros, Functions, Inline Functions (converted to Procedures)
+- added 1 example
+-- cv_kalman.pb: tracks a rotating point at a constant rotation speed
+
+Updated 02/07/14 01:00 AM
+- added Constants, Structures, Macros, Functions
+- renamed 1 example
+-- cv_cam_flow.pb to cv_cam_flow_1a.pb
+- added 1 example
+-- cv_cam_flow_1b.pb: sparse optical flow technique using the Lucas-Kanade algorithm
+
+Updated 02/02/14 08:00 PM
+- added Constants, Structures, Functions
+- added 1 example
+-- cv_cam_flow.pb: sparse optical flow technique using the Lucas-Kanade algorithm
+
+Updated 01/31/14 07:00 PM
+- removed vc10 & vc11 binaries
+- updated cv_ROI.pb example
+- moved icon file to its own folder (\binaries\icons)
+-- updated all the examples to reflect the change
+
+Updated 01/29/14 07:30 PM
+- updated 1 Structure
+-- updated all examples affected by the change
+- updated 1 example
+-- cv_ROI.pb: simulates zooming a section of a resized image by loading the Region Of Interest (ROI) for a given rectangle from the original image
+- added 1 default image
+- added 1 icon file
+-- changed the icon for all examples
+
+Updated 01/28/14 03:00 AM
+- added Constants, Structures, Macros, Functions, Inline Functions (converted to Procedures)
+- updated Constants, Structures, Macros, Functions, Inline Functions
+- added 1 example
+-- le_delaunay.pb: iterative construction of delaunay triangulation and voronoi tesselation
+
+Updated 01/22/14 02:00 PM
+- added Constants, Structures, Macros, Functions, Inline Functions (converted to Procedures)
+
+Updated 01/18/14 03:40 AM
+- added Functions
+- added 2 examples
+-- cv_warp_1.pb: calculates an affine transform from three pairs of corresponding points
+-- cv_warp_2.pb: calculates a perspective transform from four pairs of corresponding points
+
+Updated 01/17/14 07:00 PM
+- added 1 example
+-- cv_overlay.pb: calculates the weighted sum of two arrays, demonstrating this by overlaying two images and setting a degree of transparency on the second image
+- updated 1 example
+-- cv_histogram.pb: added optional transparency and a preview image
+
+Updated 01/17/14 12:00 AM
+- added Constants, Structures, Macros, Functions, 1 Inline Function (converted to a Procedure)
+- added 1 example
+-- cv_histogram.pb: calculates a histogram for the Red, Green, and Blue channels of an image
+
+Updated 01/15/14 11:50 PM
+- added Constants, Functions
+- added 1 example
+-- cv_cam_game.pb: falling ball game played on the webcam interface
+- added 2 default images
+
+Updated 01/14/14 05:00 PM
+- modified 1 Function
+-- cvCreateVideoWriter (split-out the size Structure parameter to width, height)
+-- updated examples that used: cvCreateVideoWriter
+- added 1 Procedure
+
+Updated 01/13/14 08:30 PM
+- added Functions
+- added 3 examples
+-- cv_cam_good.pb: determines strong corners on an image, displaying them by drawing circles on the webcam interface
+-- cv_corner.pb: calculates a feature map for corner detection
+-- cv_harris.pb: Harris edge detector
+- added 1 default image
+
+Updated 01/11/14 02:30 PM
+- added Constants, Functions, 1 Inline Function (converted to a Procedure)
+- added 1 example (jointly contributed by AAT)
+-- cv_approxpoly.pb: approximates a polygonal curve(s) with the specified precision
+- added 1 default image
+
+Updated 01/10/14 01:00 AM
+- added Constants, Structures, Macros, Inline Functions (converted to Procedures)
+- added 1 example
+-- cv_mov_text.pb: draws text to a movie file and saves it as an AVI (Audio Video Interleaved)
+
+Updated 01/07/14 11:30 PM
+- added Constants, Structures, Macros, Functions
+- added 2 examples
+-- cv_match_train.pb: creates a text file for later matching contours from two image files containing digits
+-- cv_match_write.pb: tries to match contours learned from one image file containing numbers against another, then duplicate the image using text
+- added 2 default images
+- added 1 default trained file
+
+Updated 01/03/14 01:00 AM
+- added 1 example (jointly contributed by Philippe-felixer76-3)
+-- cv_mov_hough.pb: finds circles in grayscale image frames using the Hough transform on a movie file
+-- added 1 movie file: ball.mp4
+
+Updated 01/02/14 11:40 AM
+- added 2 examples
+-- cv_pbimage_1.pb: formats a PureBasic image to work with OpenCV
+-- cv_pbimage_2.pb: formats a PureBasic image to work with OpenCV (contributed by Philippe-felixer76-3)
+--- using a faster formatting method then cv_pbimage_1.pb
+
+Updated 01/01/14 01:00 PM
+- updated the OpenCV binaries
+-- from v2.4.7.2 to v2.4.8
+-- added vc12 files / folder
+- added Microsoft Visual Studio 2013 C Runtime files
+-- v12 files / folder
+- updated the haarcascade (face) classifiers
+- updated manual.pdf, tutorials.pdf, cheatsheet.pdf, license.txt
+
+Updated 12/29/13 09:00 PM
+- added Structures, Functions
+- added 1 example (contributed by AAT)
+-- cv_maxrect.pb: finds bounding rectangle for two given rectangles
+
+Updated 12/27/13 09:20 PM
+- added the complete list of OpenCV binaries (needed when legacy functions were added
+- removed x64 binaries (64-bit not currently working / reduce package size)
+- added / updated Constants, Structures, Functions
+- added / renamed examples
+-- cv_contours_6a.pb: calculates the contour areas, showing degree of tilt with bounding rectangle
+-- cv_contours_6b.pb: calculates the contour areas, showing degree of tilt with bounding ellipse
+-- cv_sequence_2a.pb: creates a sequence of points, bounding them in a rectangle of the minimal area
+-- cv_sequence_2b.pb: creates a sequence of points, bounding them in an ellipse of the minimal area
+-- le_cam_SURF.pb: detects keypoints and computes SURF (Speeded Up Robust Features) descriptors for them on the webcam interface
+-- le_contours_6a.pb: legacy version of cv_contours_6a.pb
+-- le_contours_6b.pb: legacy version of cv_contours_6b.pb
+-- le_sequence_2a.pb: legacy version of cv_sequence_2a.pb
+-- le_sequence_2b.pb: legacy version of cv_sequence_2b.pb
+-- le_SURF.pb: detects keypoints and computes SURF (Speeded Up Robust Features) descriptors for them
+
+Updated 12/18/13 03:00 PM
+- added 11 default images
+- updated some examples to open with a default image (updates include descriptions / settings)
+-- cv_border.pb
+-- cv_contours_1a.pb
+-- cv_contours_1b.pb
+-- cv_contours_1c.pb
+-- cv_contours_2.pb
+-- cv_contours_3a.pb
+-- cv_contours_3b.pb
+-- cv_contours_4.pb
+-- cv_contours_5.pb
+-- cv_face.pb
+-- cv_hough_1a.pb
+-- cv_hough_1b.pb
+-- cv_hough_2.pb
+
+Updated 12/17/13 07:25 PM
+- updated the OpenCV binaries
+-- from v2.4.7 to v2.4.7.2
+- updated the OpenCV file: manual.pdf
+- added the OpenCV file: tutorials.pdf
+
+Updated 12/17/13 06:20 AM
+- added Constants, Functions, and 1 Procedure
+- added a Save option to the context menu of all relevant examples
+
+Updated 12/16/13 01:00 PM
+- added Constants, Functions
+- updated 1 Structure
+- added binaries
+-- opencv_photo247.dll
+-- opencv_photo247.lib
+- updated 1 example
+-- cv_border.pb
+- added 1 example
+-- cv_inpaint.pb: restores the selected region in an image using the region neighborhood
+
+Updated 12/15/13 07:00 AM
+- added a new include file: pb_procedures.pbi
+- added a tooltip to all the examples
+
+Updated 12/15/13 04:10 AM
+- added Constants, Structures, Functions
+- modified examples
+-- cv_cam_PIP.pb
+-- pb_cam_effects_1.pb
+-- pb_cam_effects_2.pb
+- added examples
+-- cv_hough_1a.pb: finds lines in a binary image using the standard Hough transform
+-- cv_hough_1b.pb: finds lines in a binary image using the probabilistic Hough transform
+-- cv_hough_2.pb: finds circles in a grayscale image using the Hough transform
+-- cv_pow.pb: raises every array element to a power
+-- cv_swap_3.pb: divides a multi-channel array into several single-channel arrays, then recreates a multi-channel array by combining them
+
+Updated 12/13/13 05:00 AM
+- added 1 example (jointly contributed by AAT)
+-- cv_cam_PIP.pb: displays either a second webcam in a small PIP window, or simulates a second webcam by duplicating the main one
+
+Updated 12/12/13 09:00 PM
+- updated, optimized all the examples
+
+Updated 12/11/13 11:20 AM
+- combined / modified examples to optimize effect
+-- cv_cam_face_1a.pb & cv_cam_face_1b.pb to cv_cam_face.pb
+-- cv_face_1a.pb & cv_face_1b.pb to cv_face.pb
+
+Updated 12/11/13 07:30 AM
+- added Constants, Structures, Functions
+- updated 2 examples (adding a break to the Sequence loop improved performance)
+-- cv_cam_face_1a.pb
+-- cv_cam_face_1b.pb
+
+Updated 12/10/13 09:40 PM
+- added Constants, Functions
+- added binaries
+-- opencv_objdetect247.dll
+-- opencv_objdetect247.lib
+- added classifiers
+-- haarcascade_frontalface_alt.xml
+-- haarcascade_frontalface_alt_tree.xml
+-- haarcascade_frontalface_alt2.xml
+-- haarcascade_frontalface_default.xml
+- added 7 examples
+-- cv_equalize.pb: equalizes the histogram of a grayscale image
+-- cv_pyrdown.pb: blurs an image and downsamples it
+-- cv_pyrup.pb: upsamples an image and then blurs it
+-- cv_face_1a.pb: tries to detect frontal-faces of different sizes using Haar Cascades and downsampling
+-- cv_face_1b.pb: tries to detect frontal-faces of different sizes using Haar Cascades and equalizing the histogram
+-- cv_cam_face_1a.pb: tries to detect a frontal-face using Haar Cascades and downsampling on the webcam interface
+-- cv_cam_face_1b.pb: tries to detect a frontal-face using Haar Cascades and equalizing the histogram on the webcam interface
+
+Updated 12/10/13 12:30 AM
+- added Functions
+- modifed 1 example
+-- cv_cam_logo.pb: added a black background to the logo
+- added 1 example
+-- cv_cam_angle.pb: calculates the angle of a line between two tracked points relative to the horizontal
+
+Updated 12/09/13 07:00 PM
+- added Functions
+- updated all examples with some minor changes
+- renamed, deleted, replaced, added examples (too many changes to remember)
+-- cv_cam_logo.pb: adds an image to top left corner of webcam interface (inspired by work AAT was doing with cvAnd & cvXor)
+-- cv_contours_4.pb: used exclusively for certain types of squares, rectangles
+-- cv_ROI.pb: takes a region from an image and displays it as its own image
+-- pb_cam_effects_3.pb: showcases the cvAnd & cvXor Functions (contributed by AAT)
+
+Updated 12/05/13 09:45 PM
+- added Constants, Structures, Functions
+- added 3 examples
+-- cv_contours_3a.pb: Contours & Approximating Polygonal Curves Image Effect
+-- cv_contours_3b.pb: Contours & Approximating Polygonal Curves Image Effect with Bounding Rectangle
+-- cv_contours_4.pb: Contours & Convexity Defects Image Effect
+
+Updated 12/03/13 07:55 AM
+- added 1 Function
+- added 1 Structure
+- modified 1 example
+-- cv_contours_1x.pb: Contours Image Effect with Bounding Rotated Rectangle (experimental)
+- added 1 example
+-- cv_contours_2.pb: Contours & Convex Hull Image Effect
+
+Updated 12/03/13 02:55 AM
+- renamed examples that utilize the webcam, appending _cam to the name
+- fixed a memory leak
+-- pb_effects_1_cam.pb
+-- pb_effects_2_cam.pb
+
+Updated 12/02/13 11:45 PM
+- added Constants, Structures, Macros, Functions (jointly contributed by AAT)
+- renamed / modified example: cv_contours_1c.pb to cv_contours_1x.pb
+-- experimental: trying to decipher image angle from cvMoments (jointly contributed by AAT)
+- added 2 examples (contributed by AAT)
+-- cv_contours_1c.pb: Contours Image Effect with Bounding Circle
+-- cv_sequence.pb: Sequence Image Effect with Bounding Circle
+
+Updated 11/30/13 07:30 PM
+- added Constants, Structures, Functions (jointly contributed by AAT)
+- combined examples: cv_contours_1a.pb & cv_contours_1b.pb
+- renamed example: cv_contours_1c.pb to cv_contours_1b.pb
+- added 1 example
+-- cv_contours_1c.pb: Contours Image Effect with Rotated Rectangle
+
+Updated 11/30/13 12:00 AM
+- added Functions
+- added 1 example
+-- cv_contours_1c.pb: Contours Image Effect with Bounding Rectangle
+
+Updated 11/29/13 11:30 AM
+- added 1 Function (contributed by AAT)
+- added 1 example (jointly contributed by AAT)
+-- cv_contours_1b.pb: Contours Image Effect with Filter
+
+Updated 11/29/13 01:10 AM
+- added Functions
+
+Updated 11/28/13 12:00 PM
+- fixed an issue with 1 Channel images (affected most of the examples)
+
+Updated 11/27/13 08:30 AM
+- added Constants
+- added Structures, modified Structures, renamed Structures
+- added 1 Macro
+- added Functions
+- added 1 example
+-- cv_contours.pb: Contours Image Effect
+- added the OpenCV License file
+
+Updated 11/26/13 07:00 PM
+- added Structures, modified Structures, renamed Structures
+
+Updated 11/26/13 01:30 AM
+- added Constants and Functions
+- included the official (updated) OpenCV reference manual
+- included a Change Log
+- included a Read Me file
+
+Updated 11/25/13 03:10 AM
+- updated the C Runtime files
+
+Updated 11/24/13 09:20 PM
+- added Constants and Functions
+- renamed some functions
+- renamed some examples
+-- if an example uses the same (main) functions as another example, but produces different results, the name is appended with _1a, _1b, etc.
+-- if an example is designed to produce similar results as another example, but uses different functions, the name is appended with _2, _3, etc.
+- added 2 examples
+-- cv_distance.pb: Distance Image Effect
+-- cv_threshold_1b.pb: Threshold Image Effect
+
+Updated 11/24/13 06:10 PM
+- added Functions
+- added 1 example
+-- cv_filter2d.pb: Filter 2D Image Effect
+
+Updated 11/24/13 03:10 PM
+- added Constants & 1 Function
+- added 1 example
+-- cv_border.pb: Border Image Effect
+- modified the Canny example to include a border
+
+Updated 11/24/13 03:40 AM
+- added Constants & 1 Structure
+- small updates to the examples
+- added Constants & 1 Function (contributed by AAT)
+-- cv_threshold2.pb: Threshold Image Effect
+
+Updated 11/23/13 08:00 PM
+- split out the main include (opencv.pbi) to 4 individual includes
+-- cv_constants.pbi, cv_structures.pbi, cv_macros.pbi, cv_functions.pbi
+- added Constants & Functions
+- added 5 examples
+-- cv_dilate.pb: Dilate Image Effect
+-- cv_erode.pb: Erode Image Effect
+-- cv_laplace.pb: Laplacian Image Effect
+-- cv_morphology.pb: Morphology Image Effect
+-- cv_sobel.pb: Sobel Image Effect
+
+Updated 11/23/13 01:20 PM
+- added Constants (contributed by AAT)
+- fix to cvGetCaptureProperty under XP (contributed by AAT)
+
+Updated 11/23/13 01:00 AM
+- added Structures, modified some Datatypes
+-- getting closer to getting x64 working
+
+Updated 11/22/13 09:00 PM
+- included OpenCV binaries compatible with Windows XP

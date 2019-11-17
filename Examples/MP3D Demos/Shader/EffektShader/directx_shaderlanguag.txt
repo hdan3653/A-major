@@ -1,0 +1,172 @@
+Datatypes
+The HLSL has support for a variety of data types, from simple scalars to more
+complex types such as vectors and matrices.
+Scalar Types
+The language supports the following scalar datatypes:
+Datatype Representable Values
+
+bool true or false
+int 32-bit signed integer
+half 16-bit floating point value
+float 32-bit floating point value
+double 64-bit floating point value
+
+Vector Types
+You will often find yourself declaring vector variables in your HLSL shaders.
+There are a variety of ways that these vectors can be declared, including the following:
+vector
+A vector of
+dimension 4; each
+component is of type
+float.
+vector < type, size >
+A vector of
+dimension size; each
+component is of
+scalar type type.
+Vector Types
+The most common way that you will see shader authors declare vectors, however,
+is by using the name of a type followed by an integer from 2 to 4. To declare a 4-tuple of
+floats, for example, you could use any of the following vector declarations:
+float4 fVector0;
+float fVector1[4];
+
+Math Intrinsics
+The math intrinsics listed in the table below will be converted to micro operations
+by the HLSL compiler. In some cases, such as abs() and dot(), these intrinsics will
+map directly to single assembly-level operations while in other cases, such as refract()
+and step(), they will map to multiple assembly instructions. There are even a couple of
+cases, notably ddx(), ddy()and fwidth(), which are not supported for all compile
+targets. The math intrinsics are shown below:
+
+Intrinsic Description
+abs(x) Absolute value (per component).
+acos(x) Returns the arccosine of each component of x. Each component should be in the
+range [-1, 1].
+all(x) Test if all components of x are nonzero.
+any(x) Test is any component of x is nonzero.
+asin(x) Returns the arcsine of each component of x. Each component should be in the
+range [-p/2, p /2].
+atan(x) Returns the arctangent of x. The return values are in the range [-p /2, p /2].
+atan2(y, x)
+Returns the arctangent of y/x. The signs of y and x are used to determine the
+quadrant of the return values in the range [-p, p]. atan2 is well-defined for every
+point other than the origin, even if x equals 0 and y does not equal 0.
+ceil(x) Returns the smallest integer which is greater than or equal to x.
+clamp(x, min, max) Clamps x to the range [min, max].
+clip(x)
+Discards the current pixel, if any component of x is less than zero. This can be
+used to simulate clip planes, if each component of x represents the distance from
+a plane. This is the intrinsic you use when you want to generate an asm texkill
+cos(x) Returns the cosine of x
+cosh(x) Returns the hyperbolic cosine of x
+cross(a, b) Returns the cross product of two 3D vectors a and b.
+D3DCOLORtoUBYTE4(x) Swizzles and scales components of the 4D vector x to compensate for the lack of
+UBYTE4 stream component support in some hardware.
+ddx(x) Returns the partial derivative of x with respect to the screen-space x-coordinate.
+ddy(x) Returns the partial derivative of x with respect to the screen-space y-coordinate
+degrees(x) Converts x from radians to degrees
+determinant(m) Returns the determinant of the square matrix m
+distance(a, b) Returns the distance between two points a and b
+dot(a, b) Returns the dot product of two vectors a and b
+exp(x) Returns the base-e exponent ex
+exp2(a) Base 2 Exp (per component)
+faceforward(n, i, ng) Returns -n * sign(dot(i, ng))
+floor(x) Returns the greatest integer which is less than or equal to x
+fmod(a, b)
+Returns the floating point remainder f of a / b such that a = i * b + f, where i is an
+integer, f has the same sign as x, and the absolute value of f is less than the
+absolute value of b.
+frac(x) Returns the fractional part f of x, such that f is a value greater than or equal to 0,
+and less than 1.
+frexp(x, out exp)
+Returns the mantissa and exponent of x. frexp returns the mantissa, and the
+exponent is stored in the output parameter exp. If x is 0, the function returns 0 for
+both the mantissa and the exponent.
+fwidth(x) Returns abs(ddx(x))+abs(ddy(x)).
+isfinite(x) Returns true if x is finite, false otherwise.
+isinf(x) Returns true if x is +INF or -INF, false otherwise
+isnan(x) Returns true if x is NAN or QNAN, false otherwise
+ldexp(x, exp) Returns x * 2exp
+len(v) Vector length
+length(v) Returns the length of the vector v
+lerp(a, b, s) Returns a + s(b - a). This linearly interpolates between a and b, such that the
+return value is a when s is 0, and b when s is 1.
+log(x) Returns the base-e logarithm of x. If x is negative, the function returns indefinite.
+If x is 0, the function returns +INF.
+log10(x) Returns the base-10 logarithm of x. If x is negative, the function returns
+indefinite. If x is 0, the function returns +INF.
+log2(x) Returns the base-2 logarithm of x. If x is negative, the function returns indefinite.
+If x is 0, the function returns +INF.
+max(a, b) Selects the greater of a and b
+min(a, b) Selects the lesser of a and b
+modf(x, out ip)
+Splits the value x into fractional and integer parts, each of which has the same
+sign as x. The signed fractional portion of x is returned. The integer portion is
+stored in the output parameter ip.
+mul(a, b)
+Performs matrix multiplication between a and b. If a is a vector, it is treated as a
+row vector. If b is a vector, it is treated as a column vector. The inner dimension
+acolumns and brows must be equal. The result has the dimension arows × bcolumns.
+normalize(v) Returns the normalized vector v / length(v). If the length of v is 0, the result is
+indefinite.
+pow(x, y) Returns xy
+radians(x) Converts x from degrees to radians
+reflect(i, n) Returns the reflection vector v, given the entering ray direction i, and the surface
+normal n. Such that v = i - 2 * dot(i, n) * n
+refract(i, n, eta) Returns the refraction vector v, given the entering ray direction i, the surface
+normal n, and the relative index of refraction eta. If the angle between i and n is
+too great for a given eta, refract returns (0,0,0).
+round(x) Rounds x to the nearest integer.
+rsqrt(x) Returns 1 / sqrt(x).
+saturate(x) Clamps x to the range [0, 1].
+sign(x) Computes the sign of x. Returns -1 if x is less than 0, 0 if x equals 0, and 1 if x is
+greater than zero.
+sin(x) Returns the sine of x
+sincos(x, out s, out c) Returns the sine and cosine of x. sin(x) is stored in the output parameter s. cos(x)
+is stored in the output parameter c
+sinh(x) Returns the hyperbolic sine of x
+smoothstep(min, max, x) Returns 0 if x < min. Returns 1 if x > max. Returns a smooth Hermite
+interpolation between 0 and 1, if x is in the range [min, max].
+sqrt(x) Square root (per component).
+step(a, x) Returns (x = a) ? 1 : 0.
+tan(x) Returns the tangent of x
+tanh(x) Returns the hyperbolic tangent of x
+transpose(m) Returns the transpose of the matrix m. If the source is dimension mrows × mcolumns,
+the result is dimension mcolumns × mrows
+
+Texture Sampling Intrinsics
+There are sixteen texture sampling intrinsics used for sampling texture data into a
+shader. There are four types of textures (1D, 2D, 3D and cube map) and four types of
+loads (regular, with derivatives, projective and biased) with an intrinsic for each of the
+sixteen combinations:
+
+Intrinsic Description
+tex1D(s, t) 1D texture lookup. s is a sampler. t is a scalar.
+tex1D(s, t, ddx, ddy) 1D texture lookup, with derivatives. s is a sampler. t, ddx, and ddy are scalars.
+tex1Dproj(s, t) 1D projective texture lookup. s is a sampler. t is a 4D vector. t is divided by its
+last component before the lookup takes place.
+tex1Dbias(s, t) 1D biased texture lookup. s is a sampler. t is a 4D vector. The mip level is
+biased by t.w before the lookup takes place.
+tex2D(s, t) 2D texture lookup. s is a sampler. t is a 2D texture coordinate.
+tex2D(s, t, ddx, ddy) 2D texture lookup, with derivatives. s is a sampler. t, ddx, and ddy are 2D
+vectors.
+tex2Dproj(s, t) 2D projective texture lookup. s is a sampler. t is a 4D vector. t is divided by its
+last component before the lookup takes place.
+tex2Dbias(s, t) 2D biased texture lookup. s is a sampler. t is a 4D vector. The mip level is
+biased by t.w before the lookup takes place.
+tex3D(s, t) 3D volume texture lookup. s is a sampler. t is a 3D texture coordinate.
+tex3D(s, t, ddx, ddy) 3D volume texture lookup, with derivatives. s is a sampler. t, ddx, and ddy are
+3D vectors.
+tex3Dproj(s, t) 3D projective volume texture lookup. s is a sampler. t is a 4D vector. t is
+divided by its last component before the lookup takes place.
+tex3Dbias(s, t) 3D biased texture lookup. s is a sampler. t is a 4D vector. The mip level is
+biased by t.w before the lookup takes place.
+texCUBE(s, t) Cubemap lookup. s is a sampler. t is a 3D texture coordinate.
+texCUBE(s, t, ddx, ddy) Cubemap lookup, with derivatives. s is a sampler. t, ddx, and ddy are 3D
+vectors.
+texCUBEproj(s, t) Projective cubemap lookup. s is a sampler. t is a 4D vector. t is divided by its
+last component before the lookup takes place.
+texCUBEbias(s, t) Biased cubemap lookup. s is a sampler. t is a 4D vector. The mip level is biased
+by t.w before the lookup takes place.
+

@@ -1,0 +1,83 @@
+FX   = Vector
+Name = Fliege, Animiertes Vector Objekt Test
+
+Colors         =   3
+Points         =  31
+Surfaces      = 18
+AnimPoints  = 10
+
+
+Color 1,0,0,255 ; Color 1 = Red
+Color 2,0,0,155; Color 2 = Green
+Color 3,255,0,0 ; Color 3 = Blue
+
+
+Data -120, 0, 100
+Data  120, 0, 100
+Data  80,-50,60
+Data -80,-50,60
+Data 80,50,60
+Data -80,50,60
+Data -120, 0, -100
+Data  120, 0, -100
+Data  80,-50,-60
+Data -80,-50,-60
+Data 80,50,-60
+Data -80,50,-60
+
+Data -80,0,100
+Data   -40,0,100
+Data -80,0,200
+Data  -40,0,200
+Data   0,0,100
+Data   0,0,200 ; 17
+Data   40,0,100
+Data   40,0,200 ;19
+Data   80,0,100
+Data   80,0,200 ;21
+
+Data -80,0,-100
+Data   -40,0,-100 ;23
+Data -80,0,-200
+Data  -40,0,-200 ;25
+Data   0,0,-100
+Data   0,0,-200 ; 27
+Data   40,0,-100
+Data   40,0,-200 ;29
+Data   80,0,-100
+Data   80,0,-200 ;31
+
+Poly   0,1,2,3 ,  1,255,90 ; 4 Eckpunkte , Farbe, Transparenz, Shadeintensität
+Poly   0,1,4,5 ,  2,255,90
+Poly  4,5,11,10,   1,255,90
+Poly  2,3,9,8,   2,255,90
+Poly   6,7,8,9,    1,255,90
+Poly   6,7,10,11, 2,255,90
+Poly 0,3,9,6,  1,255,90
+Poly 0,5,11,6,  2,255,90
+Poly 2,8,7,1,  1,255,90
+Poly 4,1,7,10, 2,255,90
+Poly 12,13,15,14, 3,155,90
+Poly 13,16, 17,15,  3,155,90
+Poly 16,18,19,17 , 3,155,90
+Poly 18,20,21,19 , 3,155,90
+Poly 22,23,25,24, 3,155,90
+Poly 23,26,27,25, 3,155,90
+Poly 26,28,29,27, 3,155,90
+Poly 28,30,31,29, 3,155,90
+
+AnimY 14, 100, 3, 0, 0
+AnimY 15, 100, 3, 40, 0
+AnimY 17, 100, 3, 80, 0
+AnimY 19, 100, 3, 120, 0
+AnimY 21, 100, 3, 160, 0
+AnimY 24, 100, 3, 0, 0
+AnimY 25, 100, 3, 40, 0
+AnimY 27, 100, 3, 80, 0
+AnimY 29, 100, 3, 120, 0
+AnimY 31, 100, 3, 160, 0
+
+
+
+
+

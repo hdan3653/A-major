@@ -1,0 +1,27 @@
+FX   = Vector
+Name = Simple Cube
+
+Colors    = 3
+Points    = 8
+Surfaces  = 6
+BuildDir  = 0 ; Toggles surface side (0 / 1)
+
+Color 1,155,0,0 ; Color 1 = Red
+Color 2,0,155,0 ; Color 2 = Green
+Color 3,0,0,155 ; Color 3 = Blue
+
+Data -100, -100, -100 ; Eckpunkt 1
+Data  100, -100, -100 ; Eckpunkt 2
+Data  100,  100, -100 ; Eckpunkt 3
+Data -100,  100, -100 ; Eckpunkt 4
+Data -100, -100,  100 ; Eckpunkt 5
+Data  100, -100,  100 ; Eckpunkt 6
+Data  100,  100,  100 ; Eckpunkt 7
+Data -100,  100,  100 ; Eckpunkt 8
+
+Poly   1,0,3,2  ,1,255,90 ; 4 Eckpunkte , Farbe, Transparenz, Shadeintensität
+Poly   4,5,6,7  ,1,255,90
+Poly   0,1,5,4  ,2,255,90
+Poly   2,3,7,6  ,2,255,90
+Poly   3,0,4,7  ,3,255,90
+Poly   5,1,2,6  ,3,255,90

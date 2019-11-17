@@ -1,0 +1,123 @@
+HAAR-TRAINING
+- Frame Capture / Count
+-- 1000 to 3000 minimum
+
+- Outer Rectangle
+-- Red: Not capturing
+-- Green: Capturing / Saving
+-- Yellow: Capturing / Not saving
+
+- Detection Rectangle
+-- Visible: Face detected (blue: Training || yellow: Testing)
+-- Hidden: Face not detected
+
+- Instructions
+-- 1. Spacebar: Start / stop capturing.
+--- saves captured frames to folder: binaries/trained/positives
+--- creates file: binaries/trained/pos_train.txt
+--- press the [ X ] KEY to start over
+-- 2. [ S ] KEY: Create samples file.
+--- briefly opens a command window
+--- creates file: binaries/trained/positives.vec
+--- can still capture more frames, but samples file (positives.vec) will be deleted and need recreating
+--- press the [ X ] KEY to start over
+-- 3. [ T ] KEY: Create training file.
+--- closes the main program window
+--- opens a command window
+--- creates folder: binaries/haarcascade_frontalface_JHPJHP
+--- creates file: binaries/haarcascade_frontalface_JHPJHP.xml
+--- can take an extremely long time to complete
+-- 4. [ H ] KEY: Switch to test mode.
+--- only available after the file has been created: binaries/haarcascade_frontalface_JHPJHP.xml
+--- uses the newly created classifier to recognize a face
+-- 5. [ P ] KEY: Test performance.
+--- only available after the file has been created: binaries/haarcascade_frontalface_JHPJHP.xml
+--- creates folder: binaries/trained/tests
+--- merges the first captured image file with all the negative images, testing performance and accuracy
+
+- Information
+-- choosing a capture location (Browse For Folder), the default location must be used: binaries/trained/positives
+-- if Cancel is pressed while choosing a capture location, all created files including previous captures will be deleted
+-- if the detection rectangle falls on or outside the outer rectangle capturing is paused
+-- frame count and outside rectangle only show in training mode (default) not testing mode
+-- capturing can continue after the main window had closed then reopened, adding to previous captured frames
+
+----------------------------------------------------------------------------
+
+Usage: opencv_createsamples.exe
+  [-info <collection_file_name>]
+  [-img <image_file_name>]
+  [-vec <vec_file_name>]
+  [-bg <background_file_name>]
+  [-num <number_of_samples = 1000>]
+  [-bgcolor <background_color = 0>]
+  [-inv] [-randinv] [-bgthresh <background_color_threshold = 80>]
+  [-maxidev <max_intensity_deviation = 40>]
+  [-maxxangle <max_x_rotation_angle = 1.100000>]
+  [-maxyangle <max_y_rotation_angle = 1.100000>]
+  [-maxzangle <max_z_rotation_angle = 0.500000>]
+  [-show [<scale = 4.000000>]]
+  [-w <sample_width = 24>]
+  [-h <sample_height = 24>]
+
+Usage: opencv_traincascade.exe
+  -data <cascade_dir_name>
+  -vec <vec_file_name>
+  -bg <background_file_name>
+  [-numPos <number_of_positive_samples = 2000>]
+  [-numNeg <number_of_negative_samples = 1000>]
+  [-numStages <number_of_stages = 20>]
+  [-precalcValBufSize <precalculated_vals_buffer_size_in_Mb = 256>]
+  [-precalcIdxBufSize <precalculated_idxs_buffer_size_in_Mb = 256>]
+  [-baseFormatSave]
+--cascadeParams--
+  [-stageType <BOOST(default)>]
+  [-featureType <{HAAR(default), LBP, HOG}>]
+  [-w <sampleWidth = 24>]
+  [-h <sampleHeight = 24>]
+--boostParams--
+  [-bt <{DAB, RAB, LB, GAB(default)}>]
+  [-minHitRate <min_hit_rate> = 0.995>]
+  [-maxFalseAlarmRate <max_false_alarm_rate = 0.5>]
+  [-weightTrimRate <weight_trim_rate = 0.95>]
+  [-maxDepth <max_depth_of_weak_tree = 1>]
+  [-maxWeakCount <max_weak_tree_count = 100>]
+--haarFeatureParams--
+  [-mode <BASIC(default) | CORE | ALL
+--lbpFeatureParams--
+--HOGFeatureParams--
+
+Usage: opencv_haartraining.exe
+  -data <dir_name>
+  -vec <vec_file_name>
+  -bg <background_file_name>
+  [-bg-vecfile]
+  [-npos <number_of_positive_samples = 2000>]
+  [-nneg <number_of_negative_samples = 2000>]
+  [-nstages <number_of_stages = 14>]
+  [-nsplits <number_of_splits = 1>]
+  [-mem <memory_in_MB = 200>]
+  [-sym (default)] [-nonsym]
+  [-minhitrate <min_hit_rate = 0.995000>]
+  [-maxfalsealarm <max_false_alarm_rate = 0.500000>]
+  [-weighttrimming <weight_trimming = 0.950000>]
+  [-eqw]
+  [-mode <BASIC (default) | CORE | ALL>]
+  [-w <sample_width = 24>]
+  [-h <sample_height = 24>]
+  [-bt <DAB | RAB | LB | GAB (default)>]
+  [-err <misclass (default) | gini | entropy>]
+  [-maxtreesplits <max_number_of_splits_in_tree_cascade = 0>]
+  [-minpos <min_number_of_positive_samples_per_cluster = 500>]
+
+Usage: opencv_performance.exe
+  -data <classifier_directory_name>
+  -info <collection_file_name>
+  [-maxSizeDiff <max_size_difference = 1.500000>]
+  [-maxPosDiff <max_position_difference = 0.300000>]
+  [-sf <scale_factor = 1.200000>]
+  [-ni]
+  [-nos <number_of_stages = -1>]
+  [-rs <roc_size = 40>]
+  [-w <sample_width = 24>]
+  [-h <sample_height = 24>]

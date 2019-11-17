@@ -1,0 +1,54 @@
+FX   = Vector
+Name = Glenz Cube
+
+Colors  = 2
+Points  = 14
+Surfaces =24
+
+Color 1, 255,255,255 ; Color 1 = White
+Color 2,    0,    0,255 ; Color 2 = Blue
+
+Data -100, -100, -100 ; Eckpunkt 0
+Data  100, -100, -100 ; Eckpunkt 1
+Data  100,  100, -100 ; Eckpunkt 2
+Data -100,  100, -100 ; Eckpunkt 3
+Data -100, -100,  100 ; Eckpunkt 4
+Data  100, -100,  100 ; Eckpunkt 5
+Data  100,  100,  100 ; Eckpunkt 6
+Data -100,  100,  100 ; Eckpunkt 7
+Data     0,      0, -100 ; Mitte Fläche 1
+Data     0,      0,  100 ; Mitte Fläche 2
+Data -100,      0,     0 ; Mitte Fläche 3
+Data  100,      0,     0 ; Mitte Fläche 4
+Data     0,  -100,     0 ; Mitte Fläche 5
+Data     0,   100,     0 ; Mitte Fläche 6
+
+Poly   0,1,8,8,1,150,0 ; Oben
+Poly   2,3,8,8,1,150,0 
+Poly   2,1,8,8,2,150,0 
+Poly   0,3,8,8,2,150,0 
+
+Poly   4,5,9,9,1,150,0 ; Unten
+Poly   6,7,9,9,1,150,0 
+Poly   6,5,9,9,2,150,0 
+Poly   4,7,9,9,2,150,0 
+
+Poly   0,4,10,10,2,150,0 ; Rechts
+Poly   3,7,10,10,2,150,0 
+Poly   0,3,10,10,1,150,0 
+Poly   7,4,10,10,1,150,0 
+
+Poly   1,5,11,11,2,150,0 ; Links
+Poly   2,6,11,11,2,150,0 
+Poly   1,2,11,11,1,150,0 
+Poly   5,6,11,11,1,150,0 
+
+Poly   0,1,12,12,2,150,0 ; Hinten
+Poly   4,5,12,12,2,150,0 
+Poly   0,4,12,12,1,150,0 
+Poly   1,5,12,12,1,150,0 
+
+Poly   3,2,13,13,2,150,0 ; Vorne
+Poly   7,6,13,13,2,150,0 
+Poly   3,7,13,13,1,150,0 
+Poly   2,6,13,13,1,150,0 

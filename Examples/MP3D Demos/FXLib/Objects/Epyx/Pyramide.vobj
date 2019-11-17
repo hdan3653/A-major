@@ -1,0 +1,23 @@
+FX   = Vector
+Name = Pyramide
+
+Colors    = 3
+Points    = 5
+Surfaces  = 5
+BuildDir  = 0 ; Toggles surface side (0 / 1)
+
+Color 1,255,0,0 ; Color 1 = Red
+Color 2,0,255,0 ; Color 2 = Green
+Color 3,255,155,0 ; Color 3 = Yellow
+
+Data     0,    0, -200 ; Eckpunkt 4
+Data -150, -150,  100 ; Eckpunkt 5
+Data  150, -150,  100 ; Eckpunkt 6
+Data  150,  150,  100 ; Eckpunkt 7
+Data -150,  150,  100 ; Eckpunkt 8
+
+Poly   1,2,3,4,1,55,100 ; 4 Eckpunkte , Farbe, Transparenz, Shadeintensität
+Poly   0,2,1,0,2,55,100 
+Poly   0,4,3,0,2,55,100 
+Poly   1,4,0,0,3,55,100 
+Poly   3,2,0,0,3,55,100 

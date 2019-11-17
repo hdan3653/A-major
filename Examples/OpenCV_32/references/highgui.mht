@@ -1,0 +1,973 @@
+From: "Saved by Internet Explorer 11"
+Subject: OpenCV: HighGUI Reference Manual
+Date: Fri, 14 Mar 2014 16:52:13 -0400
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----=_NextPart_000_0000_01CF3FA5.BFD27BF0"
+X-MimeOLE: Produced By Microsoft MimeOLE V6.1.7601.17609
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_0000_01CF3FA5.BFD27BF0
+Content-Type: text/html;
+	charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.htm
+
+<!DOCTYPE HTML>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN" ""><HTML><HEAD><META=20
+content=3D"IE=3D11.0000" http-equiv=3D"X-UA-Compatible">
+ <LINK =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref.css" =
+rel=3D"STYLESHEET"=20
+type=3D"text/css" charset=3D"ISO-8859-1">=20
+<META http-equiv=3D"Content-Type"=20
+content=3D"text/html; charset=3Dwindows-1252"><TITLE>OpenCV: HighGUI =
+Reference=20
+Manual</TITLE>=20
+<META name=3D"GENERATOR" content=3D"MSHTML 11.00.9600.16521"></HEAD>
+<BODY>=20
+<H1>HighGUI Reference Manual</H1>
+<HR>
+
+<UL>
+  <LI><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#highgui_gui">Simple=20
+  GUI</A>=20
+  <LI><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#highgui_loadsave">Loading=20
+  and Saving Images</A>=20
+  <LI><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#highgui_video">Video=20
+  I/O</A>=20
+  <LI><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#highgui_utils">Utility=20
+  and System Functions</A>=20
+  <LI><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#highgui_func_index">Alphabetical=20
+  List of Functions</A> </LI></UL>
+<HR>
+
+<H2><A name=3D"highgui_overview">HighGUI overview</A></H2>
+<P>TODO</P>
+<HR>
+
+<H2><A name=3D"highgui_gui">Simple GUI</A></H2>
+<HR>
+
+<H3><A name=3D"decl_cvNamedWindow">cvNamedWindow</A></H3>
+<P class=3D"Blurb">Creates window</P>
+<PRE>int cvNamedWindow( const char* name, int flags=3DCV_WINDOW_AUTOSIZE =
+);=0A=
+</PRE>
+<DL>
+  <DT>name
+  <DD>Name of the window which is used as window identifier and appears =
+in the=20
+  window caption.=20
+  <DT>flags
+  <DD>Flags of the window. Currently the only supported flag is=20
+  <CODE>CV_WINDOW_AUTOSIZE</CODE>. If it is set, window size is =
+automatically=20
+  adjusted to fit the displayed image (see <A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvShowImage">cvShowImage</A>),=20
+  while user can not change the window size manually. </DD></DL>
+<P>The function <CODE>cvNamedWindow</CODE> creates a window which can be =
+used as=20
+a placeholder for images and trackbars. Created windows are reffered by =
+their=20
+names. </P>
+<P>If the window with such a name already exists, the function does =
+nothing.</P>
+<HR>
+
+<H3><A name=3D"decl_cvDestroyWindow">cvDestroyWindow</A></H3>
+<P class=3D"Blurb">Destroys a window</P>
+<PRE>void cvDestroyWindow( const char* name );=0A=
+</PRE>
+<DL>
+  <DT>name
+  <DD>Name of the window to be destroyed. </DD></DL>
+<P>The function <CODE>cvDestroyWindow</CODE> destroys the window with a =
+given=20
+name. </P>
+<HR>
+
+<H3><A name=3D"decl_cvDestroyAllWindows">cvDestroyAllWindows</A></H3>
+<P class=3D"Blurb">Destroys all the HighGUI windows</P>
+<PRE>void cvDestroyAllWindows(void);=0A=
+</PRE>
+<P>The function <CODE>cvDestroyAllWindows</CODE> destroys all the opened =
+HighGUI=20
+windows. </P>
+<HR>
+
+<H3><A name=3D"decl_cvResizeWindow">cvResizeWindow</A></H3>
+<P class=3D"Blurb">Sets window size</P>
+<PRE>void cvResizeWindow( const char* name, int width, int height );=0A=
+</PRE>
+<DL>
+  <DT>name
+  <DD>Name of the window to be resized.=20
+  <DT>width
+  <DD>New width=20
+  <DT>height
+  <DD>New height </DD></DL>
+<P>The function <CODE>cvResizeWindow</CODE> changes size of the window. =
+</P>
+<HR>
+
+<H3><A name=3D"decl_cvMoveWindow">cvMoveWindow</A></H3>
+<P class=3D"Blurb">Sets window position</P>
+<PRE>void cvMoveWindow( const char* name, int x, int y );=0A=
+</PRE>
+<DL>
+  <DT>name
+  <DD>Name of the window to be resized.=20
+  <DT>x
+  <DD>New x coordinate of top-left corner=20
+  <DT>y
+  <DD>New y coordinate of top-left corner </DD></DL>
+<P>The function <CODE>cvMoveWindow</CODE> changes position of the =
+window. </P>
+<HR>
+
+<H3><A name=3D"decl_cvGetWindowHandle">cvGetWindowHandle</A></H3>
+<P class=3D"Blurb">Gets window handle by name</P>
+<PRE>void* cvGetWindowHandle( const char* name );=0A=
+</PRE>
+<DL>
+  <DT>name
+  <DD>Name of the window. </DD></DL>
+<P>The function <CODE>cvGetWindowHandle</CODE> returns native window =
+handle=20
+(HWND in case of Win32 and GtkWidget in case of GTK+). </P>
+<HR>
+
+<H3><A name=3D"decl_cvGetWindowName">cvGetWindowName</A></H3>
+<P class=3D"Blurb">Gets window name by handle</P>
+<PRE>const char* cvGetWindowName( void* window_handle );=0A=
+</PRE>
+<DL>
+  <DT>window_handle
+  <DD>Handle of the window. </DD></DL>
+<P>The function <CODE>cvGetWindowName</CODE> returns the name of window =
+given=20
+its native handle (HWND in case of Win32 and GtkWidget in case of GTK+). =
+</P>
+<HR>
+
+<H3><A name=3D"decl_cvShowImage">cvShowImage</A></H3>
+<P class=3D"Blurb">Shows the image in the specified window</P>
+<PRE>void cvShowImage( const char* name, const CvArr* image );=0A=
+</PRE>
+<DL>
+  <DT>name
+  <DD>Name of the window.=20
+  <DT>image
+  <DD>Image to be shown. </DD></DL>
+<P>The function <CODE>cvShowImage</CODE> shows the image in the =
+specified=20
+window. If the window was created with <CODE>CV_WINDOW_AUTOSIZE</CODE> =
+flag then=20
+the image is shown with its original size, otherwise the image is scaled =
+to fit=20
+the window. </P>
+<HR>
+
+<H3><A name=3D"decl_cvCreateTrackbar">cvCreateTrackbar</A></H3>
+<P class=3D"Blurb">Creates the trackbar and attaches it to the specified =
+
+window</P>
+<PRE>CV_EXTERN_C_FUNCPTR( void (*CvTrackbarCallback)(int pos) );=0A=
+=0A=
+int cvCreateTrackbar( const char* trackbar_name, const char* window_name,=0A=
+                      int* value, int count, CvTrackbarCallback =
+on_change );=0A=
+</PRE>
+<DL>
+  <DT>trackbar_name
+  <DD>Name of created trackbar.=20
+  <DT>window_name
+  <DD>Name of the window which will e used as a parent for created =
+trackbar.=20
+  <DT>value
+  <DD>Pointer to the integer variable, which value will reflect the =
+position of=20
+  the slider.  Upon the creation the slider position is defined by this=20
+  variable.=20
+  <DT>count
+  <DD>Maximal position of the slider. Minimal position is always 0.=20
+  <DT>on_change
+  <DD>Pointer to the function to be called every time the slider changes =
+the=20
+  position. This  function should be prototyped as <CODE>void=20
+  Foo(int);</CODE>Can be NULL if  callback is not required. </DD></DL>
+<P>The function <CODE>cvCreateTrackbar</CODE> creates the trackbar =
+(a.k.a.=20
+slider or range control) with the specified name and range, assigns the =
+variable=20
+to be syncronized with trackbar position and specifies callback function =
+to be=20
+called on trackbar position change. The created trackbar is displayed on =
+top of=20
+given window.</P>
+<HR>
+
+<H3><A name=3D"decl_cvGetTrackbarPos">cvGetTrackbarPos</A></H3>
+<P class=3D"Blurb">Retrieves trackbar position</P>
+<PRE>int cvGetTrackbarPos( const char* trackbar_name, const char* =
+window_name );=0A=
+</PRE>
+<DL>
+  <DT>trackbar_name
+  <DD>Name of trackbar.=20
+  <DT>window_name
+  <DD>Name of the window which is the parent of trackbar. </DD></DL>
+<P>The function <CODE>cvGetTrackbarPos</CODE> returns the ciurrent =
+position of=20
+the specified trackbar.</P>
+<HR>
+
+<H3><A name=3D"decl_cvSetTrackbarPos">cvSetTrackbarPos</A></H3>
+<P class=3D"Blurb">Sets trackbar position</P>
+<PRE>void cvSetTrackbarPos( const char* trackbar_name, const char* =
+window_name, int pos );=0A=
+</PRE>
+<DL>
+  <DT>trackbar_name
+  <DD>Name of trackbar.=20
+  <DT>window_name
+  <DD>Name of the window which is the parent of trackbar.=20
+  <DT>pos
+  <DD>New position. </DD></DL>
+<P>The function <CODE>cvSetTrackbarPos</CODE>  sets the position of the=20
+specified trackbar.</P>
+<HR>
+
+<H3><A name=3D"decl_cvSetMouseCallback">cvSetMouseCallback</A></H3>
+<P class=3D"Blurb">Assigns callback for mouse events</P>
+<PRE>#define CV_EVENT_MOUSEMOVE      0=0A=
+#define CV_EVENT_LBUTTONDOWN    1=0A=
+#define CV_EVENT_RBUTTONDOWN    2=0A=
+#define CV_EVENT_MBUTTONDOWN    3=0A=
+#define CV_EVENT_LBUTTONUP      4=0A=
+#define CV_EVENT_RBUTTONUP      5=0A=
+#define CV_EVENT_MBUTTONUP      6=0A=
+#define CV_EVENT_LBUTTONDBLCLK  7=0A=
+#define CV_EVENT_RBUTTONDBLCLK  8=0A=
+#define CV_EVENT_MBUTTONDBLCLK  9=0A=
+=0A=
+#define CV_EVENT_FLAG_LBUTTON   1=0A=
+#define CV_EVENT_FLAG_RBUTTON   2=0A=
+#define CV_EVENT_FLAG_MBUTTON   4=0A=
+#define CV_EVENT_FLAG_CTRLKEY   8=0A=
+#define CV_EVENT_FLAG_SHIFTKEY  16=0A=
+#define CV_EVENT_FLAG_ALTKEY    32=0A=
+=0A=
+CV_EXTERN_C_FUNCPTR( void (*CvMouseCallback )(int event, int x, int y, =
+int flags, void* param) );=0A=
+=0A=
+void cvSetMouseCallback( const char* window_name, CvMouseCallback =
+on_mouse, void* param=3DNULL );=0A=
+</PRE>
+<DL>
+  <DT>window_name
+  <DD>Name of the window.=20
+  <DT>on_mouse
+  <DD>Pointer to the function to be called every time mouse event occurs =
+       =20
+         in the specified window. This function should be prototyped as  =
+=20
+<PRE>void Foo(int event, int x, int y, int flags, void* param);</PRE>  =
+where=20
+  <CODE>event</CODE> is one of <CODE>CV_EVENT_*</CODE>,   <CODE>x</CODE> =
+and=20
+  <CODE>y</CODE> are coordinates of mouse pointer in image coordinates  =
+(not=20
+  window coordinates), <CODE>flags</CODE> is a combination of=20
+  <CODE>CV_EVENT_FLAG</CODE>,  and <CODE>param</CODE> is a user-defined=20
+  parameter passed to the   <CODE>cvSetMouseCallback</CODE> function =
+call.=20
+  <DT>param
+  <DD>User-defined parameter to be passed to the callback function. =
+</DD></DL>
+<P>The function <CODE>cvSetMouseCallback</CODE> sets the callback =
+function for=20
+mouse events occuting within the specified window. To see how it works, =
+look at=20
+<A href=3D"http://www.cognotics.com/opencv/docs/samples/c/ffilldemo.c">
+opencv/samples/c/ffilldemo.c</A> demo</P>
+<HR>
+
+<H3><A name=3D"decl_cvWaitKey">cvWaitKey</A></H3>
+<P class=3D"Blurb">Waits for a pressed key</P>
+<PRE>int cvWaitKey( int delay=3D0 );=0A=
+</PRE>
+<DL>
+  <DT>delay
+  <DD>Delay in milliseconds. </DD></DL>
+<P>The function <CODE>cvWaitKey</CODE> waits for key event infinitely=20
+(delay&lt;=3D0) or for "delay" milliseconds. Returns the code of the =
+pressed key=20
+or -1 if no key were pressed until the specified timeout has elapsed. =
+</P>
+<P><B>Note</B>: This function is the only method in HighGUI to fetch and =
+handle=20
+events so it needs to be called periodically for normal event =
+processing, unless=20
+HighGUI is used within some environment that takes care of event =
+processing.=20
+</P>
+<HR>
+
+<H2><A name=3D"highgui_loadsave">Loading and Saving Images</A></H2>
+<HR>
+
+<H3><A name=3D"decl_cvLoadImage">cvLoadImage</A></H3>
+<P class=3D"Blurb">Loads an image from file</P>
+<PRE>/* 8 bit, color or gray - deprecated, use CV_LOAD_IMAGE_ANYCOLOR */=0A=
+#define CV_LOAD_IMAGE_UNCHANGED  -1=0A=
+/* 8 bit, gray */=0A=
+#define CV_LOAD_IMAGE_GRAYSCALE   0=0A=
+/* 8 bit unless combined with CV_LOAD_IMAGE_ANYDEPTH, color */=0A=
+#define CV_LOAD_IMAGE_COLOR       1=0A=
+/* any depth, if specified on its own gray */=0A=
+#define CV_LOAD_IMAGE_ANYDEPTH    2=0A=
+/* by itself equivalent to CV_LOAD_IMAGE_UNCHANGED=0A=
+   but can be modified with CV_LOAD_IMAGE_ANYDEPTH */=0A=
+#define CV_LOAD_IMAGE_ANYCOLOR    4=0A=
+=0A=
+IplImage* cvLoadImage( const char* filename, int =
+flags=3DCV_LOAD_IMAGE_COLOR );=0A=
+</PRE>
+<DL>
+  <DT>filename
+  <DD>Name of file to be loaded.=20
+  <DT>flags
+  <DD>Specifies colorness and depth of the loaded image:<BR>       The =
+colorness=20
+  specifies whether the loaded image is to be converted to       3 =
+channels=20
+  (CV_LOAD_IMAGE_COLOR), 1 channel (CV_LOAD_IMAGE_GRAYSCALE),       or =
+left as=20
+  it was in the input file (CV_LOAD_IMAGE_ANYCOLOR).<BR>       Depth =
+specifies=20
+  whether the loaded image is to be converted to 8 bits       per pixel =
+per=20
+  color channel as was customary in previous versions of       OpenCV or =
+left as=20
+  they were in the input file.       If CV_LOAD_IMAGE_ANYDEPTH is passed =
+the    =20
+    pixel format can be 8 bit unsigned, 16 bit unsigned, 32 bit signed =
+or      =20
+  32 bit floating point.<BR>       If conflicting flags are passed the =
+flag with=20
+  the smaller numerical       value wins. That is if       =
+CV_LOAD_IMAGE_COLOR |=20
+  CV_LOAD_IMAGE_ANYCOLOR       is passed the image is loaded with 3 =
+channels.   =20
+     CV_LOAD_IMAGE_ANYCOLOR is equivalent to specifying      =20
+  CV_LOAD_IMAGE_UNCHANGED. However, CV_LOAD_IMAGE_ANYCOLOR has the       =
+
+  advantage that it can be combined with CV_LOAD_IMAGE_ANYDEPTH. So      =
+=20
+  CV_LOAD_IMAGE_UNCHANGED should not be used any longer.<BR>       If =
+you want=20
+  to load the image as truthfully as possible pass       =
+CV_LOAD_IMAGE_ANYDEPTH=20
+  | CV_LOAD_IMAGE_ANYCOLOR. </DD></DL>
+<P>The function <CODE>cvLoadImage</CODE> loads an image from the =
+specified file=20
+and returns the pointer to the loaded image. Currently the following =
+file=20
+formats are supported:=20
+<UL>
+  <LI>Windows bitmaps - BMP, DIB;=20
+  <LI>JPEG files - JPEG, JPG, JPE;=20
+  <LI>Portable Network Graphics - PNG;=20
+  <LI>Portable image format - PBM, PGM, PPM;=20
+  <LI>Sun rasters - SR, RAS;=20
+  <LI>TIFF files - TIFF, TIF;=20
+  <LI>OpenEXR HDR images - EXR;=20
+  <LI>JPEG 2000 images - jp2. </LI></UL>
+<P></P>
+<HR>
+
+<H3><A name=3D"decl_cvSaveImage">cvSaveImage</A></H3>
+<P class=3D"Blurb">Saves an image to the file</P>
+<PRE>int cvSaveImage( const char* filename, const CvArr* image );=0A=
+</PRE>
+<DL>
+  <DT>filename
+  <DD>Name of the file.=20
+  <DT>image
+  <DD>Image to be saved. </DD></DL>
+<P>The function <CODE>cvSaveImage</CODE> saves the image to the =
+specified file.
+ The image format is chosen depending on the <CODE>filename</CODE> =
+extension,=20
+see <A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvLoadImage">cvLoadImage</A>.
+ Only 8-bit single-channel or 3-channel (with 'BGR' channel order) =
+images can be=20
+saved using this function. If the format, depth or channel order is =
+different,=20
+use <CODE>cvCvtScale</CODE> and <CODE>cvCvtColor</CODE> to convert it =
+before=20
+saving, or use universal <CODE>cvSave</CODE> to save the image to XML or =
+YAML=20
+format. </P>
+<HR>
+
+<H2><A name=3D"highgui_video">Video I/O functions</A></H2>
+<HR>
+
+<H3><A name=3D"decl_CvCapture">CvCapture</A></H3>
+<P class=3D"Blurb">Video capturing structure</P>
+<PRE>typedef struct CvCapture CvCapture;=0A=
+</PRE>
+<P>The structure <A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_CvCapture">CvCapture</A>
+ does not have public interface and is used only as a parameter for =
+video
+ capturing functions. </P>
+<HR>
+
+<H3><A name=3D"decl_cvCreateFileCapture">cvCreateFileCapture</A></H3>
+<P class=3D"Blurb">Initializes capturing video from file</P>
+<PRE>CvCapture* cvCreateFileCapture( const char* filename );=0A=
+</PRE>
+<DL>
+  <DT>filename
+  <DD>Name of the video file. </DD></DL>
+<P>The function <CODE>cvCreateFileCapture</CODE> allocates and =
+initialized the=20
+CvCapture structure for reading the video stream from the specified =
+file. </P>
+<P>After the allocated structure is not used any more it should be =
+released by=20
+<A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvReleaseCapture">cvReleaseCapture</A>=20
+function. </P>
+<HR>
+
+<H3><A =
+name=3D"decl_cvCreateCameraCapture">cvCreateCameraCapture</A></H3>
+<P class=3D"Blurb">Initializes capturing video from camera</P>
+<PRE>CvCapture* cvCreateCameraCapture( int index );=0A=
+</PRE>
+<DL>
+  <DT>index
+  <DD>Index of the camera to be used. If there is only one camera or it =
+does not=20
+  matter what camera to use -1 may be passed. </DD></DL>
+<P>The function <CODE>cvCreateCameraCapture</CODE> allocates and =
+initialized the=20
+CvCapture structure for reading a video stream from the camera. =
+Currently two=20
+camera interfaces can be used on Windows: Video for Windows (VFW) and =
+Matrox=20
+Imaging Library (MIL); and two on Linux: V4L and FireWire (IEEE1394). =
+</P>
+<P>To release the sturtcure, use <A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvReleaseCapture">cvReleaseCapture</A>.</P>
+<HR>
+
+<H3><A name=3D"decl_cvReleaseCapture">cvReleaseCapture</A></H3>
+<P class=3D"Blurb">Releases the CvCapture structure</P>
+<PRE>void cvReleaseCapture( CvCapture** capture );=0A=
+</PRE>
+<DL>
+  <DT>capture
+  <DD>pointer to video capturing structure. </DD></DL>
+<P>The function <CODE>cvReleaseCapture</CODE> releases the CvCapture =
+structure=20
+allocated by <A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvCreateFileCapture">cvCreateFileCapture</A>
+ or <A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvCreateCameraCapture">cvCreateCameraCapture</A>.=20
+</P>
+<HR>
+
+<H3><A name=3D"decl_cvGrabFrame">cvGrabFrame</A></H3>
+<P class=3D"Blurb">Grabs frame from camera or file</P>
+<PRE>int cvGrabFrame( CvCapture* capture );=0A=
+</PRE>
+<DL>
+  <DT>capture
+  <DD>video capturing structure. </DD></DL>
+<P>The function <CODE>cvGrabFrame</CODE> grabs the frame from camera or =
+file.=20
+The grabbed frame is stored internally. The purpose of this function is =
+to grab=20
+frame <EM>fast</EM> that is important for syncronization in case of =
+reading from=20
+several cameras simultaneously. The grabbed frames are not exposed =
+because they=20
+may be stored in compressed format (as defined by camera/driver). To =
+retrieve=20
+the grabbed frame, <A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvRetrieveFrame">cvRetrieveFrame</A>=20
+should be used. </P>
+<HR>
+
+<H3><A name=3D"decl_cvRetrieveFrame">cvRetrieveFrame</A></H3>
+<P class=3D"Blurb">Gets the image grabbed with cvGrabFrame</P>
+<PRE>IplImage* cvRetrieveFrame( CvCapture* capture );=0A=
+</PRE>
+<DL>
+  <DT>capture
+  <DD>video capturing structure. </DD></DL>
+<P>The function <CODE>cvRetrieveFrame</CODE> returns the pointer to the =
+image=20
+grabbed with <A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvGrabFrame">cvGrabFrame</A>
+ function. The returned image should not be released or modified by =
+user. </P>
+<HR>
+
+<H3><A name=3D"decl_cvQueryFrame">cvQueryFrame</A></H3>
+<P class=3D"Blurb">Grabs and returns a frame from camera or file</P>
+<PRE>IplImage* cvQueryFrame( CvCapture* capture );=0A=
+</PRE>
+<DL>
+  <DT>capture
+  <DD>video capturing structure. </DD></DL>
+<P>The function <CODE>cvQueryFrame</CODE> grabs a frame from camera or =
+video=20
+file, decompresses and returns it. This function is just a combination =
+of  <A=20
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvGrabFrame">cvGrabFrame</A>=20
+and <A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvRetrieveFrame">cvRetrieveFrame</A>=20
+in one call. The returned image should not be released or modified by =
+user. </P>
+<HR>
+
+<H3><A name=3D"decl_cvGetCaptureProperty">cvGetCaptureProperty</A></H3>
+<P class=3D"Blurb">Gets video capturing properties</P>
+<PRE>double cvGetCaptureProperty( CvCapture* capture, int property_id );=0A=
+</PRE>
+<DL>
+  <DT>capture
+  <DD>video capturing structure.=20
+  <DT>property_id
+  <DD>property identifier. Can be one of the=20
+  following:<BR><CODE>CV_CAP_PROP_POS_MSEC</CODE> - film current =
+position in=20
+  milliseconds or video capture =
+timestamp<BR><CODE>CV_CAP_PROP_POS_FRAMES</CODE>=20
+  - 0-based index of the frame to be decoded/captured=20
+  next<BR><CODE>CV_CAP_PROP_POS_AVI_RATIO</CODE> - relative position of =
+video=20
+  file (0 - start of the film, 1 - end of the=20
+  film)<BR><CODE>CV_CAP_PROP_FRAME_WIDTH</CODE> - width of frames in the =
+video=20
+  stream<BR><CODE>CV_CAP_PROP_FRAME_HEIGHT</CODE> - height of frames in =
+the=20
+  video stream<BR><CODE>CV_CAP_PROP_FPS</CODE> - frame=20
+  rate<BR><CODE>CV_CAP_PROP_FOURCC</CODE> - 4-character code of codec.   =
+
+  <CODE>CV_CAP_PROP_FRAME_COUNT</CODE> - number of frames in video file. =
+ =20
+</DD></DL>
+<P>The function <CODE>cvGetCaptureProperty</CODE> retrieves the =
+specified=20
+property of camera or video file. </P>
+<HR>
+
+<H3><A name=3D"decl_cvSetCaptureProperty">cvSetCaptureProperty</A></H3>
+<P class=3D"Blurb">Sets video capturing properties</P>
+<PRE>int cvSetCaptureProperty( CvCapture* capture, int property_id, =
+double value );=0A=
+</PRE>
+<DL>
+  <DT>capture
+  <DD>video capturing structure.=20
+  <DT>property_id
+  <DD>property identifier. Can be one of the=20
+  following:<BR><CODE>CV_CAP_PROP_POS_MSEC</CODE> - position in =
+milliseconds=20
+  from the file beginning<BR><CODE>CV_CAP_PROP_POS_FRAMES</CODE> - =
+position in=20
+  frames (only for video =
+files)<BR><CODE>CV_CAP_PROP_POS_AVI_RATIO</CODE> -=20
+  position in relative units (0 - start of the file, 1 - end of the=20
+  file)<BR><CODE>CV_CAP_PROP_FRAME_WIDTH</CODE> - width of frames in the =
+video=20
+  stream (only for cameras)<BR><CODE>CV_CAP_PROP_FRAME_HEIGHT</CODE> - =
+height of=20
+  frames in the video stream (only for =
+cameras)<BR><CODE>CV_CAP_PROP_FPS</CODE>=20
+  - frame rate (only for cameras)<BR><CODE>CV_CAP_PROP_FOURCC</CODE> -=20
+  4-character code of codec (only for cameras).=20
+  <DT>value
+  <DD>value of the property. </DD></DL>
+<P>The function <CODE>cvSetCaptureProperty</CODE> sets the specified =
+property of=20
+video capturing. Currently the function supports only video files:=20
+<CODE>CV_CAP_PROP_POS_MSEC, CV_CAP_PROP_POS_FRAMES,=20
+CV_CAP_PROP_POS_AVI_RATIO</CODE> </P>
+<HR>
+
+<H3><A name=3D"decl_cvCreateVideoWriter">cvCreateVideoWriter</A></H3>
+<P class=3D"Blurb">Creates video file writer</P>
+<PRE>typedef struct CvVideoWriter CvVideoWriter;=0A=
+CvVideoWriter* cvCreateVideoWriter( const char* filename, int fourcc, =
+double fps, CvSize frame_size, int is_color=3D1 );=0A=
+</PRE>
+<DL>
+  <DT>filename
+  <DD>Name of the output video file.=20
+  <DT>fourcc
+  <DD>4-character code of codec used to compress the frames.             =
+ For=20
+  example, <CODE>CV_FOURCC('P','I','M','1')</CODE> is MPEG-1 codec,      =
+       =20
+   <CODE>CV_FOURCC('M','J','P','G')</CODE> is motion-jpeg codec etc.     =
+       =20
+   Under Win32 it is possible to pass -1 in order              to choose =
+
+  compression method and additional compression parameters              =
+from=20
+  dialog.=20
+  <DT>fps
+  <DD>Framerate of the created video stream.=20
+  <DT>frame_size
+  <DD>Size of video frames.=20
+  <DT>is_color
+  <DD>If it is not zero, the encoder will expect and encode color =
+frames,=20
+  otherwise it will work with grayscale frames (the flag is currently =
+supported=20
+  on Windows only). </DD></DL>
+<P>The function <CODE>cvCreateVideoWriter</CODE> creates video writer =
+structure.=20
+</P>
+<HR>
+
+<H3><A name=3D"decl_cvReleaseVideoWriter">cvReleaseVideoWriter</A></H3>
+<P class=3D"Blurb">Releases AVI writer</P>
+<PRE>void cvReleaseVideoWriter( CvVideoWriter** writer );=0A=
+</PRE>
+<DL>
+  <DT>writer
+  <DD>pointer to video file writer structure. </DD></DL>
+<P>The function <CODE>cvReleaseVideoWriter</CODE> finishes writing to =
+video file=20
+and releases the structure. </P>
+<HR>
+
+<H3><A name=3D"decl_cvWriteFrame">cvWriteFrame</A></H3>
+<P class=3D"Blurb">Writes a frame to video file</P>
+<PRE>int cvWriteFrame( CvVideoWriter* writer, const IplImage* image );=0A=
+</PRE>
+<DL>
+  <DT>writer
+  <DD>video writer structure.=20
+  <DT>image</DT>
+  <DD>the written frame </DD></DL>
+<P>The function <CODE>cvWriteFrame</CODE> writes/appends one frame to =
+video=20
+file. </P>
+<HR>
+
+<H2><A name=3D"highgui_utils">Utility and System Functions</A></H2>
+<HR>
+
+<H3><A name=3D"decl_cvInitSystem">cvInitSystem</A></H3>
+<P class=3D"Blurb">Initializes HighGUI</P>
+<PRE>int cvInitSystem( int argc, char** argv );=0A=
+</PRE>
+<DL>
+  <DT>argc
+  <DD>Number of command line arguments.=20
+  <DT>argv
+  <DD>Array of command line arguments </DD></DL>
+<P>The function <CODE>cvInitSystem</CODE> initializes HighGUI. If it =
+wasn't=20
+called explicitly by the user before the first window is created, it is =
+called=20
+implicitly then with <CODE>argc</CODE>=3D0, <CODE>argv</CODE>=3DNULL. =
+Under Win32=20
+there is no need to call it explicitly. Under X Window the arguments may =
+be used=20
+to customize a look of HighGUI windows and controls. </P>
+<HR>
+
+<H3><A name=3D"decl_cvConvertImage">cvConvertImage</A></H3>
+<P class=3D"Blurb">Converts one image to another with optional vertical =
+flip</P>
+<PRE>void cvConvertImage( const CvArr* src, CvArr* dst, int flags=3D0 );=0A=
+</PRE>
+<DL>
+  <DT>src
+  <DD>Source image.=20
+  <DT>dst
+  <DD>Destination image. Must be single-channel or 3-channel 8-bit =
+image.=20
+  <DT>flags</DT>
+  <DD>The operation flags:<BR><CODE>CV_CVTIMG_FLIP</CODE> - flip the =
+image=20
+  vertically     <CODE>CV_CVTIMG_SWAP_RB</CODE> - swap red and blue =
+channels.   =20
+                                 In OpenCV color images have             =
+       =20
+                 <CODE><FONT color=3D"blue">B</FONT><FONT=20
+  color=3D"green">G</FONT><FONT color=3D"red">R</FONT></CODE>            =
+           =20
+             channel order, however on some systems the order needs to =
+be=20
+  reversed                                   before displaying the image =
+(<A=20
+  =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvShowImage">cvShowImage</A>=20
+                                    does this automatically). </DD></DL>
+<P>The function <CODE>cvConvertImage</CODE> converts one image to =
+another and=20
+flips the result vertically if required. The function is used by <A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvShowImage">cvShowImage</A>.</P>
+<HR>
+
+<H1><A name=3D"highgui_func_index">Alphabetical List of =
+Functions</A></H1>
+<HR>
+
+<H3>C</H3>
+<TABLE width=3D"100%">
+  <TBODY>
+  <TR>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvConvertImage">ConvertImage</A></TD>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvCreateFileCapture">CreateFileCapture</A></TD>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvCreateVideoWriter">CreateVideoWriter</A></TD></TR>
+  <TR>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvCreateCameraCapture">CreateCameraCapture</A></TD>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvCreateTrackbar">CreateTrackbar</A></TD>
+    <TD width=3D"25%"></TD></TR></TBODY></TABLE>
+<HR>
+
+<H3>D</H3>
+<TABLE width=3D"100%">
+  <TBODY>
+  <TR>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvDestroyAllWindows">DestroyAllWindows</A></TD>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvDestroyWindow">DestroyWindow</A></TD>
+    <TD width=3D"25%"></TD></TR></TBODY></TABLE>
+<HR>
+
+<H3>G</H3>
+<TABLE width=3D"100%">
+  <TBODY>
+  <TR>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvGetCaptureProperty">GetCaptureProperty</A></TD>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvGetWindowHandle">GetWindowHandle</A></TD>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvGrabFrame">GrabFrame</A></TD></TR>
+  <TR>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvGetTrackbarPos">GetTrackbarPos</A></TD>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvGetWindowName">GetWindowName</A></TD>
+    <TD width=3D"25%"></TD></TR></TBODY></TABLE>
+<HR>
+
+<H3>I</H3>
+<TABLE width=3D"100%">
+  <TBODY>
+  <TR>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvInitSystem">InitSystem</A></TD>
+    <TD width=3D"25%"></TD>
+    <TD width=3D"25%"></TD></TR></TBODY></TABLE>
+<HR>
+
+<H3>L</H3>
+<TABLE width=3D"100%">
+  <TBODY>
+  <TR>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvLoadImage">LoadImage</A></TD>
+    <TD width=3D"25%"></TD>
+    <TD width=3D"25%"></TD></TR></TBODY></TABLE>
+<HR>
+
+<H3>M</H3>
+<TABLE width=3D"100%">
+  <TBODY>
+  <TR>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvMoveWindow">MoveWindow</A></TD>
+    <TD width=3D"25%"></TD>
+    <TD width=3D"25%"></TD></TR></TBODY></TABLE>
+<HR>
+
+<H3>N</H3>
+<TABLE width=3D"100%">
+  <TBODY>
+  <TR>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvNamedWindow">NamedWindow</A></TD>
+    <TD width=3D"25%"></TD>
+    <TD width=3D"25%"></TD></TR></TBODY></TABLE>
+<HR>
+
+<H3>Q</H3>
+<TABLE width=3D"100%">
+  <TBODY>
+  <TR>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvQueryFrame">QueryFrame</A></TD>
+    <TD width=3D"25%"></TD>
+    <TD width=3D"25%"></TD></TR></TBODY></TABLE>
+<HR>
+
+<H3>R</H3>
+<TABLE width=3D"100%">
+  <TBODY>
+  <TR>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvReleaseCapture">ReleaseCapture</A></TD>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvResizeWindow">ResizeWindow</A></TD>
+    <TD width=3D"25%"></TD></TR>
+  <TR>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvReleaseVideoWriter">ReleaseVideoWriter</A></TD>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvRetrieveFrame">RetrieveFrame</A></TD>
+    <TD width=3D"25%"></TD></TR></TBODY></TABLE>
+<HR>
+
+<H3>S</H3>
+<TABLE width=3D"100%">
+  <TBODY>
+  <TR>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvSaveImage">SaveImage</A></TD>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvSetMouseCallback">SetMouseCallback</A></TD>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvShowImage">ShowImage</A></TD></TR>
+  <TR>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvSetCaptureProperty">SetCaptureProperty</A></TD>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvSetTrackbarPos">SetTrackbarPos</A></TD>
+    <TD width=3D"25%"></TD></TR></TBODY></TABLE>
+<HR>
+
+<H3>W</H3>
+<TABLE width=3D"100%">
+  <TBODY>
+  <TR>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvWaitKey">WaitKey</A></TD>
+    <TD width=3D"25%"><A =
+href=3D"http://www.cognotics.com/opencv/docs/1.0/ref/opencvref_highgui.ht=
+m#decl_cvWriteFrame">WriteFrame</A></TD>
+    <TD width=3D"25%"></TD></TR></TBODY></TABLE></BODY></HTML>
+
+------=_NextPart_000_0000_01CF3FA5.BFD27BF0
+Content-Type: text/css;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.cognotics.com/opencv/docs/1.0/ref/opencvref.css
+
+.synopsis {
+	background: rgb(238, 238, 238); padding: 0.5em; border: 1px solid =
+rgb(170, 170, 170); border-image: none;
+}
+.classsynopsis {
+	background: rgb(238, 238, 238); padding: 0.5em; border: 1px solid =
+rgb(170, 170, 170); border-image: none;
+}
+body {
+	margin-right: 10%; margin-left: 10%;
+}
+a.link {
+	color: blue; text-decoration: underline;
+}
+a.visited {
+	color: purple; text-decoration: underline;
+}
+a.active {
+	color: red; text-decoration: underline;
+}
+h1 {
+	text-align: center; color: rgb(0, 0, 0); background-color: rgb(102, =
+153, 255);
+}
+h2 {
+	color: rgb(0, 0, 0); text-decoration: underline;
+}
+h3 {
+	color: rgb(0, 0, 240); font-family: "Helvetica"; margin-bottom: 0pt;
+}
+h4 {
+	color: rgb(0, 0, 240); font-family: "Helvetica"; margin-bottom: 0pt;
+}
+p.Blurb {
+	color: rgb(0, 0, 0); font-family: "Helvetica"; font-size: 80%; =
+font-style: italic; font-weight: bold; margin-top: 0pt;
+}
+dl dt {
+	font-family: Monospace;
+}
+
+------=_NextPart_000_0000_01CF3FA5.BFD27BF0--
