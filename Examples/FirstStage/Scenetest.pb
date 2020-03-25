@@ -1070,8 +1070,6 @@ Repeat
   
   
   
-  
-  
   If ExamineKeyboard() = 0 
   EndIf
   
@@ -1231,6 +1229,9 @@ If *capture
  ;   FreeStructure(sprite_list())
  ; Next  
   
+ 
+  
+
 Else
   MessageRequester("PureBasic Interface to OpenCV", "Unable to connect to a webcam - operation cancelled.", #MB_ICONERROR)
 EndIf
@@ -1354,22 +1355,20 @@ If *capture
           EndIf
       
     Until WindowEvent() = #PB_Event_CloseWindow Or KeyboardPushed(#PB_Key_0) 
-    
-    
-    
+  
   EndIf
   
-  FreeImage(pbImage)
-  cvReleaseCapture(@*capture)
+;  FreeImage(pbImage)
+;  cvReleaseCapture(@*capture)
   
-  ;ForEach sprite_list()
+ ; ForEach sprite_list()
  ;   FreeStructure(sprite_list())
  ; Next
   
-  FreeStructure(position_list())
-  FreeStructure(problem_list2())
+ ; FreeStructure(position_list())
+  ;FreeStructure(problem_list2())
   
-  cvReleaseCapture(@*capture)
+ ; cvReleaseCapture(@*capture)
 Else
   MessageRequester("PureBasic Interface to OpenCV", "Unable to connect to a webcam - operation cancelled.", #MB_ICONERROR)
 EndIf
@@ -1386,8 +1385,8 @@ EndIf
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 1069
-; FirstLine = 1044
+; CursorPosition = 1365
+; FirstLine = 1346
 ; Folding = -----
 ; EnableXP
 ; DisableDebugger
