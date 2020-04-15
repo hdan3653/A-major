@@ -33,6 +33,7 @@ Enumeration Image
   #Image_MAIN
   #Image_MENU
   #Image_MENU2
+  #Image_PAUSE2
 EndEnumeration
 
 Enumeration Sound
@@ -67,7 +68,7 @@ UsePNGImageDecoder()
 LoadImage(#Image_MAIN, "MAIN.png")
 LoadImage(#Image_MENU, "MENU.png")
 LoadImage(#Image_MENU2, "MENU.png")
-
+LoadImage(#Image_PAUSE2, "PAUSE.png")
 Global Event          
 
 
@@ -776,9 +777,9 @@ OpenWindowedScreen(WindowID(0), 0, 0, 1920, 1080)
 
 If SceneNumber = #StartScene
   
-    StartDrawing(ScreenOutput())
+  StartDrawing(ScreenOutput())
   ;Box(0, 0, 600, 600, ScreenDefaultColor)
-  DrawImage(ImageID(#Image_MAIN), 0, 0,1920*75/100, 1080*75/100)
+  DrawImage(ImageID(#Image_MAIN), 0, 0,1920, 1080)
   DrawingMode(#PB_2DDrawing_Transparent)
   DrawingFont(FontID(Font20))
   DrawText(20, 15, "A-MAJOR", TextColor)
@@ -811,8 +812,7 @@ If SceneNumber = #StartScene
    ;Box(0, 0, 600, 600, ScreenDefaultColor)
    ;DrawImage(ImageID(#Image_MAIN), 0, 0, 1920, 1080)  
    ; 똑같은건데 #Image_MENU는 오류나고 #Image_MENU2는 괜찮음. 어디서 이름이 겹치나..? 그래서 그냥 #Image_MENU2 로 합니다.
-   ;DrawImage(ImageID(#Image_MENU), 0, 0, 1920, 1080)  
-   DrawImage(ImageID(#Image_MENU2), 0, 0, 1920*75/100, 1080*75/100)  
+   DrawImage(ImageID(#Image_MENU2), 0, 0, 1920, 1080)  
    DrawingMode(#PB_2DDrawing_Transparent)
    DrawingFont(FontID(Font20))
    DrawText(20, 15, "MENU SCENE", TextColor)
@@ -860,7 +860,7 @@ If SceneNumber = #StartScene
 
 EndIf
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 788
-; FirstLine = 776
-; Folding = ---
+; CursorPosition = 813
+; FirstLine = 737
+; Folding = --4
 ; EnableXP

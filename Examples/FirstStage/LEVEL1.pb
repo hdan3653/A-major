@@ -5,6 +5,15 @@
 ; 처음 시작 후, 마우스 커서와 키보드 1(혹은 2)로 박스 영역 설정 -> 스페이스바로 상태 전환 -> 마우스 커서와 키보드 1(혹은 2)로 음 출력, 키보드 3으로 정답 화음 재생
 
 
+Global LEVEL1_State
+
+Enumeration InGameStatus
+  #Stage_Intro
+  #Status1_GameInPlay
+  #Status1_GameInPause
+EndEnumeration
+
+
 
 Structure mySprite
   sprite_id.i
@@ -554,33 +563,75 @@ Procedure CheckArea(key)
   
 EndProcedure
 
-Enumeration Image2
-  #Image_MAIN22
+
+
+; ==================================================PAUSE ====================================================
+
+Enumeration Image3
+  #Image_PAUSE
 EndEnumeration
 
 UsePNGImageDecoder()
-LoadImage(#Image_MAIN22, "MAIN.png")
+LoadImage(#Image_PAUSE, "PAUSE.png")
 
 Procedure GamePause()
   
-  ExamineKeyboard()
+  UsePNGImageDecoder()
+  LoadImage(#Image_PAUSE, "PAUSE.png")
   
+  ClearScreen(RGB(0, 200, 0))
+  
+    
+      Font40 = LoadFont(#PB_Any, "System", 40,#PB_Font_Bold)
+  
+    
   StartDrawing(ScreenOutput())
   ;Box(0, 0, 600, 600, RGB(215, 73, 11))
-  DrawImage(ImageID(#Image_MAIN22), 0, 0, 1920, 1080)  
+  DrawImage(ImageID(#Image_PAUSE), 0, 0, 1920, 1080)  
   DrawingMode(#PB_2DDrawing_Transparent)
+     DrawingFont(FontID(Font40))
+      StopDrawing()
+      ExamineKeyboard()
+        If KeyboardPushed(#PB_Key_5)
+          LEVEL1_State = #Status1_GameInPlay
+        EndIf  
+              
+FlipBuffers() 
 
-  StopDrawing()
-  
-  
-  
-  Repeat
-    
 
-  
-  Until KeyboardPushed(#PB_Key_Space)
-  
 EndProcedure
+
+;==================================================PAUSE =========================================================
+
+
+Procedure Gamestage(StageNum)
+  
+  
+  Font100 = LoadFont(#PB_Any, "System", 100)
+     StartDrawing(ScreenOutput())
+     ;Box(0, 0, 600, 600, RGB(215, 73, 11))
+     ;DrawImage(ImageID(#Image_PAUSE), 0, 0, 1920, 1080)  
+     DrawingMode(#PB_2DDrawing_Transparent)
+
+     DrawingFont(FontID(Font100))
+     DrawText(800, 500, "Stage" + StageNum, TextColor)
+     StopDrawing()
+     
+     FlipBuffers()
+     
+     
+     
+      Delay(2000)
+      
+EndProcedure
+
+
+
+
+
+
+
+
 
 
 
@@ -679,65 +730,87 @@ If *capture
     ClearScreen(RGB(255, 255, 255))
     
     
+    
+    LEVEL1_State = #Stage_Intro
+    
     Repeat
-      *image = cvQueryFrame(*capture)
       
-      If *image
-        cvFlip(*image, #Null, 1)
-        
-        ; 프레임 넘기기
-        currentTime = GetTickCount_()
-        ForEach sprite_list()
-          FrameManager(sprite_list()) ;active 상태인 것들만 다음 프레임으로
-        Next
-        
-        ; 렌더링
-        ForEach sprite_list()
-          DrawMySprite(sprite_list())
-        Next
-        
-        ;키보드 이벤트
-        ExamineKeyboard()
-        If KeyboardReleased(#PB_Key_1)
-          keyInput = #PB_Key_1
-          GetCursorPos_(mouse.POINT) : mouse_x=mouse\x : mouse_y=mouse\y
-          marker1X = mouse_x
-          marker1Y = mouse_y - (WindowHeight(0)/2 - 200)
-          If (markerState = 1)
-            CheckArea(keyInput)
-          EndIf
-        EndIf
-        If KeyboardReleased(#PB_Key_2)
-          keyInput = #PB_Key_2
-          GetCursorPos_(mouse.POINT) : mouse_x=mouse\x : mouse_y=mouse\y
-          marker2X = mouse_x
-          marker2Y = mouse_y - (WindowHeight(0)/2 - 200)
-          If (markerState = 1)
-            CheckArea(keyInput)
-          EndIf
-        EndIf
-        If KeyboardReleased(#PB_Key_Space)
-          markerState = 1
-        EndIf
-        If KeyboardReleased(#PB_Key_3)
-          PlayChordSound()
-        EndIf 
-        
-        
-      EndIf
+      If  LEVEL1_State = #Stage_Intro
       
-      DrawBoxs(*image)
+        Gamestage(1)
+        LEVEL1_State = #Status1_GameInPlay
+        
+
+      ElseIf  LEVEL1_State = #Status1_GameInPlay
       
-      *mat.CvMat = cvEncodeImage(".bmp", *image, 0)     
-      Result = CatchImage(1, *mat\ptr)
-      SetGadgetState(0, ImageID(1))     
-      cvReleaseMat(@*mat)  
       
-      FlipBuffers()
+               *image = cvQueryFrame(*capture)
       
-          If KeyboardPushed(#PB_Key_0)
-         ; SceneNumber = #StartScene
-          cvReleaseCapture(@*capture)
+             If *image
+                   cvFlip(*image, #Null, 1)
+        
+             ; 프레임 넘기기
+             currentTime = GetTickCount_()
+              ForEach sprite_list()
+                  FrameManager(sprite_list()) ;active 상태인 것들만 다음 프레임으로
+              Next
+        
+                ; 렌더링
+               ForEach sprite_list()
+               DrawMySprite(sprite_list())
+                 Next
+        
+               ;키보드 이벤트
+               ExamineKeyboard()
+                If KeyboardReleased(#PB_Key_1)
+                   keyInput = #PB_Key_1
+                    GetCursorPos_(mouse.POINT) : mouse_x=mouse\x : mouse_y=mouse\y
+                   marker1X = mouse_x
+                  marker1Y = mouse_y - (WindowHeight(0)/2 - 200)
+                    If (markerState = 1)
+                   CheckArea(keyInput)
+                  EndIf
+                  EndIf
+                  If KeyboardReleased(#PB_Key_2)
+                 keyInput = #PB_Key_2
+                 GetCursorPos_(mouse.POINT) : mouse_x=mouse\x : mouse_y=mouse\y
+                   marker2X = mouse_x
+                  marker2Y = mouse_y - (WindowHeight(0)/2 - 200)
+                  If (markerState = 1)
+                    CheckArea(keyInput)
+                  EndIf
+               EndIf
+               If KeyboardReleased(#PB_Key_Space)
+                  markerState = 1
+              EndIf
+                If KeyboardReleased(#PB_Key_3)
+                  PlayChordSound()
+                  EndIf 
+        
+        
+                  EndIf
+      
+                  DrawBoxs(*image)
+      
+              *mat.CvMat = cvEncodeImage(".bmp", *image, 0)     
+             Result = CatchImage(1, *mat\ptr)
+             SetGadgetState(0, ImageID(1))     
+               cvReleaseMat(@*mat)  
+      
+               FlipBuffers()
+               
+
+               
+            ElseIf LEVEL1_State = #Status1_GameInPause   
+                GamePause()
+            EndIf  
+            
+            
+            
+            
+           If KeyboardPushed(#PB_Key_0)
+           ; SceneNumber = #StartScene
+             cvReleaseCapture(@*capture)
           
             FreeImage(pbImage)
             ;cvReleaseCapture(@*capture)
@@ -750,14 +823,11 @@ If *capture
             midiOutClose_(hMidiOut)
             CloseWindow(1)
             
-            ElseIf KeyboardPushed(#PB_Key_Space)
-            GamePause()
-            
-            
+            ElseIf KeyboardPushed(#PB_Key_4)
+              LEVEL1_State = #Status1_GameInPause
+  
           EndIf
-      
-      
-      
+
     Until WindowEvent() = #PB_Event_CloseWindow Or KeyboardPushed(#PB_Key_0)
   EndIf
   
@@ -774,8 +844,8 @@ EndIf
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 692
-; FirstLine = 675
+; CursorPosition = 623
+; FirstLine = 577
 ; Folding = ----
 ; EnableXP
 ; DisableDebugger
