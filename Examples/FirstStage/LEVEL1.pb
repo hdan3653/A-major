@@ -636,7 +636,7 @@ EndProcedure
 
 
 
-Procedure CreateLevel1()
+Procedure CreateLevel1(SelectedStage)
   
   Shared MainWindow
   
@@ -737,7 +737,7 @@ If *capture
       
       If  LEVEL1_State = #Stage_Intro
       
-        Gamestage(1)
+        Gamestage(SelectedStage)
         LEVEL1_State = #Status1_GameInPlay
         
 
@@ -844,8 +844,8 @@ EndIf
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 623
-; FirstLine = 577
+; CursorPosition = 739
+; FirstLine = 725
 ; Folding = ----
 ; EnableXP
 ; DisableDebugger

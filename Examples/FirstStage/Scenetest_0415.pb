@@ -16,6 +16,7 @@ EndEnumeration
 Enumeration Scene
   #StartScene
   #MenuSelect
+  #StageSelect
   #SceneLevel1
   #SceneLevel2
   #SceneLevel3
@@ -34,6 +35,9 @@ Enumeration Image
   #Image_MENU
   #Image_MENU2
   #Image_PAUSE2
+  #Image_StageBackground
+  #Image_Stage_left
+  #Image_Stage_right
 EndEnumeration
 
 Enumeration Sound
@@ -60,7 +64,7 @@ Font40 = LoadFont(#PB_Any, "System", 40,#PB_Font_Bold)
 
 ;Setup Screen Color
 ScreenDefaultColor    = RGB(215, 73, 11)
-TextColor             = RGB(0, 0, 0)
+TextColor             = RGB(200, 0, 0)
 
 
 ;Setup Sprite
@@ -69,6 +73,9 @@ LoadImage(#Image_MAIN, "MAIN.png")
 LoadImage(#Image_MENU, "MENU.png")
 LoadImage(#Image_MENU2, "MENU.png")
 LoadImage(#Image_PAUSE2, "PAUSE.png")
+LoadImage(#Image_StageBackground, "StageBackground.png")
+LoadImage(#Image_Stage_left, "Stage_left.png")
+LoadImage(#Image_Stage_right, "Stage_right.png")
 Global Event          
 
 
@@ -699,6 +706,251 @@ Procedure GameUpdate()
     
 EndProcedure
 
+Procedure drawStageSelect(StageNum, LeftOrRight)
+  
+   
+  LoadSprite(0, "stage1.png")
+  If InitSprite() = 0 Or InitKeyboard() = 0
+  MessageRequester("Error", "Sprite system can't be initialized", 0)
+  EndIf
+
+;
+; Now, open a 800*600 - 32 bits screen
+;
+  ; Load our 16 bit sprite (which is a 24 bit picture in fact, as BMP doesn't support 16 bit format)
+  ; 
+  CopySprite(0, 1, 0)
+  CopySprite(0, 2, 0)
+  UsePNGImageDecoder()
+  LoadImage(#Image_MAIN, "MAIN.png")
+  Font202 = LoadFont(#PB_Any, "System", 20)
+  
+       Repeat
+    
+    ; Inverse the buffers (the back become the front (visible)... And we can do the rendering on the back)
+    
+    FlipBuffers()
+     
+    ;ClearScreen(RGB(0,0,0))
+    
+    ; Draw our sprite
+  
+
+
+      
+      
+      StartDrawing(ScreenOutput())
+      ;Box(0, 0, 600, 600, ScreenDefaultColor)
+        DrawImage(ImageID(#Image_StageBackground), 0, 0,1920, 1080) 
+      DrawingMode(#PB_2DDrawing_Transparent)
+       StopDrawing() 
+  
+      DisplayTransparentSprite(0, 800-x, 400)
+      
+      StartDrawing(ScreenOutput())
+      DrawingFont(FontID(Font202))
+      DrawText(800-x, 400, " "+StageNum, TextColor)
+     ; DrawingMode(#PB_2DDrawing_Transparent)
+      StopDrawing()
+   
+      StartDrawing(ScreenOutput())
+      ;Box(0, 0, 600, 600, ScreenDefaultColor)
+        DrawImage(ImageID(#Image_Stage_left), 0, 0,540, 1080) 
+        DrawImage(ImageID(#Image_Stage_right), 1500, 0,540, 1080) 
+      DrawingMode(#PB_2DDrawing_Transparent)
+      StopDrawing() 
+      
+      
+      
+      
+       ;LeftOrRight 값이 0이면 left, 1이면 right
+       ; 고치다보니 뭔가 왼오 바꼇는데 나중에 고칠래... 
+       If LeftOrRight =1
+         x+10
+         If x > 700
+              Break  
+         EndIf  
+         
+         
+       ElseIf LeftOrRight =0
+         x-10
+         
+         If x <-700
+           Break  
+         EndIf  
+         
+       EndIf  
+       
+       
+      ;Delay(50)
+    ExamineKeyboard()
+  Until KeyboardPushed(#PB_Key_Escape)
+       
+  
+EndProcedure
+
+
+
+Procedure drawStageVibe(StageNum)
+  
+   
+  LoadSprite(0, "stage1.png")
+  If InitSprite() = 0 Or InitKeyboard() = 0
+  MessageRequester("Error", "Sprite system can't be initialized", 0)
+  EndIf
+
+;
+; Now, open a 800*600 - 32 bits screen
+;
+  ; Load our 16 bit sprite (which is a 24 bit picture in fact, as BMP doesn't support 16 bit format)
+  ; 
+  CopySprite(0, 1, 0)
+  CopySprite(0, 2, 0)
+  UsePNGImageDecoder()
+  LoadImage(#Image_MAIN, "MAIN.png")
+  Font202 = LoadFont(#PB_Any, "System", 20)
+  
+       Repeat
+    
+    ; Inverse the buffers (the back become the front (visible)... And we can do the rendering on the back)
+    
+    FlipBuffers()
+     
+    ;ClearScreen(RGB(0,0,0))
+    
+    ; Draw our sprite
+
+      StartDrawing(ScreenOutput())
+      ;Box(0, 0, 600, 600, ScreenDefaultColor)
+        DrawImage(ImageID(#Image_StageBackground), 0, 0,1920, 1080) 
+      DrawingMode(#PB_2DDrawing_Transparent)
+       StopDrawing() 
+  
+      DisplayTransparentSprite(0, 800-y, 400)
+      
+      StartDrawing(ScreenOutput())
+      DrawingFont(FontID(Font202))
+      DrawText(800-y, 400, " "+StageNum, TextColor)
+     ; DrawingMode(#PB_2DDrawing_Transparent)
+      StopDrawing()
+   
+      StartDrawing(ScreenOutput())
+      ;Box(0, 0, 600, 600, ScreenDefaultColor)
+        DrawImage(ImageID(#Image_Stage_left), 0, 0,540, 1080) 
+        DrawImage(ImageID(#Image_Stage_right), 1500, 0,540, 1080) 
+      DrawingMode(#PB_2DDrawing_Transparent)
+      StopDrawing() 
+      
+      
+        
+      x+10
+      y = 20*Sin(x)
+       
+    ExamineKeyboard()
+  Until KeyboardPushed(#PB_Key_Escape) Or x > 300
+       
+  
+EndProcedure
+
+
+; 원본
+Procedure StageSelectScene()
+  
+  
+  LoadSprite(0, "stage1.png")
+  If InitSprite() = 0 Or InitKeyboard() = 0
+  MessageRequester("Error", "Sprite system can't be initialized", 0)
+  EndIf
+  StageNum =1
+;
+; Now, open a 800*600 - 32 bits screen
+;
+  ; Load our 16 bit sprite (which is a 24 bit picture in fact, as BMP doesn't support 16 bit format)
+  ; 
+  CopySprite(0, 1, 0)
+  CopySprite(0, 2, 0)
+  UsePNGImageDecoder()
+  LoadImage(#Image_MAIN, "MAIN.png")
+  Font202 = LoadFont(#PB_Any, "System", 20)
+  Repeat
+    
+    ; Inverse the buffers (the back become the front (visible)... And we can do the rendering on the back)
+    
+    FlipBuffers()
+     
+    ;ClearScreen(RGB(0,0,0))
+    
+    ; Draw our sprite
+  
+
+    StartDrawing(ScreenOutput())
+      DrawingFont(FontID(Font202))
+      DrawText(200, 200, "A-MAJOR", TextColor)
+     ; DrawingMode(#PB_2DDrawing_Transparent)
+      StopDrawing()
+      
+      
+      StartDrawing(ScreenOutput())
+      ;Box(0, 0, 600, 600, ScreenDefaultColor)
+        DrawImage(ImageID(#Image_StageBackground), 0, 0,1920, 1080) 
+      DrawingMode(#PB_2DDrawing_Transparent)
+       StopDrawing() 
+       
+       
+       StartDrawing(ScreenOutput())
+      DrawingFont(FontID(Font202))
+      DrawText(800-x, 400, " "+StageNum, TextColor)
+     ; DrawingMode(#PB_2DDrawing_Transparent)
+      StopDrawing()
+       
+      DisplayTransparentSprite(0, 800, 400)
+   
+   
+      StartDrawing(ScreenOutput())
+      ;Box(0, 0, 600, 600, ScreenDefaultColor)
+        DrawImage(ImageID(#Image_Stage_left), 0, 0,540, 1080) 
+        DrawImage(ImageID(#Image_Stage_right), 1500, 0,540, 1080) 
+      DrawingMode(#PB_2DDrawing_Transparent)
+       StopDrawing() 
+   
+   
+     ExamineKeyboard()
+      If KeyboardPushed(#PB_Key_Left)
+         ;x+10
+         ;y = 100*Sin(x)  
+        
+      If  StageNum > 1
+        StageNum - 1   
+        drawStageSelect(StageNum, 1)
+      Else
+        
+        drawStageVibe(StageNum)
+      EndIf 
+      
+    ElseIf KeyboardPushed(#PB_Key_Right)
+         StageNum+1
+         drawStageSelect(StageNum, 0)
+    EndIf 
+  
+  
+  
+    ExamineKeyboard()
+    If KeyboardPushed(#PB_Key_Escape)
+          ProcedureReturn StageNum 
+    EndIf 
+    
+    
+    
+    
+  Until KeyboardPushed(#PB_Key_Escape)
+  
+ 
+
+EndProcedure
+
+
+
+
 Procedure GameStart()
   
       ;Ambience foret
@@ -844,13 +1096,20 @@ If SceneNumber = #StartScene
      MessageRequester("Oops !", "Impossible d'intialiser l'environnement 2D")
       EndIf
   ;Scene Level 2  
-  ElseIf SceneNumber = #SceneLevel2
-    CreateLevel1()
+    ElseIf SceneNumber = #SceneLevel2
+      
+     
+      
+    SelectedStage = StageSelectScene()
+    CreateLevel1(SelectedStage)
     SceneNumber = #MenuSelect
     ClearScreen(RGB(0, 200, 0))
   ;Scene Level 3
   ElseIf SceneNumber = #SceneLevel3 
-    CreateLevel1()
+    
+    
+    SelectedStage = StageSelectScene()
+    CreateLevel1(SelectedStage)
     SceneNumber = #MenuSelect
     ClearScreen(RGB(0, 0, 200))
   EndIf 
@@ -860,7 +1119,7 @@ If SceneNumber = #StartScene
 
 EndIf
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 813
-; FirstLine = 737
-; Folding = --4
+; CursorPosition = 1021
+; FirstLine = 942
+; Folding = ---+
 ; EnableXP
