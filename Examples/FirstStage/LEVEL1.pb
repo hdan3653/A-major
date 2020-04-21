@@ -698,9 +698,6 @@ Procedure GamePause()
   
   UsePNGImageDecoder()
   LoadImage(#Image_PAUSE, "PAUSE.png")
-;  CloseWindow(1)
-  ;ClearScreen(RGB(0, 0, 0))
-  
     
   Font40 = LoadFont(#PB_Any, "System", 40,#PB_Font_Bold)  
   StartDrawing(ScreenOutput())
@@ -710,9 +707,9 @@ Procedure GamePause()
   DrawingFont(FontID(Font40))
   StopDrawing()
   ExamineKeyboard()
-        If KeyboardPushed(#PB_Key_5)
-          LEVEL1_State = #Status1_GameInPlay         
-        EndIf  
+  If KeyboardPushed(#PB_Key_5)
+      LEVEL1_State = #Status1_GameInPlay         
+  EndIf  
               
 FlipBuffers() 
 
@@ -723,8 +720,7 @@ EndProcedure
 
 
 Procedure Gamestage(StageNum)
-  
-  
+
   Font100 = LoadFont(#PB_Any, "System", 100)
   
   
@@ -743,12 +739,10 @@ Procedure Gamestage(StageNum)
 
       Delay(2000)
       
-EndProcedure
-
-
-
-
-
+    EndProcedure
+    
+    
+    
 Procedure CreateLEVEL1 (SelectedStage)
   
   
@@ -879,8 +873,7 @@ If *capture
     
     
     Repeat
-      
-      
+
       If  LEVEL1_State = #Status1_GameInPlay
       
       *image = cvQueryFrame(*capture)
@@ -941,10 +934,7 @@ If *capture
       cvReleaseMat(@*mat)  
       
       FlipBuffers()
-        
-        
-        
-        
+
         If  KeyboardPushed(#PB_Key_0) ;Escape
           
             FreeImage(pbImage)
@@ -956,7 +946,6 @@ If *capture
           midiOutClose_(hMidiOut)
           CloseWindow(1)
         EndIf 
-
       EndIf
 
     ElseIf LEVEL1_State = #Status1_GameInPause      
@@ -970,15 +959,13 @@ Else
   MessageRequester("PureBasic Interface to OpenCV", "Unable to connect to a webcam - operation cancelled.", #MB_ICONERROR)
 EndIf
   
-  
   EndProcedure
 
-;CreateLEVEL2(2)
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 728
-; FirstLine = 144
-; Folding = AAAw-
+; CursorPosition = 807
+; FirstLine = 180
+; Folding = AAAA-
 ; EnableXP
 ; DisableDebugger

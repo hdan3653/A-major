@@ -39,16 +39,24 @@ Enumeration Image
   #Image_MENU2
   #Image_PAUSE2
   #Image_StageBackground    
+  #Image_StageNode
   #Image_Stage_left
   #Image_Stage_right
+  #Image_LEVELSelectBackground
+  #Image_LEVEL1_Button
+  #Image_LEVEL2_Button
+  #Image_LEVEL3_Button
+  #Image_Setting_Button
 EndEnumeration
 
 
 ;Setup Font
+ImpactFont = LoadFont(0, "Impact", 30)
 Font15 = LoadFont(#PB_Any, "System", 15)
 Font20 = LoadFont(#PB_Any, "System", 20)
 Font25 = LoadFont(#PB_Any, "System", 23)
 Font40 = LoadFont(#PB_Any, "System", 40,#PB_Font_Bold)
+
 
 ;Setup Screen Color
 ScreenDefaultColor    = RGB(215, 73, 11)
@@ -61,8 +69,14 @@ LoadImage(#Image_MENU, "MENU.png")
 LoadImage(#Image_MENU2, "MENU.png")
 LoadImage(#Image_PAUSE2, "PAUSE.png")
 LoadImage(#Image_StageBackground, "StageBackground.png")
+LoadImage(#Image_StageNode, "stage1.png")
 LoadImage(#Image_Stage_left, "Stage_left.png")
 LoadImage(#Image_Stage_right, "Stage_right.png")
+LoadImage(#Image_LEVEL1_Button, "LEVEL1.png")
+LoadImage(#Image_LEVEL2_Button, "LEVEL2.png")
+LoadImage(#Image_LEVEL3_Button, "LEVEL3.png")
+LoadImage(#Image_Setting_Button, "SettingButton.png")
+
 Global Event          
 
 ; [KEYBOARD] 1: green tracking, 2: red tracking, spacebar: state change
@@ -74,25 +88,16 @@ Global.l hMidiOut
 
 Procedure drawStageSelect(StageNum, LeftOrRight)
   
-  CreateSprite(1,20,20)
-  LoadSprite(0, "stage1.png")
+
   If InitSprite() = 0 Or InitKeyboard() = 0
   MessageRequester("Error", "Sprite system can't be initialized", 0)
   EndIf
-;
-; Now, open a 800*600 - 32 bits screen
-;
-  ; Load our 16 bit sprite (which is a 24 bit picture in fact, as BMP doesn't support 16 bit format)
-  ; 
-  CopySprite(0, 1, 0)
-  CopySprite(0, 2, 0)
+
   UsePNGImageDecoder()
   LoadImage(#Image_MAIN, "MAIN.png")
-  Font202 = LoadFont(#PB_Any, "System", 20)
+  Font202 = LoadFont(#PB_Any, "System", 50)
        Repeat
-
         FlipBuffers()
-     
 
       StartDrawing(ScreenOutput())
 
@@ -100,43 +105,59 @@ Procedure drawStageSelect(StageNum, LeftOrRight)
        DrawingMode(#PB_2DDrawing_Transparent)
        StopDrawing() 
   
-      DisplayTransparentSprite(0, 800-x, 400)
-      
-      StartDrawing(SpriteOutput(0))
-      DrawingFont(FontID(Font202))
-      DrawText(800-x, 400, "Why black???"+StageNum, TextColor)
-      DrawingMode(#PB_2DDrawing_Transparent)
-     
-      StopDrawing()
-   
-      StartDrawing(ScreenOutput())
-      ;Box(0, 0, 600, 600, ScreenDefaultColor)
-        DrawImage(ImageID(#Image_Stage_left), 0, 0,540, 1080) 
-        DrawImage(ImageID(#Image_Stage_right), 1500, 0,540, 1080) 
-      DrawingMode(#PB_2DDrawing_Transparent)
-      StopDrawing() 
-
+      ;DisplayTransparentSprite(0, 800-x, 400)
+       currentStageNum =StageNum
+       AfterStage = currentStageNum+1
+       BeforeStage = currentStageNum-1
        ;LeftOrRight 값이 0이면 left, 1이면 right
        ; 고치다보니 뭔가 왼오 바꼇는데 나중에 고칠래... 
       ;0이면 왼쪽으로가는거  
-       If LeftOrRight = 0
+      If LeftOrRight = 0
+      StartDrawing(ScreenOutput())     
+      DrawImage(ImageID(#Image_StageNode), 800, 400,400, 400) 
+      DrawingMode(#PB_2DDrawing_Transparent)
+      DrawingFont(FontID(Font202))
+      DrawText(880, 450, "Stage"+AfterStage, TextColor)    
+      StopDrawing()
+       
+      StartDrawing(ScreenOutput())
+      
+      DrawImage(ImageID(#Image_StageNode), 800-x+z, 400,400, 400) 
+      DrawingMode(#PB_2DDrawing_Transparent)
+      DrawingFont(FontID(Font202))
+      DrawText(850-x+z, 450, "Stage"+StageNum, TextColor)    
+      StopDrawing()
+        
          x+20
          If x > 700
               Break  
          EndIf  
+   
+      ElseIf LeftOrRight = 1
+  
+      StartDrawing(ScreenOutput())     
+      DrawImage(ImageID(#Image_StageNode), 800, 400,400, 400) 
+      DrawingMode(#PB_2DDrawing_Transparent)
+      DrawingFont(FontID(Font202))
+      DrawText(880, 450, "Stage"+StageNum, TextColor)    
+      StopDrawing()
+      
+      StartDrawing(ScreenOutput())
+      DrawImage(ImageID(#Image_StageNode), 800-x+z, 400,400, 400) 
+      DrawingMode(#PB_2DDrawing_Transparent)
+      DrawingFont(FontID(Font202))
+      DrawText(850-x+z, 450, "Stage"+BeforeStage, TextColor)    
+      StopDrawing()
+
+         y+20
+         z = 1000 - y
          
-         
-       ElseIf LeftOrRight = 1
-         x-20
-         
-         If x <-700
+         If y > 1000
            Break  
          EndIf  
          
        EndIf  
-       
-       
-      ;Delay(50)
+
     ExamineKeyboard()
   Until KeyboardPushed(#PB_Key_Escape)
        
@@ -144,59 +165,30 @@ EndProcedure
 
 Procedure drawStageVibe(StageNum)
   
-   
-  LoadSprite(0, "stage1.png")
+
   If InitSprite() = 0 Or InitKeyboard() = 0
   MessageRequester("Error", "Sprite system can't be initialized", 0)
   EndIf
 
-;
-; Now, open a 800*600 - 32 bits screen
-;
-  ; Load our 16 bit sprite (which is a 24 bit picture in fact, as BMP doesn't support 16 bit format)
-  ; 
-  CopySprite(0, 1, 0)
-  CopySprite(0, 2, 0)
   UsePNGImageDecoder()
   LoadImage(#Image_MAIN, "MAIN.png")
-  Font202 = LoadFont(#PB_Any, "System", 20)
+  Font202 = LoadFont(#PB_Any, "System", 50)
   
-       Repeat
-    
-    ; Inverse the buffers (the back become the front (visible)... And we can do the rendering on the back)
-    
-    FlipBuffers()
-     
-    ;ClearScreen(RGB(0,0,0))
-    
-    ; Draw our sprite
-
-      StartDrawing(ScreenOutput())
-      ;Box(0, 0, 600, 600, ScreenDefaultColor)
-        DrawImage(ImageID(#Image_StageBackground), 0, 0,1920, 1080) 
-      DrawingMode(#PB_2DDrawing_Transparent)
-       StopDrawing() 
-  
-      DisplayTransparentSprite(0, 800-y, 400)
-      
-      StartDrawing(ScreenOutput())
-      DrawingFont(FontID(Font202))
-      DrawText(800-y, 400, " "+StageNum, TextColor)
-     ; DrawingMode(#PB_2DDrawing_Transparent)
-      StopDrawing()
+    Repeat
    
+    FlipBuffers()
       StartDrawing(ScreenOutput())
-      ;Box(0, 0, 600, 600, ScreenDefaultColor)
-        DrawImage(ImageID(#Image_Stage_left), 0, 0,540, 1080) 
-        DrawImage(ImageID(#Image_Stage_right), 1500, 0,540, 1080) 
+      DrawImage(ImageID(#Image_StageBackground), 0, 0,1920, 1080) 
       DrawingMode(#PB_2DDrawing_Transparent)
       StopDrawing() 
       
-      
-        
-      x+20
-      y = 20*Sin(x)
-       
+      StartDrawing(ScreenOutput())
+      DrawImage(ImageID(#Image_StageNode), 800-20*Sin(x), 400,400,400)
+      DrawingMode(#PB_2DDrawing_Transparent)
+      DrawingFont(FontID(Font202))
+      DrawText(850-20*Sin(x), 450, "Stage"+StageNum, TextColor)
+      StopDrawing()
+      x+20      
     ExamineKeyboard()
   Until KeyboardPushed(#PB_Key_Escape) Or x > 300
        
@@ -205,17 +197,14 @@ EndProcedure
 
 Procedure StageSelectScene()
  
-  LoadSprite(0, "stage1.png")
   If InitSprite() = 0 Or InitKeyboard() = 0
   MessageRequester("Error", "Sprite system can't be initialized", 0)
   EndIf
   StageNum =1
 
-  CopySprite(0, 1, 0)
-  CopySprite(0, 2, 0)
   UsePNGImageDecoder()
   LoadImage(#Image_MAIN, "MAIN.png")
-  Font202 = LoadFont(#PB_Any, "System", 20)
+  Font202 = LoadFont(#PB_Any, "System", 50)
   Repeat
    
     FlipBuffers()
@@ -228,38 +217,31 @@ Procedure StageSelectScene()
       
       StartDrawing(ScreenOutput())
       Box(0, 0, 600, 600, RGB(0,0,0))
-        DrawImage(ImageID(#Image_StageBackground), 0, 0,1920, 1080) 
+      DrawImage(ImageID(#Image_StageBackground), 0, 0,1920, 1080) 
       DrawingMode(#PB_2DDrawing_Transparent)
        StopDrawing() 
 
-       DisplayTransparentSprite(0, 800, 400)
          
-       StartDrawing(ImageOutput(1))
+       StartDrawing(ScreenOutput())
+       DrawImage(ImageID (#Image_StageNode),800,400,400,400)
        DrawingFont(FontID(Font202))
        DrawingMode(#PB_2DDrawing_Transparent)
-      DrawText(800-x, 400, " "+StageNum, TextColor)
+       DrawText(850, 450, "Stage"+StageNum, TextColor)
       StopDrawing()
       
-      
-      StartDrawing(ScreenOutput())
-        DrawImage(ImageID(#Image_Stage_left), 0, 0,540, 1080) 
-        DrawImage(ImageID(#Image_Stage_right), 1500, 0,540, 1080) 
-      DrawingMode(#PB_2DDrawing_Transparent)
-       StopDrawing() 
-
        ExamineKeyboard()
        ; 이부분...귀찮은데 나중에 고치기 (return stagenum 하고 함수안에서 stagenum 판별해서 vibe할지 이동할지 하도록.)
-       ; 나중에 하자.....
+       ; 나중에.....
       If KeyboardPushed(#PB_Key_Left)
-
-        StageNum + 1   
         drawStageSelect(StageNum, 0) 
-      
+
+        StageNum + 1        
       ElseIf KeyboardPushed(#PB_Key_Right)
 
       If StageNum > 1
-         StageNum - 1
+      
          drawStageSelect(StageNum, 1)
+          StageNum - 1  
        Else
          drawStageVibe(StageNum)
        EndIf  
@@ -275,29 +257,65 @@ Procedure StageSelectScene()
 
 EndProcedure
 
-Procedure MenuSelectScene() ;제스쳐로 선택하도록 
+Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3: 숫자 1,2,3, 확인 : 4, 종료 escape 
   
   Font202 = LoadFont(#PB_Any, "System", 20)
+  MENUSelect = 1
   
   Repeat  
     FlipBuffers()
    StartDrawing(ScreenOutput())
-   ;Box(0, 0, 600, 600, ScreenDefaultColor)
-   ;DrawImage(ImageID(#Image_MAIN), 0, 0, 1920, 1080)  
    ; 똑같은건데 #Image_MENU는 오류나고 #Image_MENU2는 괜찮음. 어디서 이름이 겹치나..? 그래서 그냥 #Image_MENU2 로 합니다.
    DrawImage(ImageID(#Image_MENU2), 0, 0, 1920, 1080)  
    DrawingMode(#PB_2DDrawing_Transparent)
    DrawingFont(FontID(Font202))
    DrawText(20, 15, "MENU SCENE", TextColor)
    DrawText(20, 50, "USER NAME", TextColor)
-    StopDrawing()    
-  
+   StopDrawing()    
+   
+   StartDrawing(ScreenOutput())
+   DrawImage(ImageID(#Image_LEVEL1_Button), 200, 300- (3*Sin(LEVEL1_pos)),300,300)  
+   DrawImage(ImageID(#Image_LEVEL2_Button), 600, 300 -(3*Sin(LEVEL2_pos)),300,300) 
+   DrawImage(ImageID(#Image_LEVEL3_Button), 1000, 300 -(3*Sin(LEVEL3_pos)),300,300) 
+   DrawImage(ImageID(#Image_Setting_Button), 1200, 50, 50,50)
+   DrawingMode(#PB_2DDrawing_Transparent)
+   StopDrawing() 
+   
+   
+   If MENUSelect = 1
+     LEVEL1_pos +1
+   ElseIf MENUSelect = 2
+     LEVEL2_pos +1
+   ElseIf MENUSelect = 3
+     LEVEL3_pos +1     
+   EndIf  
+   
+    ; 좌우로 눌러서 메뉴 선택 , 4로 확인
     If  ExamineKeyboard()
-    If KeyboardPushed(#PB_Key_Left)
-      SceneNumber = #SceneLevel2
-    ElseIf   KeyboardPushed(#PB_Key_Right) 
+    If KeyboardReleased(#PB_Key_Left)
+        If  MENUSelect > 1
+        MENUSelect - 1
+        EndIf 
+    ElseIf   KeyboardReleased(#PB_Key_Right) 
+      
+      If MENUSelect < 3
+        MENUSelect + 1
+      EndIf  
+      
+    ElseIf KeyboardReleased(#PB_Key_Escape)
+       CloseWindow(0)
+       CloseConsole()
+    EndIf
+   EndIf 
+
+ Until KeyboardPushed(#PB_Key_4)
+ 
+     If  ExamineKeyboard()
+    If MENUSelect = 1
       SceneNumber = #SceneLevel1
-    ElseIf KeyboardPushed(#PB_Key_Up) 
+    ElseIf   MENUSelect = 2 
+      SceneNumber = #SceneLevel2
+    ElseIf MENUSelect =3 
       SceneNumber = #SceneLevel3
     ElseIf KeyboardPushed(#PB_Key_Down) ;SettingScene
       GameState = #SettingScene
@@ -307,8 +325,6 @@ Procedure MenuSelectScene() ;제스쳐로 선택하도록
     EndIf
    EndIf 
 
-  Until SceneNumber <> #MenuSelect
-  
 EndProcedure
 
 
@@ -330,10 +346,10 @@ If SceneNumber = #StartScene
   ;Box(0, 0, 600, 600, ScreenDefaultColor)
   DrawImage(ImageID(#Image_MAIN), 0, 0,1920, 1080)
   DrawingMode(#PB_2DDrawing_Transparent)
-  DrawingFont(FontID(Font20))
+  DrawingFont(FontID(0))
   DrawText(20, 15, "A-MAJOR", TextColor)
   DrawText(20, 50, "USER NAME", TextColor)
-
+  
   StopDrawing()
 
   Repeat
@@ -381,7 +397,7 @@ If SceneNumber = #StartScene
 
 EndIf
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 281
-; FirstLine = 169
-; Folding = 6
+; CursorPosition = 77
+; FirstLine = 48
+; Folding = w
 ; EnableXP
