@@ -49,9 +49,13 @@ Enumeration Image
   #Image_Setting_Button
 EndEnumeration
 
+; + correct.png, incorrect.png
+
+
+
 
 ;Setup Font
-ImpactFont = LoadFont(0, "Impact", 30)
+ImpactFont = LoadFont(#PB_Any, "Impact", 30)
 Font15 = LoadFont(#PB_Any, "System", 15)
 Font20 = LoadFont(#PB_Any, "System", 20)
 Font25 = LoadFont(#PB_Any, "System", 23)
@@ -336,6 +340,11 @@ OpenConsole()
 ;Setup Sprite
 UsePNGImageDecoder()
 
+
+;1980*1020 에서 배율 125%
+;1440*765
+
+
 ;Screen
 MainWindow= OpenWindow(0, 0, 0, 1920, 1080, "Main Window", #PB_Window_SystemMenu |#PB_Window_MaximizeGadget | #PB_Window_ScreenCentered)
 OpenWindowedScreen(WindowID(0), 0, 0, 1920, 1080)
@@ -346,7 +355,7 @@ If SceneNumber = #StartScene
   ;Box(0, 0, 600, 600, ScreenDefaultColor)
   DrawImage(ImageID(#Image_MAIN), 0, 0,1920, 1080)
   DrawingMode(#PB_2DDrawing_Transparent)
-  DrawingFont(FontID(0))
+  DrawingFont(FontID(ImpactFont))
   DrawText(20, 15, "A-MAJOR", TextColor)
   DrawText(20, 50, "USER NAME", TextColor)
   
@@ -397,7 +406,7 @@ If SceneNumber = #StartScene
 
 EndIf
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 77
-; FirstLine = 48
+; CursorPosition = 81
+; FirstLine = 59
 ; Folding = w
 ; EnableXP

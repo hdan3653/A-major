@@ -320,6 +320,8 @@ Procedure AnswerCheck()
   Next
   
   If isCorrect = #True
+    *p.mySprite =  FindSprite("correct")
+    SetMySprite(*p, x_note1, y_note1, 1)
     PrintN("Correct")
     *q.mySprite = elements(2)
     *q\active = 1
@@ -335,12 +337,28 @@ Procedure AnswerCheck()
     SetMySprite(*q, *q\x + 20, 650, 1)
     *q = elements(2)
     SetMySprite(*q, *q\x + 100, 650, 1)
+    
+    
+    *p.mySprite =  FindSprite("incorrect")
+    SetMySprite(*p, x_note1, y_note1, 1)
+    
   EndIf
   
   DeleteSprite("fruit1")
   ForEach sprite_list()
     DrawMySprite(sprite_list())
   Next
+
+    If isCorrect = #True
+    *p.mySprite =  FindSprite("correct")
+    SetMySprite(*p, x_note1, y_note1, 0)
+  Else
+    *p.mySprite =  FindSprite("incorrect")
+    SetMySprite(*p, x_note1, y_note1, 0)
+  EndIf
+  
+  
+  
   FlipBuffers()
   
   ProcedureReturn isCorrect
@@ -699,12 +717,16 @@ Procedure GamePause()
   UsePNGImageDecoder()
   LoadImage(#Image_PAUSE, "PAUSE.png")
     
-  Font40 = LoadFont(#PB_Any, "System", 40,#PB_Font_Bold)  
+  Font40 = LoadFont(#PB_Any, "System", 50,#PB_Font_Bold)  
+  
   StartDrawing(ScreenOutput())
-  ;Box(0, 0, 600, 600, RGB(215, 73, 11))
-  DrawImage(ImageID(#Image_PAUSE), 0, 0, 1920, 1080)  
+  ;Box(0, 0, 1500, 1000, RGBA(215, 73, 11,20))
+  ;Box(0, 0, 1920, 1080, $00000000)
+ ; DrawImage(ImageID(#Image_PAUSE), 0, 0, 1920, 1080)  
   DrawingMode(#PB_2DDrawing_Transparent)
   DrawingFont(FontID(Font40))
+  DrawText(900, 500, "PAUSE", RGB(0,200,0))
+
   StopDrawing()
   ExamineKeyboard()
   If KeyboardPushed(#PB_Key_5)
@@ -764,7 +786,11 @@ answer(1) = -1
 answer(2) = -1
 
 InitChords()
-stageNum = 3
+
+
+;===================stageNum 여기있다 -==============================
+
+stageNum = 1
 InitProblem()
 
 ;사운드 시스템 초기화, 점검
@@ -833,6 +859,10 @@ If *capture
     InitMySprite("ant", "graphics/ant.png", 700, 630)
     InitMySprite("antmove", "graphics/antmove.png", 700, 630, 0)
     
+    InitMySprite("correct","graphics/correct.png", 500,500,0)
+    InitMySprite("incorrect","graphics/incorrect.png", 500,500,0)
+    
+
     line_position(0) = 800
     line_position(1) = 890
     line_position(2) = 990
@@ -964,8 +994,8 @@ EndIf
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 807
-; FirstLine = 180
-; Folding = AAAA-
+; CursorPosition = 722
+; FirstLine = 84
+; Folding = AYBQ-
 ; EnableXP
 ; DisableDebugger
