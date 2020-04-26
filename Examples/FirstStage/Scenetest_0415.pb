@@ -62,6 +62,15 @@ Font25 = LoadFont(#PB_Any, "System", 23)
 Font40 = LoadFont(#PB_Any, "System", 40,#PB_Font_Bold)
 
 
+
+;Image Size
+Global BackgroundX = 1536, BackgroundY = 897
+Global LevelNodeX = 300, LevelNodeY = 300
+Global StageNodeX = 400, StageNodeY = 400
+Global StageNodePosX = 548 ,StageNodePosY = 349
+Global NodeTextX = StageNodePosX+105,NodeTextY = StageNodePosY+155
+
+
 ;Setup Screen Color
 ScreenDefaultColor    = RGB(215, 73, 11)
 TextColor             = RGB(200, 0, 0)
@@ -99,13 +108,14 @@ Procedure drawStageSelect(StageNum, LeftOrRight)
 
   UsePNGImageDecoder()
   LoadImage(#Image_MAIN, "MAIN.png")
-  Font202 = LoadFont(#PB_Any, "System", 50)
+  Font202 = LoadFont(#PB_Any, "Impact", 50)
+  ;  Font202 = LoadFont(#PB_Any, "System", 50)
        Repeat
         FlipBuffers()
 
       StartDrawing(ScreenOutput())
 
-       DrawImage(ImageID(#Image_StageBackground), 0, 0,1920, 1080) 
+       DrawImage(ImageID(#Image_StageBackground), 0, 0,BackgroundX, BackgroundY) 
        DrawingMode(#PB_2DDrawing_Transparent)
        StopDrawing() 
   
@@ -118,18 +128,18 @@ Procedure drawStageSelect(StageNum, LeftOrRight)
       ;0이면 왼쪽으로가는거  
       If LeftOrRight = 0
       StartDrawing(ScreenOutput())     
-      DrawImage(ImageID(#Image_StageNode), 800, 400,400, 400) 
+      DrawImage(ImageID(#Image_StageNode), StageNodePosX, StageNodePosY,StageNodeX, StageNodeY) 
       DrawingMode(#PB_2DDrawing_Transparent)
       DrawingFont(FontID(Font202))
-      DrawText(880, 450, "Stage"+AfterStage, TextColor)    
+      DrawText(NodeTextX, NodeTextY, "Stage"+AfterStage, TextColor)    
       StopDrawing()
        
       StartDrawing(ScreenOutput())
       
-      DrawImage(ImageID(#Image_StageNode), 800-x+z, 400,400, 400) 
+      DrawImage(ImageID(#Image_StageNode), StageNodePosX-x+z, StageNodePosY,StageNodeX, StageNodeY) 
       DrawingMode(#PB_2DDrawing_Transparent)
       DrawingFont(FontID(Font202))
-      DrawText(850-x+z, 450, "Stage"+StageNum, TextColor)    
+      DrawText(NodeTextX -x+z, NodeTextY, "Stage"+StageNum, TextColor)    
       StopDrawing()
         
          x+20
@@ -140,23 +150,23 @@ Procedure drawStageSelect(StageNum, LeftOrRight)
       ElseIf LeftOrRight = 1
   
       StartDrawing(ScreenOutput())     
-      DrawImage(ImageID(#Image_StageNode), 800, 400,400, 400) 
+      DrawImage(ImageID(#Image_StageNode), StageNodePosX, StageNodePosY,StageNodeX, StageNodeY) 
       DrawingMode(#PB_2DDrawing_Transparent)
       DrawingFont(FontID(Font202))
-      DrawText(880, 450, "Stage"+StageNum, TextColor)    
+      DrawText(NodeTextX, NodeTextY, "Stage"+StageNum, TextColor)    
       StopDrawing()
       
       StartDrawing(ScreenOutput())
-      DrawImage(ImageID(#Image_StageNode), 800-x+z, 400,400, 400) 
+      DrawImage(ImageID(#Image_StageNode), StageNodePosX-x+z, StageNodePosY,StageNodeX, StageNodeY) 
       DrawingMode(#PB_2DDrawing_Transparent)
       DrawingFont(FontID(Font202))
-      DrawText(850-x+z, 450, "Stage"+BeforeStage, TextColor)    
+      DrawText(NodeTextX-x+z, NodeTextY, "Stage"+BeforeStage, TextColor)    
       StopDrawing()
 
          y+20
-         z = 1000 - y
+         z = NodeTextX - y
          
-         If y > 1000
+         If y > NodeTextX
            Break  
          EndIf  
          
@@ -176,21 +186,22 @@ Procedure drawStageVibe(StageNum)
 
   UsePNGImageDecoder()
   LoadImage(#Image_MAIN, "MAIN.png")
-  Font202 = LoadFont(#PB_Any, "System", 50)
+  Font202 = LoadFont(#PB_Any, "Impact", 50)
+  ;Font202 = LoadFont(#PB_Any, "System", 50)
   
     Repeat
    
     FlipBuffers()
       StartDrawing(ScreenOutput())
-      DrawImage(ImageID(#Image_StageBackground), 0, 0,1920, 1080) 
+      DrawImage(ImageID(#Image_StageBackground), 0, 0,BackgroundX, BackgroundY) 
       DrawingMode(#PB_2DDrawing_Transparent)
       StopDrawing() 
       
       StartDrawing(ScreenOutput())
-      DrawImage(ImageID(#Image_StageNode), 800-20*Sin(x), 400,400,400)
+      DrawImage(ImageID(#Image_StageNode), StageNodePosX-20*Sin(x), StageNodePosY,StageNodeX, StageNodeY)
       DrawingMode(#PB_2DDrawing_Transparent)
       DrawingFont(FontID(Font202))
-      DrawText(850-20*Sin(x), 450, "Stage"+StageNum, TextColor)
+      DrawText(NodeTextX-20*Sin(x), NodeTextY, "Stage"+StageNum, TextColor)
       StopDrawing()
       x+20      
     ExamineKeyboard()
@@ -208,7 +219,8 @@ Procedure StageSelectScene()
 
   UsePNGImageDecoder()
   LoadImage(#Image_MAIN, "MAIN.png")
-  Font202 = LoadFont(#PB_Any, "System", 50)
+  Font202 = LoadFont(#PB_Any, "Impact", 50)
+  ;Font202 = LoadFont(#PB_Any, "System", 50)
   Repeat
    
     FlipBuffers()
@@ -221,16 +233,17 @@ Procedure StageSelectScene()
       
       StartDrawing(ScreenOutput())
       Box(0, 0, 600, 600, RGB(0,0,0))
-      DrawImage(ImageID(#Image_StageBackground), 0, 0,1920, 1080) 
+      DrawImage(ImageID(#Image_StageBackground), 0, 0, BackgroundX, BackgroundY) 
       DrawingMode(#PB_2DDrawing_Transparent)
        StopDrawing() 
 
          
        StartDrawing(ScreenOutput())
-       DrawImage(ImageID (#Image_StageNode),800,400,400,400)
+       DrawingMode(#PB_2DDrawing_Transparent)
+       DrawImage(ImageID (#Image_StageNode),StageNodePosX,StageNodePosY,StageNodeX,StageNodeY)
        DrawingFont(FontID(Font202))
        DrawingMode(#PB_2DDrawing_Transparent)
-       DrawText(850, 450, "Stage"+StageNum, TextColor)
+       DrawText(NodeTextX, NodeTextY, "Stage"+StageNum, TextColor)
       StopDrawing()
       
        ExamineKeyboard()
@@ -270,7 +283,7 @@ Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3: 숫자 1,
     FlipBuffers()
    StartDrawing(ScreenOutput())
    ; 똑같은건데 #Image_MENU는 오류나고 #Image_MENU2는 괜찮음. 어디서 이름이 겹치나..? 그래서 그냥 #Image_MENU2 로 합니다.
-   DrawImage(ImageID(#Image_MENU2), 0, 0, 1920, 1080)  
+   DrawImage(ImageID(#Image_MENU2), 0, 0, BackgroundX, BackgroundY)  
    DrawingMode(#PB_2DDrawing_Transparent)
    DrawingFont(FontID(Font202))
    DrawText(20, 15, "MENU SCENE", TextColor)
@@ -278,10 +291,10 @@ Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3: 숫자 1,
    StopDrawing()    
    
    StartDrawing(ScreenOutput())
-   DrawImage(ImageID(#Image_LEVEL1_Button), 200, 300- (3*Sin(LEVEL1_pos)),300,300)  
-   DrawImage(ImageID(#Image_LEVEL2_Button), 600, 300 -(3*Sin(LEVEL2_pos)),300,300) 
-   DrawImage(ImageID(#Image_LEVEL3_Button), 1000, 300 -(3*Sin(LEVEL3_pos)),300,300) 
-   DrawImage(ImageID(#Image_Setting_Button), 1200, 50, 50,50)
+   DrawImage(ImageID(#Image_LEVEL1_Button), 200, 350- (3*Sin(LEVEL1_pos)),LevelNodeX,LevelNodeY)  
+   DrawImage(ImageID(#Image_LEVEL2_Button), 600, 350 -(3*Sin(LEVEL2_pos)),LevelNodeX,LevelNodeY) 
+   DrawImage(ImageID(#Image_LEVEL3_Button), 1000, 350 -(3*Sin(LEVEL3_pos)),LevelNodeX,LevelNodeY) 
+  ;DrawImage(ImageID(#Image_Setting_Button), 1200, 50, 50,50)
    DrawingMode(#PB_2DDrawing_Transparent)
    StopDrawing() 
    
@@ -342,18 +355,20 @@ UsePNGImageDecoder()
 
 
 ;1980*1020 에서 배율 125%
-;1440*765
+;1584 *816
+
+;1536*897
 
 
 ;Screen
-MainWindow= OpenWindow(0, 0, 0, 1920, 1080, "Main Window", #PB_Window_SystemMenu |#PB_Window_MaximizeGadget | #PB_Window_ScreenCentered)
-OpenWindowedScreen(WindowID(0), 0, 0, 1920, 1080)
+MainWindow= OpenWindow(0, 0, 0, 1980, 1020, "Main Window", #PB_Window_SystemMenu |#PB_Window_MaximizeGadget | #PB_Window_ScreenCentered)
+OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
 
 If SceneNumber = #StartScene
 	
   StartDrawing(ScreenOutput())
   ;Box(0, 0, 600, 600, ScreenDefaultColor)
-  DrawImage(ImageID(#Image_MAIN), 0, 0,1920, 1080)
+  DrawImage(ImageID(#Image_MAIN), 0, 0, BackgroundX, BackgroundY)
   DrawingMode(#PB_2DDrawing_Transparent)
   DrawingFont(FontID(ImpactFont))
   DrawText(20, 15, "A-MAJOR", TextColor)
@@ -406,7 +421,7 @@ If SceneNumber = #StartScene
 
 EndIf
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 81
-; FirstLine = 59
+; CursorPosition = 87
+; FirstLine = 90
 ; Folding = w
 ; EnableXP

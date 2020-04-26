@@ -321,7 +321,7 @@ Procedure AnswerCheck()
   
   If isCorrect = #True
     *p.mySprite =  FindSprite("correct")
-    SetMySprite(*p, x_note1, y_note1, 1)
+    SetMySprite(*p, 540, 200, 1)
     PrintN("Correct")
     *q.mySprite = elements(2)
     *q\active = 1
@@ -340,7 +340,7 @@ Procedure AnswerCheck()
     
     
     *p.mySprite =  FindSprite("incorrect")
-    SetMySprite(*p, x_note1, y_note1, 1)
+    SetMySprite(*p, 540, 200, 1)
     
   EndIf
   
@@ -712,12 +712,13 @@ EndEnumeration
 UsePNGImageDecoder()
 LoadImage(#Image_PAUSE, "PAUSE.png")
 
+
 Procedure GamePause()
   
   UsePNGImageDecoder()
   LoadImage(#Image_PAUSE, "PAUSE.png")
-    
-  Font40 = LoadFont(#PB_Any, "System", 50,#PB_Font_Bold)  
+   Font40 = LoadFont(#PB_Any, "Impact", 100)
+  ;Font40 = LoadFont(#PB_Any, "System", 50,#PB_Font_Bold)  
   
   StartDrawing(ScreenOutput())
   ;Box(0, 0, 1500, 1000, RGBA(215, 73, 11,20))
@@ -725,7 +726,7 @@ Procedure GamePause()
  ; DrawImage(ImageID(#Image_PAUSE), 0, 0, 1920, 1080)  
   DrawingMode(#PB_2DDrawing_Transparent)
   DrawingFont(FontID(Font40))
-  DrawText(900, 500, "PAUSE", RGB(0,200,0))
+  DrawText(640, 400, "PAUSE", RGB(255,255,255))
 
   StopDrawing()
   ExamineKeyboard()
@@ -743,10 +744,11 @@ EndProcedure
 
 Procedure Gamestage(StageNum)
 
-  Font100 = LoadFont(#PB_Any, "System", 100)
+ ; Font100 = LoadFont(#PB_Any, "System", 100)
+  Font100 = LoadFont(#PB_Any, "Impact", 100)
   
+  ClearScreen(RGB(255,255,255))
   
-     ClearScreen(RGB(255,255,255))
      StartDrawing(ScreenOutput())
      ;Box(0, 0, 600, 600, RGB(215, 73, 11))
      ;DrawImage(ImageID(#Image_PAUSE), 0, 0, 1920, 1080)  
@@ -754,7 +756,7 @@ Procedure Gamestage(StageNum)
 
     
      DrawingFont(FontID(Font100))
-     DrawText(800, 500, "Stage" + StageNum, TextColor)
+     DrawText(540, 350, "Stage" + StageNum, TextColor)
      StopDrawing()
      
      FlipBuffers()
@@ -994,8 +996,8 @@ EndIf
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 722
-; FirstLine = 84
-; Folding = AYBQ-
+; CursorPosition = 342
+; FirstLine = 182
+; Folding = A5AQ+
 ; EnableXP
 ; DisableDebugger
