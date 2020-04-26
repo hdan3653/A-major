@@ -967,7 +967,7 @@ If *capture
       
       FlipBuffers()
 
-        If  KeyboardPushed(#PB_Key_0) ;Escape
+        If  KeyboardPushed(#PB_Key_0) And LEVEL1_State = #Status1_GameInPlay;Escape
           
             FreeImage(pbImage)
             cvReleaseCapture(@*capture)
@@ -984,7 +984,7 @@ If *capture
       GamePause()      
     EndIf 
    
-    Until WindowEvent() = #PB_Event_CloseWindow Or KeyboardPushed(#PB_Key_0)
+    Until WindowEvent() = #PB_Event_CloseWindow Or (KeyboardPushed(#PB_Key_0) And LEVEL1_State = #Status1_GameInPlay)
   EndIf
  
 Else
@@ -996,8 +996,8 @@ EndIf
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 342
-; FirstLine = 182
-; Folding = A5AQ+
+; CursorPosition = 986
+; FirstLine = 348
+; Folding = AAAQ-
 ; EnableXP
 ; DisableDebugger

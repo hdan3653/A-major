@@ -421,7 +421,7 @@ If SceneNumber = #StartScene
 
 EndIf
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 87
+; CursorPosition = 178
 ; FirstLine = 90
 ; Folding = w
 ; EnableXP
