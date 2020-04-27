@@ -301,6 +301,9 @@ EndProcedure
 
 ; 정답 체크
 Procedure AnswerCheck()
+  
+  Shared LEVEL1_stage1_score, LEVEL1_stage2_score, LEVEL1_stage3_score
+  
   isCorrect = #True
   
   Dim correctAns(2)
@@ -321,10 +324,20 @@ Procedure AnswerCheck()
   
   If isCorrect = #True
     *p.mySprite =  FindSprite("correct")
-    SetMySprite(*p, 540, 200, 1)
+    SetMySprite(*p, 740, 200, 1)
     PrintN("Correct")
     *q.mySprite = elements(2)
     *q\active = 1
+    
+    If stageNum =1
+      LEVEL1_stage1_score +1
+    ElseIf stageNum =2
+      LEVEL1_stage2_score +1
+    ElseIf stageNum =3
+      LEVEL1_stage3_score +1
+    EndIf 
+    
+
   Else
     PrintN("Wrong")
     *q.mySprite = FindSprite("container")
@@ -340,7 +353,7 @@ Procedure AnswerCheck()
     
     
     *p.mySprite =  FindSprite("incorrect")
-    SetMySprite(*p, 540, 200, 1)
+    SetMySprite(*p, 740, 200, 1)
     
   EndIf
   
@@ -769,7 +782,7 @@ Procedure Gamestage(StageNum)
     
 Procedure CreateLEVEL1 (SelectedStage)
   
-  
+  Shared LEVEL1_stage1_score, LEVEL1_stage2_score, LEVEL1_stage3_score
   Shared MainWindow
   
         LEVEL1_State = #Stage_Intro    
@@ -792,7 +805,7 @@ InitChords()
 
 ;===================stageNum 여기있다 -==============================
 
-stageNum = 1
+stageNum = SelectedStage
 InitProblem()
 
 ;사운드 시스템 초기화, 점검
@@ -965,6 +978,18 @@ If *capture
       SetGadgetState(0, ImageID(1))     
       cvReleaseMat(@*mat)  
       
+      
+      Font40 = LoadFont(#PB_Any, "Impact", 20) 
+      
+     
+     StartDrawing(ScreenOutput())  
+     DrawingMode(#PB_2DDrawing_Transparent)
+     DrawingFont(FontID(Font40))
+     DrawText(1040, 100, "SCORE" + LEVEL1_stage1_score , RGB(255,255,255))
+     StopDrawing()
+      
+      
+      
       FlipBuffers()
 
         If  KeyboardPushed(#PB_Key_0) And LEVEL1_State = #Status1_GameInPlay;Escape
@@ -996,8 +1021,8 @@ EndIf
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 986
-; FirstLine = 348
-; Folding = AAAQ-
+; CursorPosition = 987
+; FirstLine = 406
+; Folding = AgBA-
 ; EnableXP
 ; DisableDebugger

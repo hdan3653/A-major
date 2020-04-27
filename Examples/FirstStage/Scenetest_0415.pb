@@ -1,14 +1,10 @@
 ﻿IncludeFile "../OpenCV_32/includes/cv_functions.pbi"
 IncludeFile "LEVEL1.pb"
-;IncludeFile "Typeface/Typeface.pbi" : UseModule Typeface
-;IncludeFile "LEVEL2.pb"
 
 ;EnableExplicit
 Global Event
 Global SceneNumber
 Global GameState
-;Message
-Global TextPause.s = "Pause"
 
 Enumeration
   #MainForm
@@ -17,7 +13,7 @@ EndEnumeration
 Enumeration Scene
   #StartScene
   #MenuSelect
-  #SettingScene
+  #CalibrationScene
   #StageSelect
   #SceneLevel1
   #SceneLevel2
@@ -46,7 +42,7 @@ Enumeration Image
   #Image_LEVEL1_Button
   #Image_LEVEL2_Button
   #Image_LEVEL3_Button
-  #Image_Setting_Button
+  #Image_Calibration_Button
 EndEnumeration
 
 ; + correct.png, incorrect.png
@@ -61,6 +57,10 @@ Font20 = LoadFont(#PB_Any, "System", 20)
 Font25 = LoadFont(#PB_Any, "System", 23)
 Font40 = LoadFont(#PB_Any, "System", 40,#PB_Font_Bold)
 
+;Score 
+LEVEL1_stage1_score =0
+LEVEL1_stage2_score =0
+LEVEL1_stage3_score =0
 
 
 ;Image Size
@@ -88,7 +88,7 @@ LoadImage(#Image_Stage_right, "Stage_right.png")
 LoadImage(#Image_LEVEL1_Button, "LEVEL1.png")
 LoadImage(#Image_LEVEL2_Button, "LEVEL2.png")
 LoadImage(#Image_LEVEL3_Button, "LEVEL3.png")
-LoadImage(#Image_Setting_Button, "SettingButton.png")
+LoadImage(#Image_Calibration_Button, "CalibrationButton.png")
 
 Global Event          
 
@@ -101,7 +101,8 @@ Global.l hMidiOut
 
 Procedure drawStageSelect(StageNum, LeftOrRight)
   
-
+  
+  
   If InitSprite() = 0 Or InitKeyboard() = 0
   MessageRequester("Error", "Sprite system can't be initialized", 0)
   EndIf
@@ -110,6 +111,8 @@ Procedure drawStageSelect(StageNum, LeftOrRight)
   LoadImage(#Image_MAIN, "MAIN.png")
   Font202 = LoadFont(#PB_Any, "Impact", 50)
   ;  Font202 = LoadFont(#PB_Any, "System", 50)
+  
+  
        Repeat
         FlipBuffers()
 
@@ -119,14 +122,11 @@ Procedure drawStageSelect(StageNum, LeftOrRight)
        DrawingMode(#PB_2DDrawing_Transparent)
        StopDrawing() 
   
-      ;DisplayTransparentSprite(0, 800-x, 400)
        currentStageNum =StageNum
        AfterStage = currentStageNum+1
        BeforeStage = currentStageNum-1
-       ;LeftOrRight 값이 0이면 left, 1이면 right
-       ; 고치다보니 뭔가 왼오 바꼇는데 나중에 고칠래... 
-      ;0이면 왼쪽으로가는거  
-      If LeftOrRight = 0
+       If LeftOrRight = 0
+       
       StartDrawing(ScreenOutput())     
       DrawImage(ImageID(#Image_StageNode), StageNodePosX, StageNodePosY,StageNodeX, StageNodeY) 
       DrawingMode(#PB_2DDrawing_Transparent)
@@ -174,12 +174,18 @@ Procedure drawStageSelect(StageNum, LeftOrRight)
 
     ExamineKeyboard()
   Until KeyboardPushed(#PB_Key_Escape)
+  
+  
+  ProcedureReturn StageNum
+  
+  
        
 EndProcedure
 
 Procedure drawStageVibe(StageNum)
-  
 
+  
+  
   If InitSprite() = 0 Or InitKeyboard() = 0
   MessageRequester("Error", "Sprite system can't be initialized", 0)
   EndIf
@@ -210,8 +216,17 @@ Procedure drawStageVibe(StageNum)
   
 EndProcedure
 
-Procedure StageSelectScene()
- 
+Procedure StageSelectScene(LevelNum)
+  
+  
+    If LevelNum = 1 
+    StageMax =3 
+   ElseIf LevelNum =2
+     StageMax=2
+   EndIf 
+  
+  
+  
   If InitSprite() = 0 Or InitKeyboard() = 0
   MessageRequester("Error", "Sprite system can't be initialized", 0)
   EndIf
@@ -227,7 +242,7 @@ Procedure StageSelectScene()
 
       StartDrawing(ScreenOutput())
       DrawingFont(FontID(Font202))
-      DrawText(200, 200, "A-MAJOR", TextColor)
+      DrawText(200, 200, "LEVEL"+ LevelNum, TextColor)
       DrawingMode(#PB_2DDrawing_Transparent)
       StopDrawing()
       
@@ -250,9 +265,12 @@ Procedure StageSelectScene()
        ; 이부분...귀찮은데 나중에 고치기 (return stagenum 하고 함수안에서 stagenum 판별해서 vibe할지 이동할지 하도록.)
        ; 나중에.....
       If KeyboardPushed(#PB_Key_Left)
+        If  StageNum < StageMax      
         drawStageSelect(StageNum, 0) 
-
         StageNum + 1        
+        Else
+        drawStageVibe(StageNum)
+        EndIf 
       ElseIf KeyboardPushed(#PB_Key_Right)
 
       If StageNum > 1
@@ -294,7 +312,7 @@ Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3: 숫자 1,
    DrawImage(ImageID(#Image_LEVEL1_Button), 200, 350- (3*Sin(LEVEL1_pos)),LevelNodeX,LevelNodeY)  
    DrawImage(ImageID(#Image_LEVEL2_Button), 600, 350 -(3*Sin(LEVEL2_pos)),LevelNodeX,LevelNodeY) 
    DrawImage(ImageID(#Image_LEVEL3_Button), 1000, 350 -(3*Sin(LEVEL3_pos)),LevelNodeX,LevelNodeY) 
-  ;DrawImage(ImageID(#Image_Setting_Button), 1200, 50, 50,50)
+   DrawImage(ImageID(#Image_Calibration_Button), 1300, 100-(3*Sin(CaliButton)), 200,50)
    DrawingMode(#PB_2DDrawing_Transparent)
    StopDrawing() 
    
@@ -305,6 +323,8 @@ Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3: 숫자 1,
      LEVEL2_pos +1
    ElseIf MENUSelect = 3
      LEVEL3_pos +1     
+   ElseIf MenuSelect = 4
+     CaliButton + 1
    EndIf  
    
     ; 좌우로 눌러서 메뉴 선택 , 4로 확인
@@ -315,7 +335,7 @@ Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3: 숫자 1,
         EndIf 
     ElseIf   KeyboardReleased(#PB_Key_Right) 
       
-      If MENUSelect < 3
+      If MENUSelect < 4
         MENUSelect + 1
       EndIf  
       
@@ -334,8 +354,8 @@ Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3: 숫자 1,
       SceneNumber = #SceneLevel2
     ElseIf MENUSelect =3 
       SceneNumber = #SceneLevel3
-    ElseIf KeyboardPushed(#PB_Key_Down) ;SettingScene
-      GameState = #SettingScene
+    ElseIf SceneNumber = 4 ;CalibrationScene
+      GameState = #CalibrationScene
     ElseIf KeyboardPushed(#PB_Key_Escape)
        CloseWindow(0)
        CloseConsole()
@@ -355,8 +375,6 @@ UsePNGImageDecoder()
 
 
 ;1980*1020 에서 배율 125%
-;1584 *816
-
 ;1536*897
 
 
@@ -394,24 +412,24 @@ If SceneNumber = #StartScene
     MenuSelectScene()
   ;Scene Level 1
   ElseIf SceneNumber = #SceneLevel1
-    SelectedStage = StageSelectScene()
+    SelectedStage = StageSelectScene(1)
     CreateLevel1(SelectedStage)
     SceneNumber = #MenuSelect
     ClearScreen(RGB(0, 200, 0))
   ;Scene Level 2  
     ElseIf SceneNumber = #SceneLevel2
-    SelectedStage = StageSelectScene()
+    SelectedStage = StageSelectScene(2)
     CreateLevel1(SelectedStage)
     SceneNumber = #MenuSelect
     ClearScreen(RGB(0, 200, 0))
   ;Scene Level 3
     ElseIf SceneNumber = #SceneLevel3 
-    SelectedStage = StageSelectScene()
+   ; SelectedStage = StageSelectScene(3)
     CreateLevel1(SelectedStage)
     SceneNumber = #MenuSelect
     ClearScreen(RGB(0, 0, 200))
     
-  ElseIf SceneNumber = #SettingScene ;원래는 스크린조절이나 볼륨조절같은거 들어가야하는데.... 여기다 뭐넣지..?
+  ElseIf SceneNumber = #CalibrationScene ;원래는 스크린조절이나 볼륨조절같은거 들어가야하는데.... 여기다 뭐넣지..?
     
 
     
@@ -421,7 +439,7 @@ If SceneNumber = #StartScene
 
 EndIf
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 178
-; FirstLine = 90
-; Folding = w
+; CursorPosition = 62
+; FirstLine = 56
+; Folding = 1
 ; EnableXP
