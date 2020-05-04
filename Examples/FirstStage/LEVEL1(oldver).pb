@@ -1,8 +1,9 @@
 ﻿;IncludeFile "includes/cv_functions.pbi"
 
 
-; [KEYBOARD] 1: green tracking(실제 입력), 2: red tracking(사운드 출력만), 3: 정답 화음 듣기, 4: 입력값 취소, spacebar: state change
+; [KEYBOARD] 1: green tracking, 2: red tracking, spacebar: state change
 ; 처음 시작 후, 마우스 커서와 키보드 1(혹은 2)로 박스 영역 설정 -> 스페이스바로 상태 전환 -> 마우스 커서와 키보드 1(혹은 2)로 음 출력, 키보드 3으로 정답 화음 재생
+
 
 Global LEVEL1_State
 
@@ -11,6 +12,7 @@ Enumeration InGameStatus
   #Status1_GameInPlay
   #Status1_GameInPause
 EndEnumeration
+
 
 
 Structure mySprite
@@ -45,17 +47,22 @@ Structure myPosition
   frametime.i
 EndStructure
 
+Structure Problem
+  note1.i
+  note2.i
+  answer.i
+EndStructure
+
+
+
 Global markerState, marker1X, marker1Y, marker2X, marker2Y
-Global.i keyInput, answerTone, currentTime, stageNum, answerNum
+Global keyInput, answerTone.i, currentTime, currentProblem.i
 Global.l hMidiOut
 Global Dim ptBox.CvPoint(7, 4)
 Global NewList sprite_list.mySprite()
 Global NewList position_list.myPosition()
-Global Dim chord_list(5, 2)
-Global Dim currentProblem(3)
-Global Dim answer(2)
-Global Dim line_position(6)
-Global Dim elements(2) ; container 안에 3개 element spirte 구조체 포인터 저장
+Global Dim problem_list.Problem(17)
+Global Dim PosLine(6)
 
 Procedure DrawMySprite(*this.mySprite)
   If *this\active = 1
@@ -64,6 +71,12 @@ Procedure DrawMySprite(*this.mySprite)
   EndIf
   
 EndProcedure
+
+
+
+
+
+
 
 ;이미지 프레임 넘기는 함수
 Procedure FrameManager(*this.mySprite)
@@ -136,55 +149,63 @@ Procedure InitMyPosition(*sprite.mySprite, xmove.i, ymove.i, xmax.i, ymax.i, sta
 EndProcedure
 
 ; 문제 리스트 생성
-Procedure InitChords()
-  chord_list(0, 0) = 1
-  chord_list(0, 1) = 3
-  chord_list(0, 2) = 5
-  chord_list(1, 0) = 2
-  chord_list(1, 1) = 4
-  chord_list(1, 2) = 6
-  chord_list(2, 0) = 3
-  chord_list(2, 1) = 5
-  chord_list(2, 2) = 7
-  chord_list(3, 0) = 1
-  chord_list(3, 1) = 4
-  chord_list(3, 2) = 6
-  chord_list(4, 0) = 2
-  chord_list(4, 1) = 5
-  chord_list(4, 2) = 7
-  chord_list(5, 0) = 1
-  chord_list(5, 1) = 3
-  chord_list(5, 2) = 6
-  
-EndProcedure
-
 Procedure InitProblem()
-  currentProblem(0) = Random(5) ; 코드 종류
-  Dim shuffle(5, 2)
-  shuffle(0, 0) = 0
-  shuffle(0, 1) = 1
-  shuffle(0, 2) = 2
-  shuffle(1, 0) = 0
-  shuffle(1, 1) = 2
-  shuffle(1, 2) = 1
-  shuffle(2, 0) = 1
-  shuffle(2, 1) = 0
-  shuffle(2, 2) = 2
-  shuffle(3, 0) = 1
-  shuffle(3, 1) = 2
-  shuffle(3, 2) = 0
-  shuffle(4, 0) = 2
-  shuffle(4, 1) = 0
-  shuffle(4, 2) = 1
-  shuffle(5, 0) = 2
-  shuffle(5, 1) = 1
-  shuffle(5, 2) = 0
+  problem_list(0)\note1 = 1
+  problem_list(0)\note2 = 3
+  problem_list(0)\answer = 5
+  problem_list(1)\note1 = 2
+  problem_list(1)\note2 = 4
+  problem_list(1)\answer = 5
+  problem_list(2)\note1 = 3
+  problem_list(2)\note2 = 5
+  problem_list(2)\answer = 7
+  problem_list(3)\note1 = 1
+  problem_list(3)\note2 = 4
+  problem_list(3)\answer = 6
+  problem_list(4)\note1 = 2
+  problem_list(4)\note2 = 5
+  problem_list(4)\answer = 7
+  problem_list(5)\note1 = 1
+  problem_list(5)\note2 = 3
+  problem_list(5)\answer = 6
   
-  choose.i = Random(5)
-  currentProblem(1) = shuffle(choose, 0)
-  currentProblem(2) = shuffle(choose, 1)
-  currentProblem(3) = shuffle(choose, 2)
+  problem_list(6)\note1 = 1
+  problem_list(6)\note2 = 5
+  problem_list(6)\answer = 3
+  problem_list(7)\note1 = 2
+  problem_list(7)\note2 = 5
+  problem_list(7)\answer = 4
+  problem_list(8)\note1 = 3
+  problem_list(8)\note2 = 7
+  problem_list(8)\answer = 5
+  problem_list(9)\note1 = 1
+  problem_list(9)\note2 = 6
+  problem_list(9)\answer = 4
+  problem_list(10)\note1 = 2
+  problem_list(10)\note2 = 7
+  problem_list(10)\answer = 5
+  problem_list(11)\note1 = 1
+  problem_list(11)\note2 = 6
+  problem_list(11)\answer = 3
   
+  problem_list(12)\note1 = 5
+  problem_list(12)\note2 = 3
+  problem_list(12)\answer = 1
+  problem_list(13)\note1 = 5
+  problem_list(13)\note2 = 4
+  problem_list(13)\answer = 2
+  problem_list(14)\note1 = 7
+  problem_list(14)\note2 = 5
+  problem_list(14)\answer = 3
+  problem_list(15)\note1 = 6
+  problem_list(15)\note2 = 4
+  problem_list(15)\answer = 1
+  problem_list(16)\note1 = 7
+  problem_list(16)\note2 = 5
+  problem_list(16)\answer = 2
+  problem_list(17)\note1 = 6
+  problem_list(17)\note2 = 3
+  problem_list(17)\answer = 1
 EndProcedure
 
 ; sprite_list 에서 이름으로 구조체 찾기
@@ -210,6 +231,10 @@ EndProcedure
 
 ;초기 화면구성으로 재설정하는 함수
 Procedure InitialSetting()
+  
+  *p.mySprite = LastElement(sprite_list()) ;answer sprite
+  DeleteElement(sprite_list())
+  
   *q.mySprite = FindSprite("line"+Str(answerTone+1))
   *q\active = 1
   *q = FindSprite("lineclipped")
@@ -228,168 +253,56 @@ Procedure InitialSetting()
   *q\active = 1
   *q = FindSprite("failed")
   *q\active = 0
-  
-  ; element 스프라이트 삭제
-  If answerNum = stageNum
-    For k = 0 To stageNum - 1
-      LastElement(sprite_list()) ;answer sprite
-      DeleteElement(sprite_list())
-    Next
-    answerNum = 0
-  EndIf 
-  
-  If stageNum = 1
-    *q = elements(0)
-    *q\x = 780
-    *q\y = 620
-    *q = elements(1)
-    *q\x = 830
-    *q\y = 620
-  ElseIf stageNum = 2
-    *q = elements(0)
-    *q\x = 780
-    *q\y = 620
-    If answerNum = 1
-      *q = elements(1)
-      *q\x = 830
-      *q\y = 620
-    EndIf 
-  ElseIf stageNum = 3
-    If answerNum = 1
-      *q = elements(0)
-      *q\x = 780
-      *q\y = 620
-    ElseIf answerNum = 2
-      *q = elements(0)
-      *q\x = 780
-      *q\y = 620
-      *q = elements(1)
-      *q\x = 830
-      *q\y = 620
-    EndIf
-  EndIf 
-  
+  *q = FindSprite("bubble" + Str(problem_list(currentProblem)\note1))
+  *q\x = 780
+  *q\y = 620
+  *q = FindSprite("bubble" + Str(problem_list(currentProblem)\note2))
+  *q\x = 830
+  *q\y = 620
 EndProcedure 
 
 Procedure ChangeProblem()
-  InitProblem()
-  
-  x_note1 = 780
-  x_note2 = 830
-  y_note1 = 620
-  
-  ; 문제 스프라이트 세팅
-  If stageNum = 1
-    *p.mySprite = elements(0)
-    *p\active = 0
-    *p = elements(1)
-    *p\active = 0
-    *p = FindSprite("bubble" + Str(chord_list(currentProblem(0), currentProblem(1))))
-    SetMySprite(*p, x_note1, y_note1, 1)
-    elements(0) = *p
-    *p = FindSprite("bubble" + chord_list(currentProblem(0), currentProblem(2)))
-    SetMySprite(*p, x_note2, y_note1, 1)
-    elements(1) = *p
-  ElseIf stageNum = 2
-    *p.mySprite =  elements(0)
-    *p\active = 0
-    *p = FindSprite("bubble" + Str(chord_list(currentProblem(0), currentProblem(1))))
-    SetMySprite(*p, x_note1, y_note1, 1)
-    elements(0) = *p
-  EndIf
+  *q.mySprite = FindSprite("bubble" + Str(problem_list(currentProblem)\note1))
+  *q\active = 0
+  *q.mySprite = FindSprite("bubble" + Str(problem_list(currentProblem)\note2))
+  *q\active = 0
+  currentProblem = Random(17)
+  *q.mySprite = FindSprite("bubble" + Str(problem_list(currentProblem)\note1))
+  *q\active = 1
+  *q.mySprite = FindSprite("bubble" + Str(problem_list(currentProblem)\note2))
+  *q\active = 1
 EndProcedure
 
-; 정답 체크
+; 콘솔에 정답 여부 출력
 Procedure AnswerCheck()
+  isCorrect = #False
   
-  Shared LEVEL1_stage1_score, LEVEL1_stage2_score, LEVEL1_stage3_score
-  
-  isCorrect = #True
-  
-  Dim correctAns(2)
-  correctAns(0) = -1
-  correctAns(1) = -1
-  correctAns(2) = -1
-  For k = 0 To stageNum - 1
-    correctAns(k) = chord_list(currentProblem(0), currentProblem(3 - k))
-  Next
-  
-  SortArray(correctAns(), #PB_Sort_Descending)
-  SortArray(answer(), #PB_Sort_Descending)
-  For k = 0 To stageNum - 1
-    If correctAns(k) <> answer(k)
-      isCorrect = #False
-    EndIf
-  Next
-  
-  If isCorrect = #True
-    *p.mySprite =  FindSprite("correct")
-    SetMySprite(*p, 740, 200, 1)
+  If problem_list(currentProblem)\answer = answerTone+1
     PrintN("Correct")
-    *q.mySprite = elements(2)
+    *q.mySprite = FindSprite("answer1")
     *q\active = 1
-    
-    If stageNum =1
-      LEVEL1_stage1_score +1
-    ElseIf stageNum =2
-      LEVEL1_stage2_score +1
-    ElseIf stageNum =3
-      LEVEL1_stage3_score +1
-    EndIf 
-    
-
+    isCorrect = #True
   Else
     PrintN("Wrong")
     *q.mySprite = FindSprite("container")
     *q\active = 0
     *q = FindSprite("failed")
-    SetMySprite(*q, line_position(answerTone), 660, 1)
-    *q = elements(0)
+    SetMySprite(*q, PosLine(answerTone), 660, 1)
+    *q = FindSprite("bubble" + Str(problem_list(currentProblem)\note1))
     SetMySprite(*q, *q\x, 650, 1)
-    *q = elements(1)
+    *q = FindSprite("bubble" + Str(problem_list(currentProblem)\note2))
     SetMySprite(*q, *q\x + 20, 650, 1)
-    *q = elements(2)
+    *q = FindSprite("answer1")
     SetMySprite(*q, *q\x + 100, 650, 1)
-    
-    
-    *p.mySprite =  FindSprite("incorrect")
-    SetMySprite(*p, 740, 200, 1)
-    
   EndIf
   
   DeleteSprite("fruit1")
   ForEach sprite_list()
-    DrawMySprite(sprite_list())
+      DrawMySprite(sprite_list())
   Next
-
-    If isCorrect = #True
-    *p.mySprite =  FindSprite("correct")
-    SetMySprite(*p, x_note1, y_note1, 0)
-  Else
-    *p.mySprite =  FindSprite("incorrect")
-    SetMySprite(*p, x_note1, y_note1, 0)
-  EndIf
-  
-  
-  
   FlipBuffers()
   
   ProcedureReturn isCorrect
-EndProcedure
-
-; 답안 삭제
-Procedure RemoveAnswer()
-  If answerNum = 0
-    ProcedureReturn
-  EndIf 
-  
-  If stageNum = 2
-    *p.mySprite = elements(answerNum)
-  ElseIf stageNum = 3
-    *p.mySprite = elements(answerNum-1)
-  EndIf 
-  DeleteSprite(*p\sprite_name)
-  answerNum = answerNum - 1
 EndProcedure
 
 Procedure CalcBoxs()
@@ -488,16 +401,16 @@ Procedure ChangePos(*this.myPosition)
     *this\startdelay = *this\startdelay - 1
     ProcedureReturn
   ElseIf  *this\startdelay = 0
-    *this\frameTime = GetTickCount_() + 50
+    *this\frameTime = GetTickCount_() + 100
     *this\startdelay = -1
   ElseIf  *this\startdelay = -1     
     If *this\frameTime <= currentTime
       *this\sprite\x = *this\sprite\x + *this\xmove
       *this\sprite\y = *this\sprite\y + *this\ymove
-      *this\frameTime = currentTime + 50
+      *this\frameTime = currentTime + 100
     EndIf 
   EndIf
-  
+ 
   ; 좌표 이동 끝나면 리스트에서 제거
   If *this\sprite\x = *this\xmax Or *this\sprite\y = *this\ymax
     DeleteElement(position_list())
@@ -506,7 +419,6 @@ Procedure ChangePos(*this.myPosition)
   
 EndProcedure
 
-; midi에 넘겨줄 음 값 계산
 Procedure GetNote(note)
   result.i
   Select note
@@ -538,43 +450,24 @@ EndProcedure
 
 ;정답 화음 or 사용자가 입력한 화음을 재생
 Procedure PlayChordSound(flag.i = 0)
-  NewList chord.i()
+  Dim note(2)
+  note(0) = problem_list(currentProblem)\note1
+  note(1) = problem_list(currentProblem)\note2
   
   ;flag = 0 (default)일 때 정답 화음 / 그 외엔 사용자 입력 화음 재생
   If flag = 0
-    AddElement(chord())
-    chord() = chord_list(currentProblem(0), 0)
-    AddElement(chord())
-    chord() = chord_list(currentProblem(0), 1)
-    AddElement(chord())
-    chord() = chord_list(currentProblem(0), 2)
+    note(2) = problem_list(currentProblem)\answer
   Else
-    i = 3 - stageNum
-    j = 1
-    While i > 0
-      AddElement(chord())
-      chord() = chord_list(currentProblem(0), currentProblem(j))
-      j = j + 1
-      i = i - 1
-    Wend  
-    i = answerNum
-    j = 0
-    While i > 0
-      AddElement(chord())
-      chord() = answer(j)
-      j = j + 1
-      i = i - 1
-    Wend      
+    note(2) = answerTone + 1
   EndIf 
   
-  ForEach chord()  
-    midiOutShortMsg_(hMidiOut, $90 | 0 | GetNote(chord()) << 8 | 127 << 16 )
-    PrintN(Str(chord()))
-  Next
+  midiOutShortMsg_(hMidiOut, $90 | 0 | GetNote(note(0)) << 8 | 127 << 16 )
+  midiOutShortMsg_(hMidiOut, $90 | 0 | GetNote(note(1)) << 8 | 127 << 16 )
+  midiOutShortMsg_(hMidiOut, $90 | 0 | GetNote(note(2)) << 8 | 127 << 16 )
   Delay(1000)
-  ForEach chord()  
-    midiOutShortMsg_(hMidiOut, $80 | 0 | GetNote(chord()) << 8 | 0 << 16)
-  Next
+  midiOutShortMsg_(hMidiOut, $80 | 0 | GetNote(note(0)) << 8 | 0 << 16)
+  midiOutShortMsg_(hMidiOut, $80 | 0 | GetNote(note(1)) << 8 | 0 << 16)
+  midiOutShortMsg_(hMidiOut, $80 | 0 | GetNote(note(2)) << 8 | 0 << 16)
   
 EndProcedure
 
@@ -582,7 +475,7 @@ EndProcedure
 Procedure DropNote()  
   
   y = 200
-  x = line_position(AnswerTone)
+  x = PosLine(AnswerTone)
   
   *p.mySprite = FindSprite("line"+Str(answerTone+1))
   *p\active = 0
@@ -593,14 +486,12 @@ Procedure DropNote()
   *p\x = x
   *p\active = 1
   
-  ; 새 element 스프라이트 생성
   *p = FindSprite("bubble" + Str(answerTone+1))
   *bubble.mySprite = AddElement(sprite_list())
   *bubble\sprite_id = CopySprite(*p\sprite_id, #PB_Any)
-  *bubble\sprite_name = "answer" + Str(answerNum)
+  *bubble\sprite_name = "answer1"
   SetMySprite(*bubble, x + 20, 670, 0)
   
-  ; 떨어지는 과일 스프라이트 생성
   *p = FindSprite("note"+Str(answerTone+1))  
   *answer.mySprite = AddElement(sprite_list())
   *answer\sprite_id = CopySprite(*p\sprite_id, #PB_Any)
@@ -612,41 +503,14 @@ Procedure DropNote()
   *antmove.mySprite = FindSprite("antmove")
   *antmove\active = 1
   *container.mySprite = FindSprite("container")
-  InitMyPosition(*answer, 0, 10, 0, 650, 0)
-  InitMyPosition(*antmove, 10, 0, line_position(answerTone) - 80, 0, 20)
-  InitMyPosition(*container, 10, 0, line_position(answerTone) - 20, 0, 20)
+  *note1.mySprite = FindSprite("bubble" + Str(problem_list(currentProblem)\note1))
+  *note2.mySprite = FindSprite("bubble" + Str(problem_list(currentProblem)\note2))
   
-  If stageNum = 1  
-    *note1.mySprite = elements(0);FindSprite("bubble" + Str(chord_list(currentProblem(0), currentProblem(1))))
-    *note2.mySprite = elements(1);FindSprite("bubble" + Str(chord_list(currentProblem(0), currentProblem(2)))) 
-    InitMyPosition(*note1, 10, 0, line_position(answerTone), 0, 20)
-    InitMyPosition(*note2, 10, 0, line_position(answerTone) + 50, 0, 20)
-    elements(2) = *bubble
-  ElseIf stageNum = 2
-    *note1.mySprite = elements(0);FindSprite("bubble" + Str(chord_list(currentProblem(0), currentProblem(1))))
-    InitMyPosition(*note1, 10, 0, line_position(answerTone), 0, 20)
-    If answerNum = 1
-      elements(1) = *bubble
-    ElseIf answerNum = 2
-      *note2.mySprite = elements(1);FindSprite("answer1")
-      InitMyPosition(*note2, 10, 0, line_position(answerTone) + 50, 0, 20)
-      elements(2) = *bubble
-    EndIf 
-  ElseIf stageNum = 3
-    If answerNum = 1
-      elements(0) = *bubble
-    ElseIf answerNum = 2
-      *note1.mySprite = elements(0);FindSprite("answer1")
-      InitMyPosition(*note1, 10, 0, line_position(answerTone), 0, 20)
-      elements(1) = *bubble
-    ElseIf answerNum = 3
-      *note1.mySprite = elements(0);FindSprite("answer1")
-      InitMyPosition(*note1, 10, 0, line_position(answerTone), 0, 20)
-      *note2.mySprite = elements(1);FindSprite("answer2")
-      InitMyPosition(*note2, 10, 0, line_position(answerTone) + 50, 0, 20)
-      elements(2) = *bubble
-    EndIf 
-  EndIf 
+  InitMyPosition(*answer, 0, 10, 0, 650, 0)
+  InitMyPosition(*antmove, 10, 0, PosLine(answerTone) - 80, 0, 20)
+  InitMyPosition(*container, 10, 0, PosLine(answerTone) - 20, 0, 20)
+  InitMyPosition(*note1, 10, 0, PosLine(answerTone), 0, 20)
+  InitMyPosition(*note2, 10, 0, PosLine(answerTone) + 50, 0, 20)
   
   Repeat
     ;좌표 이동
@@ -669,19 +533,9 @@ Procedure DropNote()
   Until ListSize(position_list()) = 0
   
   ;answer check
-  isCorrect.i
+  isCorrect = AnswerCheck()
   PlayChordSound(1)
-  If answerNum = stageNum
-    isCorrect = AnswerCheck()
-    Delay(2000)
-  Else ; 정답체크 안 하고 element만 추가
-    *bubble\active = 1
-    DeleteSprite("fruit1")
-    ForEach sprite_list()
-      DrawMySprite(sprite_list())
-    Next
-    FlipBuffers()
-  EndIf
+  Delay(2000)
   
   If isCorrect = #True
     ChangeProblem()
@@ -703,17 +557,12 @@ Procedure CheckArea(key)
   ; 음이 도-시 사이인 경우만 출력
   If tone > -1 And tone < 7
     PlayPianoSound(tone+1)
-    If keyInput = #PB_Key_2
-      ;PlayPianoSound(tone+1)
-      ProcedureReturn
-    EndIf 
     answerTone = tone
-    answer(answerNum) = answerTone + 1
-    answerNum = answerNum + 1
     DropNote()
   EndIf
   
 EndProcedure
+
 
 
 ; ==================================================PAUSE ====================================================
@@ -725,27 +574,25 @@ EndEnumeration
 UsePNGImageDecoder()
 LoadImage(#Image_PAUSE, "PAUSE.png")
 
-
 Procedure GamePause()
   
   UsePNGImageDecoder()
   LoadImage(#Image_PAUSE, "PAUSE.png")
-   Font40 = LoadFont(#PB_Any, "Impact", 100)
-  ;Font40 = LoadFont(#PB_Any, "System", 50,#PB_Font_Bold)  
   
+  ClearScreen(RGB(0, 200, 0))
+  
+    
+  Font40 = LoadFont(#PB_Any, "System", 40,#PB_Font_Bold)  
   StartDrawing(ScreenOutput())
-  ;Box(0, 0, 1500, 1000, RGBA(215, 73, 11,20))
-  ;Box(0, 0, 1920, 1080, $00000000)
- ; DrawImage(ImageID(#Image_PAUSE), 0, 0, 1920, 1080)  
+  ;Box(0, 0, 600, 600, RGB(215, 73, 11))
+  ;DrawImage(ImageID(#Image_PAUSE), 0, 0, 1920, 1080)  
   DrawingMode(#PB_2DDrawing_Transparent)
   DrawingFont(FontID(Font40))
-  DrawText(640, 400, "PAUSE", RGB(255,255,255))
-
   StopDrawing()
   ExamineKeyboard()
-  If KeyboardPushed(#PB_Key_5)
-      LEVEL1_State = #Status1_GameInPlay         
-  EndIf  
+        If KeyboardPushed(#PB_Key_5)
+          LEVEL1_State = #Status1_GameInPlay
+        EndIf  
               
 FlipBuffers() 
 
@@ -756,12 +603,12 @@ EndProcedure
 
 
 Procedure Gamestage(StageNum)
-
- ; Font100 = LoadFont(#PB_Any, "System", 100)
-  Font100 = LoadFont(#PB_Any, "Impact", 100)
   
-  ClearScreen(RGB(255,255,255))
   
+  Font100 = LoadFont(#PB_Any, "System", 100)
+  
+  
+     ClearScreen(RGB(255,255,255))
      StartDrawing(ScreenOutput())
      ;Box(0, 0, 600, 600, RGB(215, 73, 11))
      ;DrawImage(ImageID(#Image_PAUSE), 0, 0, 1920, 1080)  
@@ -769,55 +616,40 @@ Procedure Gamestage(StageNum)
 
     
      DrawingFont(FontID(Font100))
-     DrawText(540, 350, "Stage" + StageNum, TextColor)
+     DrawText(800, 500, "Stage" + StageNum, TextColor)
      StopDrawing()
      
      FlipBuffers()
 
       Delay(2000)
       
-    EndProcedure
-    
-    
-    
-Procedure CreateLEVEL1 (SelectedStage)
+EndProcedure
+
+
+
+
+
+
+
+
+
+
+
+
+Procedure CreateLevel1(SelectedStage)
   
-  Shared LEVEL1_stage1_score, LEVEL1_stage2_score, LEVEL1_stage3_score
   Shared MainWindow
   
-        LEVEL1_State = #Stage_Intro    
+  
+      LEVEL1_State = #Stage_Intro    
    
       
     If  LEVEL1_State = #Stage_Intro
-       Gamestage(SelectedStage)
+        Gamestage(SelectedStage)
         LEVEL1_State = #Status1_GameInPlay
-   EndIf 
-
-
-markerState = 0 ; 마커 입력 상태
-answerNum = 0
-answer(0) = -1
-answer(1) = -1
-answer(2) = -1
-
-InitChords()
-
-
-;===================stageNum 여기있다 -==============================
-
-stageNum = SelectedStage
-InitProblem()
-
-;사운드 시스템 초기화, 점검
-If InitSound() = 0 
-  MessageRequester("Error", "Sound system is not available",  0)
-  End
-EndIf
-
-OutDev.l
-result = midiOutOpen_(@hMidiOut, OutDev, 0, 0, 0)
-PrintN(Str(result))
-
+    EndIf 
+  
+  
 Repeat
   nCreate + 1
   *capture.CvCapture = cvCreateCameraCapture(0)
@@ -828,19 +660,22 @@ If *capture
   FrameHeight = cvGetCaptureProperty(*capture, #CV_CAP_PROP_FRAME_HEIGHT)
   *image.IplImage : pbImage = CreateImage(#PB_Any, 640, 480)
   
- ; If OpenWindow(0, 0, 0, FrameWidth, FrameHeight, "PureBasic Interface to OpenCV", #PB_Window_SystemMenu |#PB_Window_MaximizeGadget | #PB_Window_ScreenCentered|#PB_Window_Maximize)
-  If  MainWindow
+  If MainWindow
     
     OpenWindow(1, 0, WindowHeight(0)/2 - 200, FrameWidth-5, FrameHeight-30, "title") ; 웹캠용 윈도우
     ImageGadget(0, 0, 0, FrameWidth, FrameHeight, ImageID(pbImage))
     StickyWindow(1, #True) ; 항상 위에 고정
     SetWindowLongPtr_(WindowID(1), #GWL_STYLE, GetWindowLongPtr_(WindowID(1), #GWL_STYLE)&~ #WS_THICKFRAME &~ #WS_DLGFRAME) ; 윈도우 타이틀 바 제거
+    
+    
+    ;Delay(2000) ; <------------------- Use this time to click the IDE window bar to set focus
+    ;PostMessage_(WindowID(0),#WM_SYSCOMMAND, #SC_RESTORE, 0)
     SetForegroundWindow_(WindowID(0))
     InitSprite()
     InitKeyboard()
     
     ;Screen과 Sprite 생성
-   ; OpenWindowedScreen(WindowID(0), 0, 0, WindowWidth(0), WindowHeight(0))
+    ;OpenWindowedScreen(WindowID(0), 0, 0, WindowWidth(0), WindowHeight(0))
     
     UsePNGImageDecoder()
     
@@ -874,37 +709,24 @@ If *capture
     InitMySprite("ant", "graphics/ant.png", 700, 630)
     InitMySprite("antmove", "graphics/antmove.png", 700, 630, 0)
     
-    InitMySprite("correct","graphics/correct.png", 500,500,0)
-    InitMySprite("incorrect","graphics/incorrect.png", 500,500,0)
-    
-
-    line_position(0) = 800
-    line_position(1) = 890
-    line_position(2) = 990
-    line_position(3) = 1080
-    line_position(4) = 1170
-    line_position(5) = 1270
-    line_position(6) = 1350
+    PosLine(0) = 800
+    PosLine(1) = 890
+    PosLine(2) = 990
+    PosLine(3) = 1080
+    PosLine(4) = 1170
+    PosLine(5) = 1270
+    PosLine(6) = 1350
     
     x_note1 = 780
     x_note2 = 830
     y_note1 = 620
     
-    ; 문제 스프라이트 세팅
-    If stageNum = 1
-      *p.mySprite =  FindSprite("bubble" + Str(chord_list(currentProblem(0), currentProblem(1))))
-      SetMySprite(*p, x_note1, y_note1, 1)
-      elements(0) = *p
-      *p = FindSprite("bubble" + chord_list(currentProblem(0), currentProblem(2)))
-      SetMySprite(*p, x_note2, y_note1, 1)
-      elements(1) = *p
-    ElseIf stageNum = 2
-      *p.mySprite =  FindSprite("bubble" + Str(chord_list(currentProblem(0), currentProblem(1))))
-      SetMySprite(*p, x_note1, y_note1, 1)
-      elements(0) = *p
-    EndIf
+    currentProblem = Random(17) ; 문제 랜덤 선택
     
-    ; 애니메이션 스프라이트 세팅
+    *p.mySprite =  FindSprite("bubble" + Str(problem_list(currentProblem)\note1))
+    SetMySprite(*p, x_note1, y_note1, 1)
+    *p = FindSprite("bubble" + Str(problem_list(currentProblem)\note2))
+    SetMySprite(*p, x_note2, y_note1, 1)
     *p = FindSprite("antmove")
     *p\f_horizontal = 4
     *p\f_width = *p\width / 4
@@ -915,114 +737,112 @@ If *capture
     *p\f_height = *p\height
     
     ClearScreen(RGB(255, 255, 255))
-    
-    
+      
     Repeat
 
       If  LEVEL1_State = #Status1_GameInPlay
-      
-      *image = cvQueryFrame(*capture)
-      ;*image = cvCreateImage(FrameWidth, FrameHeight, #IPL_DEPTH_8U, 3)
-      
-      If *image
-        cvFlip(*image, #Null, 1)
-        
-        ; 프레임 넘기기
-        currentTime = GetTickCount_()
-        ForEach sprite_list()
-          FrameManager(sprite_list()) ;active 상태인 것들만 다음 프레임으로
-        Next
-        
-        ; 렌더링
-        ForEach sprite_list()
-          DrawMySprite(sprite_list())
-        Next
-        
-        ;키보드 이벤트
-        ExamineKeyboard()
-        If KeyboardReleased(#PB_Key_1) And answerNum < stageNum
-          keyInput = #PB_Key_1
-          GetCursorPos_(mouse.POINT) : mouse_x=mouse\x : mouse_y=mouse\y
-          marker1X = mouse_x
-          marker1Y = mouse_y - (WindowHeight(0)/2 - 200)
-          If (markerState = 1)
-            CheckArea(keyInput)
-          EndIf
-        EndIf
-        If KeyboardReleased(#PB_Key_2) And answerNum < stageNum
-          keyInput = #PB_Key_2
-          GetCursorPos_(mouse.POINT) : mouse_x=mouse\x : mouse_y=mouse\y
-          marker2X = mouse_x
-          marker2Y = mouse_y - (WindowHeight(0)/2 - 200)
-          If (markerState = 1)
-            CheckArea(keyInput)
-          EndIf
-        EndIf
-        If KeyboardReleased(#PB_Key_Space)
-          markerState = 1
-        EndIf
-        If KeyboardReleased(#PB_Key_3)
-          PlayChordSound()
-        EndIf 
-        If KeyboardReleased(#PB_Key_4)
-          RemoveAnswer() 
-        EndIf 
-        If KeyboardPushed(#PB_Key_P) ; PAUSE
-        LEVEL1_State = #Status1_GameInPause  
-        EndIf 
-        
-              DrawBoxs(*image)
-      
-      *mat.CvMat = cvEncodeImage(".bmp", *image, 0)     
-      Result = CatchImage(1, *mat\ptr)
-      SetGadgetState(0, ImageID(1))     
-      cvReleaseMat(@*mat)  
-      
-      
-      Font40 = LoadFont(#PB_Any, "Impact", 20) 
-      
-     
-     StartDrawing(ScreenOutput())  
-     DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font40))
-     DrawText(1040, 100, "SCORE" + LEVEL1_stage1_score , RGB(255,255,255))
-     StopDrawing()
-      
-      
-      
-      FlipBuffers()
 
-        If  KeyboardPushed(#PB_Key_0) And LEVEL1_State = #Status1_GameInPlay;Escape
+             *image = cvQueryFrame(*capture)
+      
+             If *image
+                   cvFlip(*image, #Null, 1)
+        
+             ; 프레임 넘기기
+             currentTime = GetTickCount_()
+              ForEach sprite_list()
+                  FrameManager(sprite_list()) ;active 상태인 것들만 다음 프레임으로
+              Next
+        
+                ; 렌더링
+               ForEach sprite_list()
+               DrawMySprite(sprite_list())
+                 Next
+        
+               ;키보드 이벤트
+               ExamineKeyboard()
+                If KeyboardReleased(#PB_Key_1)
+                   keyInput = #PB_Key_1
+                    GetCursorPos_(mouse.POINT) : mouse_x=mouse\x : mouse_y=mouse\y
+                   marker1X = mouse_x
+                  marker1Y = mouse_y - (WindowHeight(0)/2 - 200)
+                    If (markerState = 1)
+                   CheckArea(keyInput)
+                  EndIf
+                  EndIf
+                  If KeyboardReleased(#PB_Key_2)
+                 keyInput = #PB_Key_2
+                 GetCursorPos_(mouse.POINT) : mouse_x=mouse\x : mouse_y=mouse\y
+                   marker2X = mouse_x
+                  marker2Y = mouse_y - (WindowHeight(0)/2 - 200)
+                  If (markerState = 1)
+                    CheckArea(keyInput)
+                  EndIf
+               EndIf
+               If KeyboardReleased(#PB_Key_Space)
+                  markerState = 1
+              EndIf
+                If KeyboardReleased(#PB_Key_3)
+                  PlayChordSound()
+                  EndIf 
+        
+        
+                  EndIf
+      
+                  DrawBoxs(*image)
+      
+              *mat.CvMat = cvEncodeImage(".bmp", *image, 0)     
+             Result = CatchImage(1, *mat\ptr)
+             SetGadgetState(0, ImageID(1))     
+               cvReleaseMat(@*mat)  
+      
+               FlipBuffers()
+               
+
+               
+            ElseIf LEVEL1_State = #Status1_GameInPause   
+                GamePause()
+            EndIf  
+            
+            
+            
+            
+           If KeyboardPushed(#PB_Key_0)
+           ; SceneNumber = #StartScene
+             cvReleaseCapture(@*capture)
           
             FreeImage(pbImage)
-            cvReleaseCapture(@*capture)
-      ;      ForEach sprite_list()
-      ;         FreeStructure(sprite_list())
-      ;     Next   
-          midiOutReset_(hMidiOut)
-          midiOutClose_(hMidiOut)
-          CloseWindow(1)
-        EndIf 
-      EndIf
+            ;cvReleaseCapture(@*capture)
+            ForEach sprite_list()
+            PrintN(sprite_list()\sprite_name)
+            Next
 
-    ElseIf LEVEL1_State = #Status1_GameInPause      
-      GamePause()      
-    EndIf 
-   
-    Until WindowEvent() = #PB_Event_CloseWindow Or (KeyboardPushed(#PB_Key_0) And LEVEL1_State = #Status1_GameInPlay)
+            midiOutReset_(hMidiOut)
+            midiOutClose_(hMidiOut)
+            CloseWindow(1)
+            
+            ElseIf KeyboardPushed(#PB_Key_4)
+              LEVEL1_State = #Status1_GameInPause
+  
+          EndIf
+
+    Until WindowEvent() = #PB_Event_CloseWindow Or KeyboardPushed(#PB_Key_0)
   EndIf
- 
+  
 Else
   MessageRequester("PureBasic Interface to OpenCV", "Unable to connect to a webcam - operation cancelled.", #MB_ICONERROR)
 EndIf
   
   EndProcedure
+  
+  
+  
+ ; CreateLevel1()
 
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 987
-; FirstLine = 406
-; Folding = AgBA-
+; CursorPosition = 148
+; FirstLine = 793
+; Folding = ----
 ; EnableXP
 ; DisableDebugger
