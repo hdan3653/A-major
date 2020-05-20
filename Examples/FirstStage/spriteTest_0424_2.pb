@@ -4,6 +4,15 @@
 ; [KEYBOARD] 1: green tracking(실제 입력), 2: red tracking(사운드 출력만), 3: 정답 화음 듣기, 4: 입력값 취소, spacebar: state change
 ; 처음 시작 후, 마우스 커서와 키보드 1(혹은 2)로 박스 영역 설정 -> 스페이스바로 상태 전환 -> 마우스 커서와 키보드 1(혹은 2)로 음 출력, 키보드 3으로 정답 화음 재생
 
+
+Global LEVEL1_State
+
+Enumeration InGameStatus
+  #Stage_Intro
+  #Status1_GameInPlay
+  #Status1_GameInPause
+EndEnumeration
+
 Structure mySprite
   sprite_id.i
   sprite_name.s
@@ -319,6 +328,8 @@ Procedure AnswerCheck()
   Next
   
   If isCorrect = #True
+    *p.mySprite =  FindSprite("correct")
+    SetMySprite(*p, 740, 200, 1)
     PrintN("Correct")
     *q.mySprite = elements(2)
     *q\active = 1
@@ -334,12 +345,24 @@ Procedure AnswerCheck()
     SetMySprite(*q, *q\x + 20, 650, 1)
     *q = elements(2)
     SetMySprite(*q, *q\x + 100, 650, 1)
+    *p.mySprite =  FindSprite("incorrect")
+    SetMySprite(*p, 740, 200, 1)
   EndIf
   
   DeleteSprite("fruit1")
   ForEach sprite_list()
     DrawMySprite(sprite_list())
   Next
+  
+  If isCorrect = #True
+  *p.mySprite =  FindSprite("correct")
+  SetMySprite(*p, x_note1, y_note1, 0)
+  Else
+    *p.mySprite =  FindSprite("incorrect")
+    SetMySprite(*p, x_note1, y_note1, 0)
+  EndIf
+  
+  
   FlipBuffers()
   
   ProcedureReturn isCorrect
@@ -711,6 +734,75 @@ Procedure CheckArea(key)
   
 EndProcedure
 
+
+
+; ==================================================PAUSE ====================================================
+
+Enumeration Image3
+  #Image_PAUSE
+EndEnumeration
+
+UsePNGImageDecoder()
+LoadImage(#Image_PAUSE, "PAUSE.png")
+
+
+Procedure GamePause()
+  
+  UsePNGImageDecoder()
+  LoadImage(#Image_PAUSE, "PAUSE.png")
+   Font40 = LoadFont(#PB_Any, "Impact", 100)
+  ;Font40 = LoadFont(#PB_Any, "System", 50,#PB_Font_Bold)  
+  
+  StartDrawing(ScreenOutput())
+  ;Box(0, 0, 1500, 1000, RGBA(215, 73, 11,20))
+  ;Box(0, 0, 1920, 1080, $00000000)
+ ; DrawImage(ImageID(#Image_PAUSE), 0, 0, 1920, 1080)  
+  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingFont(FontID(Font40))
+  DrawText(640, 400, "PAUSE", RGB(255,255,255))
+
+  StopDrawing()
+  ExamineKeyboard()
+  If KeyboardPushed(#PB_Key_5)
+      LEVEL1_State = #Status1_GameInPlay         
+  EndIf  
+              
+FlipBuffers() 
+
+
+EndProcedure
+
+;==================================================PAUSE =========================================================
+
+
+Procedure Gamestage(StageNum)
+
+ ; Font100 = LoadFont(#PB_Any, "System", 100)
+  Font100 = LoadFont(#PB_Any, "Impact", 100)
+  
+  ClearScreen(RGB(255,255,255))
+  
+     StartDrawing(ScreenOutput())
+     ;Box(0, 0, 600, 600, RGB(215, 73, 11))
+     ;DrawImage(ImageID(#Image_PAUSE), 0, 0, 1920, 1080)  
+     DrawingMode(#PB_2DDrawing_Transparent)
+
+    
+     DrawingFont(FontID(Font100))
+     DrawText(540, 350, "Stage" + StageNum, TextColor)
+     StopDrawing()
+     
+     FlipBuffers()
+
+      Delay(2000)
+      
+    EndProcedure
+
+    
+Procedure CreateLEVEL1_2(SelectedStage)
+    
+
+
 OpenConsole()
 markerState = 0 ; 마커 입력 상태
 answerNum = 0
@@ -742,7 +834,7 @@ keyColor(0)\r = 216
   
 
 InitChords()
-stageNum = 3
+stageNum = 1
 InitProblem()
 
 ;사운드 시스템 초기화, 점검
@@ -810,7 +902,8 @@ If *capture
     InitMySprite("bubble7", "graphics/bubble7.png", 0, 650, 0)
     InitMySprite("ant", "graphics/ant.png", 700, 630)
     InitMySprite("antmove", "graphics/antmove.png", 700, 630, 0)
-    
+    InitMySprite("correct","graphics/correct.png", 500,500,0)
+    InitMySprite("incorrect","graphics/incorrect.png", 500,500,0)
     line_position(0) = 800
     line_position(1) = 890
     line_position(2) = 990
@@ -928,9 +1021,17 @@ If *capture
 Else
   MessageRequester("PureBasic Interface to OpenCV", "Unable to connect to a webcam - operation cancelled.", #MB_ICONERROR)
 EndIf
+
+EndProcedure
+
+
+;CreateLEVEL1_2(2)
+
+
+
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 402
-; FirstLine = 377
-; Folding = ----
+; CursorPosition = 313
+; FirstLine = 84
+; Folding = AgAA-
 ; EnableXP
 ; DisableDebugger

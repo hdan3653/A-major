@@ -1,5 +1,5 @@
 ﻿IncludeFile "../OpenCV_32/includes/cv_functions.pbi"
-
+IncludeFile "spriteTest_0401.pb"
 
 ;EnableExplicit
 Global Event
@@ -11,6 +11,8 @@ Global TextPause.s = "Pause"
 
 Enumeration
   #MainForm
+  #level1_window
+  #Level2_window
 EndEnumeration
 
 Enumeration Scene
@@ -1299,8 +1301,8 @@ UsePNGImageDecoder()
 
 
 ;Screen
-OpenWindow(#MainForm, 0, 0, 600, 600, "Scene Manage Test", #PB_Window_SystemMenu|#PB_Window_ScreenCentered)
-OpenWindowedScreen(WindowID(0), 0, 0, 600, 600)
+MainWindow= OpenWindow(0, 0, 0, 1920, 1080, "Main Window", #PB_Window_SystemMenu |#PB_Window_MaximizeGadget | #PB_Window_ScreenCentered)
+OpenWindowedScreen(WindowID(0), 0, 0, 1920, 1080)
 
 
 If SceneNumber = #StartScene
@@ -1321,6 +1323,9 @@ Repeat
     ElseIf KeyboardPushed(#PB_Key_Space)
       GameState = #Status_GameInPause
     EndIf
+    
+    
+    
   ;Scene Level 1
   If SceneNumber = #SceneLevel1
     If Init()
@@ -1342,8 +1347,8 @@ If *capture
   FrameHeight = cvGetCaptureProperty(*capture, #CV_CAP_PROP_FRAME_HEIGHT)
   *image.IplImage : pbImage = CreateImage(#PB_Any, 640, 480)
   
-  If OpenWindow(0, 0, 0, FrameWidth, FrameHeight, "PureBasic Interface to OpenCV", #PB_Window_SystemMenu |#PB_Window_MaximizeGadget | #PB_Window_ScreenCentered|#PB_Window_Maximize)
-    
+ ; If OpenWindow(0, 0, 0, FrameWidth, FrameHeight, "PureBasic Interface to OpenCV", #PB_Window_SystemMenu |#PB_Window_MaximizeGadget | #PB_Window_ScreenCentered|#PB_Window_Maximize)
+  If  MainWindow  
     OpenWindow(1, 0, WindowHeight(0)/2 - 200, FrameWidth-5, FrameHeight-30, "title") ; 웹캠용 윈도우
     ImageGadget(0, 0, 0, FrameWidth, FrameHeight, ImageID(pbImage))
     StickyWindow(1, #True) ; 항상 위에 고정
@@ -1353,7 +1358,7 @@ If *capture
     InitKeyboard()
     
     ;Screen과 Sprite 생성
-    OpenWindowedScreen(WindowID(0), 0, 0, WindowWidth(0), WindowHeight(0))
+  ;  OpenWindowedScreen(WindowID(0), 0, 0, WindowWidth(0), WindowHeight(0))
 
     UsePNGImageDecoder()
 
@@ -1519,8 +1524,8 @@ If *capture
   FrameHeight = cvGetCaptureProperty(*capture, #CV_CAP_PROP_FRAME_HEIGHT)
   *image.IplImage : pbImage = CreateImage(#PB_Any, 640, 480)
   
-  If OpenWindow(0, 0, 0, FrameWidth, FrameHeight, "PureBasic Interface to OpenCV", #PB_Window_SystemMenu |#PB_Window_MaximizeGadget | #PB_Window_ScreenCentered|#PB_Window_Maximize)
-    
+  ;If OpenWindow(2, 0, 0, FrameWidth, FrameHeight, "Stage2", #PB_Window_SystemMenu |#PB_Window_MaximizeGadget | #PB_Window_ScreenCentered|#PB_Window_Maximize)
+   If MainWindow 
     OpenWindow(1, 0, WindowHeight(0)/2 - 200, FrameWidth-5, FrameHeight-30, "title") ; 웹캠용 윈도우
     ImageGadget(0, 0, 0, FrameWidth, FrameHeight, ImageID(pbImage))
     StickyWindow(1, #True) ; 항상 위에 고정
@@ -1529,17 +1534,7 @@ If *capture
    
     InitKeyboard()
     
-    ;Screen과 Sprite 생성
- 
-    
-    If firstflag = 1
-      InitSprite()
-       OpenWindowedScreen(WindowID(0), 0, 0, WindowWidth(0), WindowHeight(0))  
-       firstflag = 2
-     Else
-       ;OpenWindowedScreen(WindowID(0), 0, 0, WindowWidth(0), WindowHeight(0))  
-       ClearScreen(#Black)
-    EndIf 
+    ;Screen과 Sprite 생성 
     
     UsePNGImageDecoder()
 
@@ -1671,17 +1666,16 @@ If *capture
             ;cvReleaseCapture(@*capture)
             ForEach sprite_list()
               PrintN(sprite_list()\sprite_name)
-              
+       ;       FreeStructure(sprite_list())
             Next
            ForEach sprite_list()
-           DeleteElement(sprite_list())
+         DeleteElement(sprite_list())
             Next
 
            PrintN("뭐가문제니")
             midiOutReset_(hMidiOut)
             midiOutClose_(hMidiOut)
             CloseWindow(1)
-           
           EndIf
           
 
@@ -1707,7 +1701,6 @@ Until KeyboardPushed(#PB_Key_Escape)
 
 EndIf
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 1679
-; FirstLine = 1654
+; CursorPosition = 11
 ; Folding = -------
 ; EnableXP

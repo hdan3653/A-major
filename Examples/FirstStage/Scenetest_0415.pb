@@ -1,5 +1,6 @@
 ﻿IncludeFile "../OpenCV_32/includes/cv_functions.pbi"
 IncludeFile "LEVEL1.pb"
+IncludeFile "LEVEL2.pb"
 
 ;EnableExplicit
 Global Event
@@ -43,11 +44,12 @@ Enumeration Image
   #Image_LEVEL2_Button
   #Image_LEVEL3_Button
   #Image_Calibration_Button
+  #Image_Score1
+  #Image_Score2
+  #Image_Score3
 EndEnumeration
 
 ; + correct.png, incorrect.png
-
-
 
 
 ;Setup Font
@@ -68,6 +70,8 @@ Global BackgroundX = 1536, BackgroundY = 897
 Global LevelNodeX = 300, LevelNodeY = 300
 Global StageNodeX = 400, StageNodeY = 400
 Global StageNodePosX = 548 ,StageNodePosY = 349
+Global ScorePosX = 845, ScorePosY =349
+Global ScoreWidth=200 , ScoreHeight=50
 Global NodeTextX = StageNodePosX+105,NodeTextY = StageNodePosY+155
 
 
@@ -80,7 +84,6 @@ UsePNGImageDecoder()
 LoadImage(#Image_MAIN, "MAIN.png")
 LoadImage(#Image_MENU, "MENU.png")
 LoadImage(#Image_MENU2, "MENU.png")
-LoadImage(#Image_PAUSE2, "PAUSE.png")
 LoadImage(#Image_StageBackground, "StageBackground.png")
 LoadImage(#Image_StageNode, "stage1.png")
 LoadImage(#Image_Stage_left, "Stage_left.png")
@@ -99,7 +102,7 @@ Global markerState, marker1X, marker1Y, marker2X, marker2Y
 Global keyInput, answerTone.i, currentTime, currentProblem.i, spriteinitial.i
 Global.l hMidiOut
 
-Procedure drawStageSelect(StageNum, LeftOrRight)
+Procedure drawStageSelect(StageNum, LeftOrRight, LevelNum)
   
   
   
@@ -133,7 +136,10 @@ Procedure drawStageSelect(StageNum, LeftOrRight)
       DrawingFont(FontID(Font202))
       DrawText(NodeTextX, NodeTextY, "Stage"+AfterStage, TextColor)    
       StopDrawing()
-       
+      
+     
+      
+
       StartDrawing(ScreenOutput())
       
       DrawImage(ImageID(#Image_StageNode), StageNodePosX-x+z, StageNodePosY,StageNodeX, StageNodeY) 
@@ -182,7 +188,7 @@ Procedure drawStageSelect(StageNum, LeftOrRight)
        
 EndProcedure
 
-Procedure drawStageVibe(StageNum)
+Procedure drawStageVibe(StageNum, LevelNum)
 
   
   
@@ -266,19 +272,19 @@ Procedure StageSelectScene(LevelNum)
        ; 나중에.....
       If KeyboardPushed(#PB_Key_Left)
         If  StageNum < StageMax      
-        drawStageSelect(StageNum, 0) 
+        drawStageSelect(StageNum, 0, LevelNum) 
         StageNum + 1        
         Else
-        drawStageVibe(StageNum)
+        drawStageVibe(StageNum, LevelNum)
         EndIf 
       ElseIf KeyboardPushed(#PB_Key_Right)
 
       If StageNum > 1
       
-         drawStageSelect(StageNum, 1)
+         drawStageSelect(StageNum, 1, LevelNum)
           StageNum - 1  
        Else
-         drawStageVibe(StageNum)
+         drawStageVibe(StageNum, LevelNum)
        EndIf  
          
        EndIf 
@@ -418,8 +424,8 @@ If SceneNumber = #StartScene
     ClearScreen(RGB(0, 200, 0))
   ;Scene Level 2  
     ElseIf SceneNumber = #SceneLevel2
-    SelectedStage = StageSelectScene(2)
-    CreateLevel1(SelectedStage)
+    ;SelectedStage = StageSelectScene(2)
+    CreateLevel2()
     SceneNumber = #MenuSelect
     ClearScreen(RGB(0, 200, 0))
   ;Scene Level 3
@@ -439,7 +445,7 @@ If SceneNumber = #StartScene
 
 EndIf
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 62
-; FirstLine = 56
-; Folding = 1
+; CursorPosition = 94
+; FirstLine = 74
+; Folding = 4
 ; EnableXP

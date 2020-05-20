@@ -4,6 +4,7 @@
 ; [KEYBOARD] 1: green tracking(실제 입력), 2: red tracking(사운드 출력만), 3: 정답 화음 듣기, 4: 입력값 취소, spacebar: state change
 ; 처음 시작 후, 마우스 커서와 키보드 1(혹은 2)로 박스 영역 설정 -> 스페이스바로 상태 전환 -> 마우스 커서와 키보드 1(혹은 2)로 음 출력, 키보드 3으로 정답 화음 재생
 
+
 Global LEVEL1_State
 
 Enumeration InGameStatus
@@ -11,7 +12,6 @@ Enumeration InGameStatus
   #Status1_GameInPlay
   #Status1_GameInPause
 EndEnumeration
-
 
 Structure mySprite
   sprite_id.i
@@ -45,8 +45,15 @@ Structure myPosition
   frametime.i
 EndStructure
 
+Structure color
+  r.i
+  g.i
+  b.i
+EndStructure
+
+Global *rectimg.IplImage
 Global markerState, marker1X, marker1Y, marker2X, marker2Y
-Global.i keyInput, answerTone, currentTime, stageNum, answerNum
+Global.i keyInput, answerTone, currentTime, stageNum, answerNum, direction
 Global.l hMidiOut
 Global Dim ptBox.CvPoint(7, 4)
 Global NewList sprite_list.mySprite()
@@ -56,6 +63,7 @@ Global Dim currentProblem(3)
 Global Dim answer(2)
 Global Dim line_position(6)
 Global Dim elements(2) ; container 안에 3개 element spirte 구조체 포인터 저장
+Global Dim keyColor.color(6)
 
 Procedure DrawMySprite(*this.mySprite)
   If *this\active = 1
@@ -301,9 +309,7 @@ EndProcedure
 
 ; 정답 체크
 Procedure AnswerCheck()
-  
   Shared LEVEL1_stage1_score, LEVEL1_stage2_score, LEVEL1_stage3_score
-  
   isCorrect = #True
   
   Dim correctAns(2)
@@ -330,14 +336,13 @@ Procedure AnswerCheck()
     *q\active = 1
     
     If stageNum =1
-      LEVEL1_stage1_score +1
+      LEVEL1_stage1_score +10
     ElseIf stageNum =2
-      LEVEL1_stage2_score +1
+      LEVEL1_stage2_score +20
     ElseIf stageNum =3
-      LEVEL1_stage3_score +1
+      LEVEL1_stage3_score +30
     EndIf 
     
-
   Else
     PrintN("Wrong")
     *q.mySprite = FindSprite("container")
@@ -350,26 +355,22 @@ Procedure AnswerCheck()
     SetMySprite(*q, *q\x + 20, 650, 1)
     *q = elements(2)
     SetMySprite(*q, *q\x + 100, 650, 1)
-    
-    
     *p.mySprite =  FindSprite("incorrect")
     SetMySprite(*p, 740, 200, 1)
-    
   EndIf
   
   DeleteSprite("fruit1")
   ForEach sprite_list()
     DrawMySprite(sprite_list())
   Next
-
-    If isCorrect = #True
-    *p.mySprite =  FindSprite("correct")
-    SetMySprite(*p, x_note1, y_note1, 0)
+  
+  If isCorrect = #True
+  *p.mySprite =  FindSprite("correct")
+  SetMySprite(*p, x_note1, y_note1, 0)
   Else
     *p.mySprite =  FindSprite("incorrect")
     SetMySprite(*p, x_note1, y_note1, 0)
   EndIf
-  
   
   
   FlipBuffers()
@@ -419,23 +420,48 @@ Procedure CalcBoxs()
   If ptRight-ptLeft > ptBottom-ptTop
     ptLength = (ptRight-ptLeft)/7
     direction = 0
+    top = (ptTop + ptBottom)/2 - 100
+    bottom = (ptTop + ptBottom)/2 + 100
+    If bottom > 480
+      bottom = 480
+    EndIf 
   Else
     ptLength = (ptBottom-ptTop)/7
     direction = 1
+    left = (ptLeft + ptRight)/2 - 100
+    right = (ptLeft + ptRight)/2 + 100
+    If left < 0
+      left = 0
+    ElseIf right > 640
+      right = 640
+    EndIf       
   EndIf
   
   count = 0
   Repeat
-    If direction = 1
-      left = ptLeft
-      top = ptTop + count*ptLength
-      right = ptRight
-      bottom = ptTop + (count+1)*ptLength      
+    If direction = 1 ;세로
+      ;left = (ptLeft + ptRight)/2 - 100
+      bottom = ptBottom - count*ptLength
+      ;right = (ptLeft + ptRight)/2 + 100
+      top = ptBottom - (count+1)*ptLength      
     Else
       left = ptLeft + count*ptLength
-      top = ptTop
+      ;top = (ptTop + ptBottom)/2 - 100
       right = ptLeft + (count+1)*ptLength
-      bottom = ptBottom
+      ;bottom = (ptTop + ptBottom)/2 + 100
+    EndIf
+    
+    If left < 0
+      left = 0
+    EndIf
+    If top < 0
+      top = 0
+    EndIf
+    If right < 0
+      right = 0
+    EndIf
+    If bottom < 0
+      bottom = 0
     EndIf
     
     ptBox(count, 0)\x = left
@@ -450,7 +476,8 @@ EndProcedure
 
 Procedure DrawBoxs(*image)
   ; 박스 0-6이 있고 각 꼭짓점을 4개 만듦, 현재는 0과 2만 씀(좌상단과 우하단) 타입은 CvPoint
-  cvLine(*image, ptBox(0, 0)\x, ptBox(0, 0)\y, ptBox(6, 2)\x, ptBox(6, 2)\y, 0, 255, 255, 0, 4, #CV_AA, #Null)
+  ;cvLine(*image, ptBox(0, 0)\x, ptBox(0, 0)\y, ptBox(6, 2)\x, ptBox(6, 2)\y, 0, 255, 255, 0, 4, #CV_AA, #Null)
+  cvSetZero(*rectimg)
   
   ; 그리기 상태일 때 박스들의 좌표값을 계산한다.
   If markerState = 0
@@ -460,10 +487,12 @@ Procedure DrawBoxs(*image)
   ; 7개의 박스를 그린다
   count = 0
   Repeat
-    cvRectangle(*image, ptBox(count, 0)\x, ptBox(count, 0)\y, ptBox(count, 2)\x, ptBox(count, 2)\y, 0, 0, 255, 0, 2, #CV_AA, #Null)
+    cvRectangle(*rectimg, ptBox(count, 0)\x, ptBox(count, 0)\y, ptBox(count, 2)\x, ptBox(count, 2)\y, keyColor(count)\b, keyColor(count)\g, keyColor(count)\r, 0, -1, #CV_AA, #Null)
     count+1
   Until count >= 7
   
+  cvAddWeighted(*image, 1, *rectimg, 0.5, 0, *image)
+
 EndProcedure
 
 Procedure CalcArea(x, y)
@@ -716,20 +745,13 @@ Procedure CheckArea(key)
 EndProcedure
 
 
+
 ; ==================================================PAUSE ====================================================
-
-Enumeration Image3
-  #Image_PAUSE
-EndEnumeration
-
-UsePNGImageDecoder()
-LoadImage(#Image_PAUSE, "PAUSE.png")
-
 
 Procedure GamePause()
   
   UsePNGImageDecoder()
-  LoadImage(#Image_PAUSE, "PAUSE.png")
+ ; LoadImage(#Image_PAUSE, "PAUSE.png")
    Font40 = LoadFont(#PB_Any, "Impact", 100)
   ;Font40 = LoadFont(#PB_Any, "System", 50,#PB_Font_Bold)  
   
@@ -777,34 +799,53 @@ Procedure Gamestage(StageNum)
       Delay(2000)
       
     EndProcedure
+
     
-    
-    
-Procedure CreateLEVEL1 (SelectedStage)
+Procedure CreateLEVEL1(SelectedStage)
   
   Shared LEVEL1_stage1_score, LEVEL1_stage2_score, LEVEL1_stage3_score
   Shared MainWindow
   
-        LEVEL1_State = #Stage_Intro    
-   
-      
-    If  LEVEL1_State = #Stage_Intro
-       Gamestage(SelectedStage)
-        LEVEL1_State = #Status1_GameInPlay
+  LEVEL1_State = #Stage_Intro   
+  
+   If  LEVEL1_State = #Stage_Intro
+      Gamestage(SelectedStage)
+      LEVEL1_State = #Status1_GameInPlay
    EndIf 
-
-
+  
+  
+  
+OpenConsole()
 markerState = 0 ; 마커 입력 상태
 answerNum = 0
 answer(0) = -1
 answer(1) = -1
 answer(2) = -1
 
+keyColor(0)\r = 216
+  keyColor(0)\g = 63
+  keyColor(0)\b = 34
+  keyColor(1)\r = 234
+  keyColor(1)\g = 143
+  keyColor(1)\b = 49
+  keyColor(2)\r = 246
+  keyColor(2)\g = 224
+  keyColor(2)\b = 20
+  keyColor(3)\r = 144
+  keyColor(3)\g = 200
+  keyColor(3)\b = 75
+  keyColor(4)\r = 0
+  keyColor(4)\g = 57
+  keyColor(4)\b = 137
+  keyColor(5)\r = 135
+  keyColor(5)\g = 80
+  keyColor(5)\b = 46
+  keyColor(6)\r = 104
+  keyColor(6)\g = 25
+  keyColor(6)\b = 146
+  
+
 InitChords()
-
-
-;===================stageNum 여기있다 -==============================
-
 stageNum = SelectedStage
 InitProblem()
 
@@ -827,10 +868,10 @@ If *capture
   FrameWidth = cvGetCaptureProperty(*capture, #CV_CAP_PROP_FRAME_WIDTH)
   FrameHeight = cvGetCaptureProperty(*capture, #CV_CAP_PROP_FRAME_HEIGHT)
   *image.IplImage : pbImage = CreateImage(#PB_Any, 640, 480)
+  *rectimg = cvCreateImage(FrameWidth, FrameHeight, #IPL_DEPTH_8U, 3)
   
- ; If OpenWindow(0, 0, 0, FrameWidth, FrameHeight, "PureBasic Interface to OpenCV", #PB_Window_SystemMenu |#PB_Window_MaximizeGadget | #PB_Window_ScreenCentered|#PB_Window_Maximize)
-  If  MainWindow
-    
+  ;If OpenWindow(0, 0, 0, FrameWidth, FrameHeight, "PureBasic Interface to OpenCV", #PB_Window_SystemMenu |#PB_Window_MaximizeGadget | #PB_Window_ScreenCentered|#PB_Window_Maximize)
+   If MainWindow 
     OpenWindow(1, 0, WindowHeight(0)/2 - 200, FrameWidth-5, FrameHeight-30, "title") ; 웹캠용 윈도우
     ImageGadget(0, 0, 0, FrameWidth, FrameHeight, ImageID(pbImage))
     StickyWindow(1, #True) ; 항상 위에 고정
@@ -840,7 +881,7 @@ If *capture
     InitKeyboard()
     
     ;Screen과 Sprite 생성
-   ; OpenWindowedScreen(WindowID(0), 0, 0, WindowWidth(0), WindowHeight(0))
+    ;OpenWindowedScreen(WindowID(0), 0, 0, WindowWidth(0), WindowHeight(0))
     
     UsePNGImageDecoder()
     
@@ -873,11 +914,8 @@ If *capture
     InitMySprite("bubble7", "graphics/bubble7.png", 0, 650, 0)
     InitMySprite("ant", "graphics/ant.png", 700, 630)
     InitMySprite("antmove", "graphics/antmove.png", 700, 630, 0)
-    
     InitMySprite("correct","graphics/correct.png", 500,500,0)
     InitMySprite("incorrect","graphics/incorrect.png", 500,500,0)
-    
-
     line_position(0) = 800
     line_position(1) = 890
     line_position(2) = 990
@@ -916,13 +954,20 @@ If *capture
     
     ClearScreen(RGB(255, 255, 255))
     
+    testN = 1
     
     Repeat
-
+      *image = cvQueryFrame(*capture)
+      testN = testN + 1
+    Until testN = 10
+    
+    
+    Repeat
+      
       If  LEVEL1_State = #Status1_GameInPlay
       
+      
       *image = cvQueryFrame(*capture)
-      ;*image = cvCreateImage(FrameWidth, FrameHeight, #IPL_DEPTH_8U, 3)
       
       If *image
         cvFlip(*image, #Null, 1)
@@ -965,19 +1010,21 @@ If *capture
           PlayChordSound()
         EndIf 
         If KeyboardReleased(#PB_Key_4)
-          RemoveAnswer() 
+          RemoveAnswer()
         EndIf 
         If KeyboardPushed(#PB_Key_P) ; PAUSE
         LEVEL1_State = #Status1_GameInPause  
         EndIf 
         
-              DrawBoxs(*image)
+        
+       
       
+      DrawBoxs(*image)
+      Debug Str(ptBox(0,0)\x) + "    " + Str(ptBox(0,0)\y) 
       *mat.CvMat = cvEncodeImage(".bmp", *image, 0)     
       Result = CatchImage(1, *mat\ptr)
       SetGadgetState(0, ImageID(1))     
       cvReleaseMat(@*mat)  
-      
       
       Font40 = LoadFont(#PB_Any, "Impact", 20) 
       
@@ -985,14 +1032,12 @@ If *capture
      StartDrawing(ScreenOutput())  
      DrawingMode(#PB_2DDrawing_Transparent)
      DrawingFont(FontID(Font40))
-     DrawText(1040, 100, "SCORE" + LEVEL1_stage1_score , RGB(255,255,255))
+     DrawText(1040, 100, "SCORE : " + LEVEL1_stage1_score , RGB(255,255,255))
      StopDrawing()
       
-      
-      
-      FlipBuffers()
-
-        If  KeyboardPushed(#PB_Key_0) And LEVEL1_State = #Status1_GameInPlay;Escape
+     FlipBuffers()
+     
+     If  KeyboardPushed(#PB_Key_0) And LEVEL1_State = #Status1_GameInPlay;Escape
           
             FreeImage(pbImage)
             cvReleaseCapture(@*capture)
@@ -1004,25 +1049,30 @@ If *capture
           CloseWindow(1)
         EndIf 
       EndIf
-
-    ElseIf LEVEL1_State = #Status1_GameInPause      
+     
+         ElseIf LEVEL1_State = #Status1_GameInPause      
       GamePause()      
     EndIf 
-   
+     
+     
     Until WindowEvent() = #PB_Event_CloseWindow Or (KeyboardPushed(#PB_Key_0) And LEVEL1_State = #Status1_GameInPlay)
   EndIf
- 
+  
+  
 Else
   MessageRequester("PureBasic Interface to OpenCV", "Unable to connect to a webcam - operation cancelled.", #MB_ICONERROR)
 EndIf
-  
-  EndProcedure
+
+EndProcedure
+
+
+;CreateLEVEL1_2(2)
 
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 987
-; FirstLine = 406
-; Folding = AgBA-
+; CursorPosition = 753
+; FirstLine = 740
+; Folding = -----
 ; EnableXP
 ; DisableDebugger

@@ -1643,8 +1643,7 @@ Procedure LayerEffectReset(Color = #PB_Ignore)
 EndProcedure
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 1581
-; FirstLine = 376
+; CursorPosition = 14
 ; Folding = -----
 ; Markers = 1181,1239,1575
 ; EnableXP
