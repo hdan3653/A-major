@@ -70,9 +70,9 @@ Global Window_0, Screen_0, Window_1
 Global markerState, marker1X, marker1Y, marker2X, marker2Y
 Global keyInput, answerTone, threadStatus, currentThread, currentTime, currentProblem.i
 Global Dim ptBox.CvPoint(7, 4)
-Global NewList sprite_list.mySprite()
-Global NewList position_list.myPosition()
-Global Dim problem_list.Problem_Lv2(1)
+Global NewList sprite_list2.mySprite()
+Global NewList position_list2.myPosition()
+Global Dim problem_list2.Problem_Lv2(1)
 
 Global currentBar.i
 Global MaxBar = 8 ; 최대 8마디
@@ -111,11 +111,11 @@ Procedure FrameManager(*this.mySprite)
 EndProcedure
 
 
-Procedure InitMySprite(name.s, filename.s, x.i, y.i, active.i = 1) ;active는 옵션
+Procedure InitMySprite2(name.s, filename.s, x.i, y.i, active.i = 1) ;active는 옵션
                                                                    ; 스프라이트 구조체 초기화
   CreateSprite(#PB_Any, width, height)
   mysprite = LoadSprite(#PB_Any, filename.s)
-  *newsprite.mySprite = AddElement(sprite_list())
+  *newsprite.mySprite = AddElement(sprite_list2())
   
   *newsprite\sprite_id = mysprite
   *newsprite\sprite_name = name
@@ -146,8 +146,8 @@ Procedure SetMySprite(*sprite.mySprite, x.i, y.i, active.i)
 EndProcedure
 
 ;myPosition 초기화
-Procedure InitMyPosition(*sprite.mySprite, xmove.i, ymove.i, xmax.i, ymax.i, startdelay.i)
-  *this.myPosition = AddElement(position_list())
+Procedure InitMyPosition2(*sprite.mySprite, xmove.i, ymove.i, xmax.i, ymax.i, startdelay.i)
+  *this.myPosition = AddElement(position_list2())
   
   *this\sprite = *sprite
   *this\xmove = xmove
@@ -157,7 +157,7 @@ Procedure InitMyPosition(*sprite.mySprite, xmove.i, ymove.i, xmax.i, ymax.i, sta
   *this\startdelay = startdelay
 EndProcedure
 
-Procedure InitProblem()
+Procedure InitProblem2()
   ;-- 파일 입출력으로 바꾸기
   ;   file = ReadFile(#PB_Any, "airplane.txt", #PB_UTF8)
   ;   
@@ -218,18 +218,18 @@ Procedure InitProblem()
   problem\answers(0) = #CODE_C
   problem\answers(1) = #CODE_G
   
-  problem_list(0) = problem
-  problem_list(1) = problem
+  problem_list2(0) = problem
+  problem_list2(1) = problem
   
 EndProcedure
 
-; sprite_list 에서 이름으로 구조체 찾기. 퓨베 특성상 current element 이슈 때문에 도중에 일치해도 끝까지 루프를 돌아야함
+; sprite_list2 에서 이름으로 구조체 찾기. 퓨베 특성상 current element 이슈 때문에 도중에 일치해도 끝까지 루프를 돌아야함
 Procedure FindSprite(name.s)
   *returnStructure.mySprite
   
-  ForEach sprite_list()
-    If sprite_list()\sprite_name = name
-      returnStructrue = sprite_list()
+  ForEach sprite_list2()
+    If sprite_list2()\sprite_name = name
+      returnStructrue = sprite_list2()
     EndIf 
   Next
   
@@ -239,8 +239,8 @@ EndProcedure
 ;초기 화면구성으로 재설정하는 함수
 Procedure InitialSetting()
   
-  ;   *p.mySprite = LastElement(sprite_list()) ;answer sprite
-  ;   DeleteElement(sprite_list())
+  ;   *p.mySprite = LastElement(sprite_list2()) ;answer sprite
+  ;   DeleteElement(sprite_list2())
   ;   
   ;   *q.mySprite = FindSprite("line"+Str(answerTone+1))
   ;   *q\active = 1
@@ -257,15 +257,15 @@ Procedure InitialSetting()
   ;   *q\present = -1
   ;   *q = FindSprite("container")
   ;   *q\x = 790
-  ; ;   *q = FindSprite("note" + Str(problem_list(currentProblem)\note1))
+  ; ;   *q = FindSprite("note" + Str(problem_list2(currentProblem)\note1))
   ; ;   *q\x = 800
-  ; ;   *q = FindSprite("note" + Str(problem_list(currentProblem)\note2))
+  ; ;   *q = FindSprite("note" + Str(problem_list2(currentProblem)\note2))
   ; ;   *q\x = 840
 EndProcedure 
 
 Procedure AnswerCheck()
   ;   OpenConsole()
-  ;   If problem_list(currentProblem)\answer = answerTone+1
+  ;   If problem_list2(currentProblem)\answer = answerTone+1
   ;     PrintN("correct")
   ;   Else
   ;     PrintN("Wrong")
@@ -428,7 +428,7 @@ Procedure ChangePos(*this.myPosition)
   EndIf
   If *this\sprite\x = *this\xmax Or *this\sprite\y = *this\ymax
     
-    DeleteElement(position_list())
+    DeleteElement(position_list2())
   EndIf 
   
   
@@ -437,21 +437,21 @@ EndProcedure
 Procedure MoveAnt()
   Repeat
     currentTime = GetTickCount_()
-    ForEach position_list()
-      ChangePos(position_list())
+    ForEach position_list2()
+      ChangePos(position_list2())
     Next
     currentTime = GetTickCount_()
-    ForEach sprite_list()
-      FrameManager(sprite_list()) ;active 상태인 것들만 다음 프레임으로
+    ForEach sprite_list2()
+      FrameManager(sprite_list2()) ;active 상태인 것들만 다음 프레임으로
     Next
-    ForEach sprite_list()
+    ForEach sprite_list2()
       ;--
-      PrintN(sprite_list()\sprite_name)
+      PrintN(sprite_list2()\sprite_name)
       
-      DrawMySprite(sprite_list())
+      DrawMySprite(sprite_list2())
     Next
     FlipBuffers()
-  Until ListSize(position_list()) = 0
+  Until ListSize(position_list2()) = 0
   
   ;answer check
   Delay(500)
@@ -466,17 +466,17 @@ Procedure MakeAnt(code.i)
   ;   *temp.mySprite = FindSprite("note"+Str(currentBar)+"\0")
   ;   SetMySprite(*temp, 0, 0, 0)
   
-  InitMySprite("antmove"+Str(currentBar), "../graphics/antmove.png", Lv2_antX-200, Lv2_antY)
+  InitMySprite2("antmove"+Str(currentBar), "../graphics/antmove.png", Lv2_antX-200, Lv2_antY)
   *p.mySprite = FindSprite("antmove"+Str(currentBar))
   *p\f_horizontal = 4
   *p\f_width = 65
   *p\f_height = 69
   
-  InitMySprite("container"+Str(currentBar), "../graphics/container.png", Lv2_contX, Lv2_contY)
+  InitMySprite2("container"+Str(currentBar), "../graphics/container.png", Lv2_contX, Lv2_contY)
   *p2.mySprite = FindSprite("container"+Str(currentBar))
   
-  InitMyPosition(*p, 10, 0, Lv2_antX, 0, 20)
-  InitMyPosition(*p2, 10, 0, Lv2_antX+60, 0, 20)
+  InitMyPosition2(*p, 10, 0, Lv2_antX, 0, 20)
+  InitMyPosition2(*p2, 10, 0, Lv2_antX+60, 0, 20)
   
   ;화음이 된 비료 속 좌표
   note0X = Lv2_antX-200+70
@@ -502,22 +502,22 @@ Procedure MakeAnt(code.i)
       note0 = "mi":      note1 = "so":      note2 = "ti"
   EndSelect
   
-  InitMySprite("note"+Str(currentBar)+"\0", "../graphics/"+note0+".png", note0X, note0Y)
-  InitMySprite("note"+Str(currentBar)+"\1", "../graphics/"+note1+".png", note1X, note1Y)
-  InitMySprite("note"+Str(currentBar)+"\2", "../graphics/"+note2+".png", note2X, note2Y)
+  InitMySprite2("note"+Str(currentBar)+"\0", "../graphics/"+note0+".png", note0X, note0Y)
+  InitMySprite2("note"+Str(currentBar)+"\1", "../graphics/"+note1+".png", note1X, note1Y)
+  InitMySprite2("note"+Str(currentBar)+"\2", "../graphics/"+note2+".png", note2X, note2Y)
   
   *n0 = FindSprite("note"+Str(currentBar)+"\0")
   *n1 = FindSprite("note"+Str(currentBar)+"\1")
   *n2 = FindSprite("note"+Str(currentBar)+"\2")
   
-  InitMyPosition(*n0, 10, 0, Lv2_antX+70, 0, 20)
-  InitMyPosition(*n1, 10, 0, Lv2_antX+110, 0, 20)
-  InitMyPosition(*n2, 10, 0, Lv2_antX+90, 0, 20)
+  InitMyPosition2(*n0, 10, 0, Lv2_antX+70, 0, 20)
+  InitMyPosition2(*n1, 10, 0, Lv2_antX+110, 0, 20)
+  InitMyPosition2(*n2, 10, 0, Lv2_antX+90, 0, 20)
   
   MoveAnt()
   
   *p\active = 0
-  *p.mySprite = InitMySprite("ant"+Str(currentBar), "../graphics/ant.png", Lv2_antX, Lv2_antY)
+  *p.mySprite = InitMySprite2("ant"+Str(currentBar), "../graphics/ant.png", Lv2_antX, Lv2_antY)
   
 EndProcedure
 
@@ -574,25 +574,27 @@ Procedure DrawBarMarker()
   posY = 30
   For i=MaxBar-1 To 0 Step -1
     If i = currentBar
-      InitMySprite("barMarker"+Str(i), "../graphics/re.png", posX+i*40, posY)
+      InitMySprite2("barMarker"+Str(i), "../graphics/re.png", posX+i*40, posY)
       ;       *p.mySprite = FindSprite("barMarker"+Str(i))
     Else
-      InitMySprite("barMarker"+Str(i), "../graphics/fa.png", posX+i*40, posY)
+      InitMySprite2("barMarker"+Str(i), "../graphics/fa.png", posX+i*40, posY)
     EndIf
   Next
   
 EndProcedure
 
+
+; LEVEL2 
 Procedure DrawNotes()
   
-  problem.Problem_Lv2 = problem_list(currentProblem)
+  problem.Problem_Lv2 = problem_list2(currentProblem)
   
   weight.f = 0.0
   distance.i = Lv2_antX
   current_bar.i = 0
   
   ; 배경 그려주기
-  InitMySprite("background_clip", "../graphics/background_clip.png", Lv2_antX-100, 0)
+  InitMySprite2("background_clip", "../graphics/background_clip.png", Lv2_antX-100, 0)
   
   For i = 0 To ArraySize(problem\notes())-1
     ;     PrintN(Str(k) + ", " + Str(i) + " : " + Str(problem\notes(i)\note))
@@ -620,7 +622,7 @@ Procedure DrawNotes()
       PrintN("마디변경")
       
       ; 배경 그려주기
-      InitMySprite("background_clip", "../graphics/background_clip.png", Lv2_antX+450, 0)
+      InitMySprite2("background_clip", "../graphics/background_clip.png", Lv2_antX+450, 0)
       posX+160
       
     EndIf
@@ -628,7 +630,7 @@ Procedure DrawNotes()
     ; 음표 그리기 ; line0/2 : 0번째 마디의 3번째 음표
     spriteName.s = "line" + Str(note\posBar) + "/" + Str(note\posNote)
     PrintN(Str(i) + " : " + Str(posX) + ", " + Str(posY) + " and " + Str(weight))
-    InitMySprite(spriteName, "../graphics/line"+line_num+".png", posX, posY)
+    InitMySprite2(spriteName, "../graphics/line"+line_num+".png", posX, posY)
     
     ; 다음 음표를 위한 거리 가중치 (간격을 맞춰주기 위해)
     weight.f = note\length
@@ -644,7 +646,7 @@ OpenConsole()
 markerState = 0 ; 마커 입력 상태
 threadStatus = 0; thread 상태. 0-실행안함, 1-실행중
 
-InitProblem()
+InitProblem2()
 
 ;사운드 시스템 초기화, 점검
 If InitSound() = 0 
@@ -687,7 +689,7 @@ If *capture
     
     UsePNGImageDecoder()
     
-    InitMySprite("background", "../graphics/background.png", 0, 0)
+    InitMySprite2("background", "../graphics/background.png", 0, 0)
     
     currentProblem = 0;-- Random(2)
     currentBar = 0
@@ -704,12 +706,12 @@ If *capture
         cvFlip(*image, #Null, 1)
         
         currentTime = GetTickCount_()
-        ForEach sprite_list()
-          FrameManager(sprite_list()) ;active 상태인 것들만 다음 프레임으로
+        ForEach sprite_list2()
+          FrameManager(sprite_list2()) ;active 상태인 것들만 다음 프레임으로
         Next
         
-        ForEach sprite_list()
-          DrawMySprite(sprite_list())
+        ForEach sprite_list2()
+          DrawMySprite(sprite_list2())
         Next
         
         ;키보드 이벤트
@@ -774,20 +776,20 @@ If *capture
   FreeImage(pbImage)
   cvReleaseCapture(@*capture)
   
-  ForEach sprite_list()
-    FreeStructure(sprite_list())
+  ForEach sprite_list2()
+    FreeStructure(sprite_list2())
   Next
   
-  FreeStructure(position_list())
-  FreeStructure(problem_list())
+  FreeStructure(position_list2())
+  FreeStructure(problem_list2())
   
   cvReleaseCapture(@*capture)
 Else
   MessageRequester("PureBasic Interface to OpenCV", "Unable to connect to a webcam - operation cancelled.", #MB_ICONERROR)
 EndIf
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 763
-; FirstLine = 609
+; CursorPosition = 328
+; FirstLine = 307
 ; Folding = ----
 ; EnableXP
 ; DisableDebugger

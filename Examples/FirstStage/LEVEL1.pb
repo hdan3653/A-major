@@ -751,14 +751,8 @@ EndProcedure
 Procedure GamePause()
   
   UsePNGImageDecoder()
- ; LoadImage(#Image_PAUSE, "PAUSE.png")
-   Font40 = LoadFont(#PB_Any, "Impact", 100)
-  ;Font40 = LoadFont(#PB_Any, "System", 50,#PB_Font_Bold)  
-  
+  Font40 = LoadFont(#PB_Any, "Impact", 100) 
   StartDrawing(ScreenOutput())
-  ;Box(0, 0, 1500, 1000, RGBA(215, 73, 11,20))
-  ;Box(0, 0, 1920, 1080, $00000000)
- ; DrawImage(ImageID(#Image_PAUSE), 0, 0, 1920, 1080)  
   DrawingMode(#PB_2DDrawing_Transparent)
   DrawingFont(FontID(Font40))
   DrawText(640, 400, "PAUSE", RGB(255,255,255))
@@ -867,7 +861,8 @@ Until nCreate = 5 Or *capture
 If *capture
   FrameWidth = cvGetCaptureProperty(*capture, #CV_CAP_PROP_FRAME_WIDTH)
   FrameHeight = cvGetCaptureProperty(*capture, #CV_CAP_PROP_FRAME_HEIGHT)
-  *image.IplImage : pbImage = CreateImage(#PB_Any, 640, 480)
+  ;*image.IplImage
+  pbImage = CreateImage(#PB_Any, 640, 480)
   *rectimg = cvCreateImage(FrameWidth, FrameHeight, #IPL_DEPTH_8U, 3)
   
   ;If OpenWindow(0, 0, 0, FrameWidth, FrameHeight, "PureBasic Interface to OpenCV", #PB_Window_SystemMenu |#PB_Window_MaximizeGadget | #PB_Window_ScreenCentered|#PB_Window_Maximize)
@@ -1004,7 +999,14 @@ If *capture
           EndIf
         EndIf
         If KeyboardReleased(#PB_Key_Space)
-          markerState = 1
+          
+          If  markerState = 1
+            markerState = 0
+          ElseIf  markerState = 0
+            markerState = 1
+          EndIf 
+          
+          
         EndIf
         If KeyboardReleased(#PB_Key_3)
           PlayChordSound()
@@ -1028,13 +1030,52 @@ If *capture
       
       Font40 = LoadFont(#PB_Any, "Impact", 20) 
       
-     
+     If stageNum = 1
      StartDrawing(ScreenOutput())  
      DrawingMode(#PB_2DDrawing_Transparent)
      DrawingFont(FontID(Font40))
      DrawText(1040, 100, "SCORE : " + LEVEL1_stage1_score , RGB(255,255,255))
      StopDrawing()
+     
+   ElseIf stageNum =2
+          StartDrawing(ScreenOutput())  
+     DrawingMode(#PB_2DDrawing_Transparent)
+     DrawingFont(FontID(Font40))
+     DrawText(1040, 100, "SCORE : " + LEVEL1_stage2_score , RGB(255,255,255))
+     StopDrawing()
+     
+   ElseIf stageNum =3
+     StartDrawing(ScreenOutput())  
+     DrawingMode(#PB_2DDrawing_Transparent)
+     DrawingFont(FontID(Font40))
+     DrawText(1040, 100, "SCORE : " + LEVEL1_stage3_score , RGB(255,255,255))
+     StopDrawing()
+     
+     
+     EndIf  
+     
+     
+    
       
+     If markerState = 0
+     StartDrawing(ScreenOutput())  
+     DrawingMode(#PB_2DDrawing_Transparent)
+     DrawingFont(FontID(Font40))
+     DrawText(1040, 100, "마커모드 : 상자조절" , RGB(255,255,255))
+     StopDrawing()
+      
+     ElseIf  markerState =1 
+          StartDrawing(ScreenOutput())  
+     DrawingMode(#PB_2DDrawing_Transparent)
+     DrawingFont(FontID(Font40))
+     DrawText(1040, 100, "마커모드 : 음 입력모드" , RGB(255,255,255))
+     StopDrawing()
+     EndIf  
+     
+     
+     
+     
+     
      FlipBuffers()
      
      If  KeyboardPushed(#PB_Key_0) And LEVEL1_State = #Status1_GameInPlay;Escape
@@ -1071,8 +1112,7 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 753
-; FirstLine = 740
-; Folding = -----
+; CursorPosition = 11
+; Folding = IAEA-
 ; EnableXP
 ; DisableDebugger

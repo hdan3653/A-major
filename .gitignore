@@ -1,1 +1,35 @@
 *.DS_Store
+FirstStage/data/Textures/Vase_N.jpg
+FirstStage/data/Textures/Vase_REM.jpg
+FirstStage/data/Textures/Vase_B.jpg
+FirstStage/data/Textures/UB2D_N.png
+FirstStage/data/Textures/UB2D_B.png
+FirstStage/data/Textures/Pumpkin_REM.jpg
+FirstStage/data/Textures/Pumpkin_N.jpg
+FirstStage/data/Textures/Pumpkin_B.jpg
+FirstStage/data/Textures/Floor_REM.jpg
+FirstStage/data/Textures/Floor_N.jpg
+FirstStage/data/Textures/Floor_B.jpg
+FirstStage/data/Textures/Ball_REM.png
+FirstStage/data/Textures/Ball_N.png
+FirstStage/data/Textures/Ball_B.png
+FirstStage/data/Sprites/UB2D.jpg
+FirstStage/data/Sprites/Blender OBJ-Export.jpg
+FirstStage/data/Sprites/Blender DAE-Export.jpg
+FirstStage/data/sounds/gunshot.wav
+FirstStage/data/sounds/ambientforest.wav
+FirstStage/data/Shader/SPR_Green.vs
+FirstStage/data/Shader/SPR_Green.fs
+FirstStage/data/Meshes/Pumpkin.obj
+FirstStage/data/Meshes/Vase.dae
+FirstStage/data/images/sight.png
+FirstStage/data/images/panel1.png
+FirstStage/data/images/iceblaster.png
+FirstStage/data/images/ground.jpg
+FirstStage/data/images/bird.png
+FirstStage/data/images/background.jpg
+FirstStage/data/Fonts/Arial_20.tf
+FirstStage/data/Environments/Studio.png
+FirstStage/data/Environments/DayForest.png
+FirstStage/data/Environments/DarkRoom.png
+FirstStage/data/Environments/BrightRoom.png

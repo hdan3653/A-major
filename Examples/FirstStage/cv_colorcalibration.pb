@@ -1,4 +1,4 @@
-﻿IncludeFile "includes/cv_functions.pbi"
+﻿;IncludeFile "includes/cv_functions.pbi"
 
 Global lpPrevWndFunc, *image.IplImage, nX, nY, *frame.IplImage
 #CV_WINDOW_NAME = "PureBasic Interface to OpenCV"
@@ -81,7 +81,7 @@ ProcedureC TrackRed(*imgHSV.IplImage)
   moment01.d = moments\m01
   area.d = moments\m00
   
-  If area > 1000
+  If area > 100
     posX = moment10 / area
     posY = moment01 / area
     
@@ -98,6 +98,10 @@ ProcedureC TrackRed(*imgHSV.IplImage)
 EndProcedure
 
 
+Procedure Createcali()
+  
+  space_mode = #True
+  
 Repeat
   nCreate + 1
   *capture.CvCapture = cvCreateCameraCapture(#CV_CAP_ANY)
@@ -179,7 +183,7 @@ If *capture
         cvXorS(*frame, 255, 255, 255, 0, *frame, #Null)
         cvResetImageROI(*frame)
       EndIf
-      cvCircle(*frame, Cen_x, Cen_y, radius, 0, 0, 255, 0, 2, #CV_AA, #Null)  
+      cvCircle(*frame, Cen_x, Cen_y, radius*1.414, 0, 0, 255, 0, 2, #CV_AA, #Null)  
       
          TrackRed(*projection)
       
@@ -189,16 +193,38 @@ If *capture
         Else 
         cvShowImage(#CV_WINDOW_NAME, *frame) 
        EndIf
-      
+       
+       
+        Select event
+        Case #CV_EVENT_LBUTTONDOWN
+        select_object = 1
+        Case #CV_EVENT_LBUTTONUP
+        select_object = 0
+        projection_obj =-1
+        EndSelect
+       
+       
+       
       ;cvShowImage(#CV_WINDOW_NAME, *frame)
       keyPressed = cvWaitKey(10)
       Select keyPressed
         Case 13
           projection_obj = 0
         Case 32
-
+          
+        If   space_mode
+        select_object = 1
+        space_mode = #False   
+        ElseIf space_mode = #False
+        select_object = 0
+        projection_obj =-1
+        space_mode = #True
+        EndIf 
+          
         Case 80, 112
           projection_mode ! #True
+          
+   
       EndSelect
     EndIf
   Until keyPressed = 27 Or exitCV
@@ -211,11 +237,25 @@ If *capture
   cvReleaseImage(@*frame)
   cvDestroyAllWindows()
   cvReleaseCapture(@*capture)
+  
+  ProcedureReturn
 Else
   MessageBox_(0, "Unable to connect to a webcam - operation cancelled.", #CV_WINDOW_NAME, #MB_ICONERROR)
 EndIf
+
+EndProcedure
+
+
+;Createcali()
+
+
+
+
+
+
+
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 152
-; FirstLine = 83
-; Folding = 5
+; CursorPosition = 239
+; FirstLine = 158
+; Folding = z
 ; EnableXP

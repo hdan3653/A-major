@@ -663,7 +663,8 @@ Until nCreate = 5 Or *capture
 If *capture
  FrameWidth = cvGetCaptureProperty(*capture, #CV_CAP_PROP_FRAME_WIDTH)
  FrameHeight = cvGetCaptureProperty(*capture, #CV_CAP_PROP_FRAME_HEIGHT)
- *image.IplImage : pbImage = CreateImage(#PB_Any, 640, 480)
+ ;*image.IplImage :
+  pbImage = CreateImage(#PB_Any, 640, 480)
  *rectimg = cvCreateImage(FrameWidth, FrameHeight, #IPL_DEPTH_8U, 3)
  *loadbox1 = cvLoadImage("../graphics/chord_box.png", 1)
  *loadbox2 = cvLoadImage("../graphics/chord_box2.png", 1)
@@ -826,8 +827,6 @@ EndProcedure
 
 ;CreateLEVEL2()
 
-
-
 ; IDE Options = PureBasic 5.60 (Windows - x86)
 ; CursorPosition = 549
 ; FirstLine = 534
@@ -836,8 +835,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 772
-; FirstLine = 407
-; Folding = OA5
+; CursorPosition = 666
+; FirstLine = 116
+; Folding = AAw
 ; EnableXP
 ; DisableDebugger

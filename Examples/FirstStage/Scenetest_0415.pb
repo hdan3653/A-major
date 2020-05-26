@@ -1,7 +1,11 @@
-﻿IncludeFile "../OpenCV_32/includes/cv_functions.pbi"
+﻿;Score 
+Global LEVEL1_stage1_score =0, LEVEL1_stage2_score =0, LEVEL1_stage3_score =0
+
+IncludeFile "../OpenCV_32/includes/cv_functions.pbi"
 IncludeFile "LEVEL1.pb"
 IncludeFile "LEVEL2.pb"
-
+IncludeFile "TUTORIAL.pb"
+IncludeFile "cv_colorcalibration.pb"
 ;EnableExplicit
 Global Event
 Global SceneNumber
@@ -15,6 +19,7 @@ Enumeration Scene
   #StartScene
   #MenuSelect
   #CalibrationScene
+  #Tutorial
   #StageSelect
   #SceneLevel1
   #SceneLevel2
@@ -59,13 +64,10 @@ Font20 = LoadFont(#PB_Any, "System", 20)
 Font25 = LoadFont(#PB_Any, "System", 23)
 Font40 = LoadFont(#PB_Any, "System", 40,#PB_Font_Bold)
 
-;Score 
-LEVEL1_stage1_score =0
-LEVEL1_stage2_score =0
-LEVEL1_stage3_score =0
 
 
 ;Image Size
+Global *image.IplImage
 Global BackgroundX = 1536, BackgroundY = 897
 Global LevelNodeX = 300, LevelNodeY = 300
 Global StageNodeX = 400, StageNodeY = 400
@@ -102,6 +104,8 @@ Global markerState, marker1X, marker1Y, marker2X, marker2Y
 Global keyInput, answerTone.i, currentTime, currentProblem.i, spriteinitial.i
 Global.l hMidiOut
 
+
+
 Procedure drawStageSelect(StageNum, LeftOrRight, LevelNum)
   
   
@@ -128,6 +132,8 @@ Procedure drawStageSelect(StageNum, LeftOrRight, LevelNum)
        currentStageNum =StageNum
        AfterStage = currentStageNum+1
        BeforeStage = currentStageNum-1
+       
+       
        If LeftOrRight = 0
        
       StartDrawing(ScreenOutput())     
@@ -136,9 +142,6 @@ Procedure drawStageSelect(StageNum, LeftOrRight, LevelNum)
       DrawingFont(FontID(Font202))
       DrawText(NodeTextX, NodeTextY, "Stage"+AfterStage, TextColor)    
       StopDrawing()
-      
-     
-      
 
       StartDrawing(ScreenOutput())
       
@@ -245,7 +248,18 @@ Procedure StageSelectScene(LevelNum)
   Repeat
    
     FlipBuffers()
-
+    
+    
+          
+       If StageNum = 1         
+         Score = LEVEL1_stage1_score         
+       ElseIf StageNum = 2         
+          Score = LEVEL1_stage2_score
+       ElseIf  StageNum = 3         
+          Score = LEVEL1_stage3_score         
+       EndIf  
+    
+    
       StartDrawing(ScreenOutput())
       DrawingFont(FontID(Font202))
       DrawText(200, 200, "LEVEL"+ LevelNum, TextColor)
@@ -265,8 +279,11 @@ Procedure StageSelectScene(LevelNum)
        DrawingFont(FontID(Font202))
        DrawingMode(#PB_2DDrawing_Transparent)
        DrawText(NodeTextX, NodeTextY, "Stage"+StageNum, TextColor)
-      StopDrawing()
-      
+       DrawText(NodeTextX-50, NodeTextY+100, "score : "+Score, TextColor)
+       StopDrawing()
+       
+
+
        ExamineKeyboard()
        ; 이부분...귀찮은데 나중에 고치기 (return stagenum 하고 함수안에서 stagenum 판별해서 vibe할지 이동할지 하도록.)
        ; 나중에.....
@@ -298,7 +315,7 @@ Procedure StageSelectScene(LevelNum)
 
 EndProcedure
 
-Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3: 숫자 1,2,3, 확인 : 4, 종료 escape 
+Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3,튜토, 캘리  확인 : 4, 종료 escape 
   
   Font202 = LoadFont(#PB_Any, "System", 20)
   MENUSelect = 1
@@ -318,19 +335,22 @@ Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3: 숫자 1,
    DrawImage(ImageID(#Image_LEVEL1_Button), 200, 350- (3*Sin(LEVEL1_pos)),LevelNodeX,LevelNodeY)  
    DrawImage(ImageID(#Image_LEVEL2_Button), 600, 350 -(3*Sin(LEVEL2_pos)),LevelNodeX,LevelNodeY) 
    DrawImage(ImageID(#Image_LEVEL3_Button), 1000, 350 -(3*Sin(LEVEL3_pos)),LevelNodeX,LevelNodeY) 
-   DrawImage(ImageID(#Image_Calibration_Button), 1300, 100-(3*Sin(CaliButton)), 200,50)
+   DrawImage(ImageID(#Image_Calibration_Button), 50, 100-(3*Sin(CaliButton)), 200,50)
+   DrawImage(ImageID(#Image_Calibration_Button), 1300, 100-(3*Sin(Tutorialbutton)), 200,50)
    DrawingMode(#PB_2DDrawing_Transparent)
    StopDrawing() 
    
    
-   If MENUSelect = 1
+   If MENUSelect = 1 ;LEVEL1
      LEVEL1_pos +1
-   ElseIf MENUSelect = 2
+   ElseIf MENUSelect = 2 ;LEVEL2
      LEVEL2_pos +1
-   ElseIf MENUSelect = 3
+   ElseIf MENUSelect = 3 ;LEVEL3
      LEVEL3_pos +1     
-   ElseIf MenuSelect = 4
+   ElseIf MENUSelect = 4 ; calibration 화면
      CaliButton + 1
+   ElseIf MENUSelect =5 
+     Tutorialbutton + 1
    EndIf  
    
     ; 좌우로 눌러서 메뉴 선택 , 4로 확인
@@ -341,7 +361,7 @@ Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3: 숫자 1,
         EndIf 
     ElseIf   KeyboardReleased(#PB_Key_Right) 
       
-      If MENUSelect < 4
+      If MENUSelect < 5
         MENUSelect + 1
       EndIf  
       
@@ -360,8 +380,11 @@ Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3: 숫자 1,
       SceneNumber = #SceneLevel2
     ElseIf MENUSelect =3 
       SceneNumber = #SceneLevel3
-    ElseIf SceneNumber = 4 ;CalibrationScene
-      GameState = #CalibrationScene
+    ElseIf MENUSelect = 4 ;CalibrationScene
+      SceneNumber = #CalibrationScene
+    ElseIf MENUSelect =5
+      SceneNumber = #Tutorial
+      
     ElseIf KeyboardPushed(#PB_Key_Escape)
        CloseWindow(0)
        CloseConsole()
@@ -391,7 +414,6 @@ OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
 If SceneNumber = #StartScene
 	
   StartDrawing(ScreenOutput())
-  ;Box(0, 0, 600, 600, ScreenDefaultColor)
   DrawImage(ImageID(#Image_MAIN), 0, 0, BackgroundX, BackgroundY)
   DrawingMode(#PB_2DDrawing_Transparent)
   DrawingFont(FontID(ImpactFont))
@@ -416,7 +438,12 @@ If SceneNumber = #StartScene
   ElseIf SceneNumber = #MenuSelect
     ; 여기도 나중에 MENUSCENE함수로 빼내기    
     MenuSelectScene()
-  ;Scene Level 1
+    ;Scene Level 1
+    
+  ElseIf SceneNumber = #Tutorial
+    CreateTutorial(1)
+    SceneNumber = #MenuSelect
+    ClearScreen(RGB(0, 0, 200))
   ElseIf SceneNumber = #SceneLevel1
     SelectedStage = StageSelectScene(1)
     CreateLevel1(SelectedStage)
@@ -430,22 +457,22 @@ If SceneNumber = #StartScene
     ClearScreen(RGB(0, 200, 0))
   ;Scene Level 3
     ElseIf SceneNumber = #SceneLevel3 
-   ; SelectedStage = StageSelectScene(3)
-    CreateLevel1(SelectedStage)
-    SceneNumber = #MenuSelect
+      CreateTutorial(1)
+      SceneNumber = #MenuSelect
     ClearScreen(RGB(0, 0, 200))
     
-  ElseIf SceneNumber = #CalibrationScene ;원래는 스크린조절이나 볼륨조절같은거 들어가야하는데.... 여기다 뭐넣지..?
-    
+  ElseIf SceneNumber = #CalibrationScene ; 여기 제스쳐 할때 캘리브레이션한 마스크 리턴해가지고 trackred한테 넘겨주면될듯?
 
-    
+      Createcali()
+      SceneNumber = #MenuSelect
+      ClearScreen(RGB(0, 0, 200))
   EndIf 
     
   Until KeyboardPushed(#PB_Key_Escape)
 
 EndIf
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 94
-; FirstLine = 74
-; Folding = 4
+; CursorPosition = 59
+; Folding = w
 ; EnableXP
+; Executable = C:\Users\ParkHyunji\Desktop\game.exe
