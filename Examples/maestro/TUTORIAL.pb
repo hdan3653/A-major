@@ -33,7 +33,6 @@ Global Tutorial_Num = 0
 Global Tuto_Lock_5 = #False, Tuto_Lock_6 = #False, Tuto_Lock_10 = #False, Tuto_Lock_15= #False  
 
 
-
 Procedure CheckArea_Tutorial(key)
   If(key = #PB_Key_2)
     ;    Debug("GREEN : " + Str(marker2X) + ", " + Str(marker2Y))
@@ -54,9 +53,6 @@ Procedure CheckArea_Tutorial(key)
   
 EndProcedure
 
-
-
-
 Procedure WriteScript(script.s, pos_x, pos_y)
      *p = FindSprite("script_box")
      SetMySprite(*p, 0, 0, 1) 
@@ -69,8 +65,6 @@ Procedure WriteScript(script.s, pos_x, pos_y)
 
      
 EndProcedure
-
-
 
 Procedure Tutorial_play()
   
@@ -178,9 +172,6 @@ Procedure Tutorial_play()
 
 EndProcedure
 
-
-
-    
 Procedure CreateTutorial(SelectedStage)
   
   Shared MainWindow
@@ -521,8 +512,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 427
-; FirstLine = 282
-; Folding = 5
+; CursorPosition = 33
+; FirstLine = 5
+; Folding = w
 ; EnableXP
 ; DisableDebugger

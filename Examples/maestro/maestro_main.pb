@@ -485,6 +485,8 @@ OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
   cvReleaseCapture(@*capture)  
   midiOutReset_(hMidiOut)
   midiOutClose_(hMidiOut)
+  ;FreeSprite(#PB_All)
+  FreeImage(#PB_All)
   CloseWindow(#PB_All)
   CloseConsole()
   cvDestroyAllWindows()
@@ -492,8 +494,8 @@ OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
   
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 476
-; FirstLine = 249
+; CursorPosition = 493
+; FirstLine = 251
 ; Folding = 5
 ; EnableXP
 ; Executable = maestro.exe
