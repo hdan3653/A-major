@@ -775,6 +775,8 @@ EndProcedure
 
 ;==================================================PAUSE =========================================================
 
+
+
 Procedure ant_saying(script.s, pos_x, pos_y)
   
      *p = FindSprite("ant_say")
@@ -783,7 +785,7 @@ Procedure ant_saying(script.s, pos_x, pos_y)
      StartDrawing(ScreenOutput())  
      DrawingMode(#PB_2DDrawing_Transparent)
      DrawingFont(FontID(Font40))
-     DrawText(pos_x, pos_y, script , RGB(0,0,0))
+     DrawTextEx(pos_x, pos_y, script)
      StopDrawing()
 
   EndProcedure
@@ -1235,8 +1237,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 843
-; FirstLine = 220
-; Folding = IAAw-
+; CursorPosition = 777
+; FirstLine = 131
+; Folding = IAAg-
 ; EnableXP
 ; DisableDebugger

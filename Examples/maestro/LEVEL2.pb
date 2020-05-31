@@ -69,7 +69,8 @@ Global Lv2_noteY = 610
 Global Lv2_contX = 560
 Global Lv2_contY = 600
  
-
+Global Tutorial_Num_Lv2 =1
+Global Tutorial_lock_Lv2 = #True
  
 ; ################## LEVEL 2 ##################
 ; 좌표값 옮겨주는 함수
@@ -482,10 +483,22 @@ Procedure AnswerCheck_Lv2()
    input = userAnswers(i)
    If answer = input
      PrintN(Str(i+1) + "번째 마디 정답 / 입력 : " + Str(userAnswers(i)) + "/ 실제 답 : " + Str(answer))
+     ; InitMySprite("small_correct"+i, "graphics/small_correct.png", 40*i, 10,1)
+       *p = FindSprite("small_correct"+i)
+       SetMySprite(*p, 40*i , 30, 1)
+       *p = FindSprite("small_incorrect"+i)
+       SetMySprite(*p, 40*i , 30, 0)  
    Else
      PrintN(Str(i+1) + "번째 마디 오답 / 입력 : " + Str(userAnswers(i)) + "/ 실제 답 : " + Str(answer))
+     Debug "initmysprite" + i
+     ;   InitMySprite("small_incorrect"+i, "graphics/small_incorrect.png", 40*i, 10,1) 
+            *p = FindSprite("small_correct"+i)
+       SetMySprite(*p, 40*i , 30, 0)
+        *p = FindSprite("small_incorrect"+i)
+        SetMySprite(*p, 40*i , 30, 1)  
    EndIf
  Next
+ 
 EndProcedure
  
 Procedure MoveNotes(distance.i)
@@ -632,12 +645,90 @@ EndProcedure
 ;==================================================PAUSE =========================================================
  
 
+
+
+Procedure LEVEL2_Tutorial()
+  
+  pos_x = 1000
+  pos_y = 600
+  x + 1
+  Debug  Tutorial_Num_Lv2
+  
+  
+  Select Tutorial_Num_Lv2
+      
+     Case 1     
+       ant_saying("안녕 LEVEL2에 온 걸 환영해", pos_x, pos_y)
+       
+     Case 2
+      ant_saying("LEVEL2에 관해 간단히 설명해줄게", pos_x, pos_y) 
+      
+    Case 3 
+  
+       ant_saying("LEVEL2는 주어진 멜로디에 알맞은 경단, "+#CRLF$+" 즉 화음을 넣는 단계야", pos_x, pos_y)
+       
+     Case 4
+       
+       ant_saying("멜로디는 '마디'로 구분되는데, "+#CRLF$+" 작은 나뭇잎 보이지? "+#CRLF$+"저걸로 마디를 구분해", pos_x, pos_y)
+       
+        *p = FindSprite("leaf_highlight")
+        SetMySprite(*p, 1170 , 140 , 1)
+       
+      Case 5
+        *p = FindSprite("madi_highlight")
+        SetMySprite(*p, 800 , 440 , 1)
+        ant_saying("작은 나뭇잎 까지, "+#CRLF$+"즉, 표시한 부분이 한 마디가 되는거야!", pos_x, pos_y)
+              
+      Case 6       
+       ant_saying("LEVEL2의 멜로디는 총 8마디야!", pos_x, pos_y)
+        *p = FindSprite("leaf_highlight")
+        SetMySprite(*p, 1170 , 140 , 0)
+        *p = FindSprite("madi_highlight")
+        SetMySprite(*p, 800 , 440 , 0)
+        
+     Case 7
+       ant_saying("왼쪽오른쪽 제스쳐를 통해서 마디를 이동할 수 있지", pos_x, pos_y)
+       
+     Case 8       
+        *p = FindSprite("madis_highlight")
+        SetMySprite(*p, 50 , 40 , 1)
+       
+       ant_saying("마디 정보는 왼쪽 위에서 확인할 수 있어!", pos_x, pos_y)     
+       
+     Case 9
+       
+        *p = FindSprite("madis_highlight")
+        SetMySprite(*p, 50 , 40 , 0)
+       
+       ant_saying("멜로디의 음에 따라서 "+#CRLF$+"알맞음 화음을 붙이는 방법을 알려줄게", pos_x, pos_y)
+                                             
+     Case 10
+       ant_saying("어쩌고 저쩌고", pos_x, pos_y) 
+       
+     Case 11
+       ant_saying("제스쳐를 이용해서 마디를 이동하고,"+#CRLF$+" 비어있는 곳에 마커를 이용해서 알맞은 화음을 넣으면 돼!", pos_x, pos_y)   
+       
+     Case 12
+        ant_saying("OO을 제스쳐로 음악을 재생하고 정답을 체크 할 수있지", pos_x, pos_y)   
+       
+     Case 13
+      *p = FindSprite("ant_say")
+       SetMySprite(*p, 900, 500, 0)
+     Tutorial_lock_Lv2 = #False  
+
+  EndSelect
+  
+EndProcedure
+
+
+
 Procedure Gamestage_Lv2()
   UsePNGImageDecoder()
   LoadImage(#Image_Lv2_Stage, "./graphics/Lv2_stage.png")
+  InitMySprite("ant_say", "graphics/ant_say.png", 500,500,0)   
   Font202 = LoadFont(#PB_Any, "System", 20)
-  MENUSelect = 1
-  Debug MENUSelect
+  ProbSelect = 1
+  Debug ProbSelect
   InitSprite()
   
   StageNodeX_Lv2 = 600
@@ -651,66 +742,46 @@ Procedure Gamestage_Lv2()
    ; 똑같은건데 #Image_MENU는 오류나고 #Image_MENU2는 괜찮음. 어디서 이름이 겹치나..? 그래서 그냥 #Image_MENU2 로 합니다.
    DrawImage(ImageID(#Image_MENU2), 0, 0, BackgroundX, BackgroundY)  
    DrawingMode(#PB_2DDrawing_Transparent)
-   DrawingFont(FontID(Font202))
-   DrawText(20, 15, "MENU SCENE", TextColor)
-   DrawText(20, 50, "USER NAME", TextColor)
    
-   DrawingFont(FontID(Font202))
-   DrawingMode(#PB_2DDrawing_Transparent)
-   
-   DrawImage(ImageID(#Image_Lv2_Stage), 470, 350- (3*Sin(LEVEL1_pos)),StageNodeX_Lv2, StageNodeY_Lv2)  
-   DrawImage(ImageID(#Image_Lv2_Stage), 470, 550 -(3*Sin(LEVEL2_pos)),StageNodeX_Lv2, StageNodeY_Lv2) 
-      DrawText(500, 450- (3*Sin(LEVEL1_pos)), "비행기", TextColor)
-   DrawText(500, 650 -(3*Sin(LEVEL2_pos)), "학교 종", TextColor)
+   DrawingFont(FontID(Font202))  
+   DrawImage(ImageID(#Image_Lv2_Stage), 470, 350- (3*Sin(node1_pos)),StageNodeX_Lv2, StageNodeY_Lv2)  
+   DrawImage(ImageID(#Image_Lv2_Stage), 470, 550 -(3*Sin(node2_pos)),StageNodeX_Lv2, StageNodeY_Lv2) 
+   DrawText(500, 450- (3*Sin(node1_pos)), "비행기", TextColor)
+   DrawText(500, 650 -(3*Sin(node2_pos)), "학교 종", TextColor)
    DrawingMode(#PB_2DDrawing_Transparent)  
    StopDrawing()    
    
-   If MENUSelect = 1 ;LEVEL1
-     LEVEL1_pos +1     
-   ElseIf MENUSelect = 2 ;LEVEL2
-     LEVEL2_pos +1
+   If ProbSelect = 0 ;비행기
+     node1_pos +1     
+   ElseIf ProbSelect = 1 ;학교종
+     node2_pos +1
    EndIf  
    
     ; 좌우로 눌러서 메뉴 선택 , 4로 확인
     If  ExamineKeyboard()
     If KeyboardReleased(#PB_Key_Left)
-        If  MENUSelect > 1
-        MENUSelect - 1
+        If  ProbSelect > 0
+        ProbSelect - 1
         EndIf 
     ElseIf   KeyboardReleased(#PB_Key_Right) 
       
-      If MENUSelect < 5
-        MENUSelect + 1
+      If ProbSelect < 1
+        ProbSelect + 1
       EndIf  
       
     EndIf
    EndIf 
-   
-   If KeyboardReleased(#PB_Key_Escape)
-     MENUSelect = 10
-     Break  
-     EndIf  
-
+    
        FlipBuffers()
  Until KeyboardReleased(#PB_Key_4)
  
 
-    If MENUSelect = 1
-      ;  SceneNumber = #SceneLevel1
-      ProcedureReturn 0
-    ElseIf   MENUSelect = 2 
-      ProcedureReturn 1
-    EndIf   
-  Debug MENUSelect
+ProcedureReturn ProbSelect
   
-  
-  
-  
+
 EndProcedure
 
 
-
- 
  Procedure CreateLEVEL2 ()
 
    Shared MainWindow
@@ -730,13 +801,7 @@ threadStatus = 0; thread 상태. 0-실행안함, 1-실행중
    ;currentProblem = Random(1)
    PrintN("Problem Count is " + Str(problem_count))
    PrintN("Current Problem Number is " + Str(currentProblem)) 
-
-
-
-
-
-
-
+   
 ; @@
 InitProblem_Lv2()
  
@@ -773,14 +838,8 @@ If *capture
    UsePNGImageDecoder()
    TransparentSpriteColor(#PB_Default, RGB(255, 0, 255))
   
-   InitMySprite("background", "../graphics/background.png", 0, 0)
+   InitMySprite("background", "graphics/background.png", 0, 0)
    
-   
-   
-   
-    
-   
-  
    currentBar = 0
    For i=0 To MaxBar-1
      userAnswers(i) = -1
@@ -790,8 +849,32 @@ If *capture
    DrawNotes_Lv2()
   
    ClearScreen(RGB(255, 255, 255))
-  
+   
+         InitMySprite("ant_say", "graphics/ant_say.png", 500,500,0) 
+         InitMySprite("leaf_highlight", "graphics/leaf_highlight.png", 500,500,0) 
+         InitMySprite("madi_highlight", "graphics/madi_highlight.png", 500,500,0) 
+         InitMySprite("madis_highlight", "graphics/madis_highlight.png", 500,500,0)  
+
    Repeat
+     
+        ; ㄱ- 이거 위치 리핏밖으로 꺼내면 왜 안되는건지 모르겟음
+         InitMySprite("small_incorrect0", "graphics/small_incorrect.png", 40, 10,0)
+         InitMySprite("small_incorrect1", "graphics/small_incorrect.png", 40, 10,0)
+         InitMySprite("small_incorrect2", "graphics/small_incorrect.png", 40, 10,0)
+         InitMySprite("small_incorrect3", "graphics/small_incorrect.png", 40, 10,0)
+         InitMySprite("small_incorrect4", "graphics/small_incorrect.png", 40, 10,0)
+         InitMySprite("small_incorrect5", "graphics/small_incorrect.png", 40, 10,0)
+         InitMySprite("small_incorrect6", "graphics/small_incorrect.png", 40, 10,0)
+         InitMySprite("small_incorrect7", "graphics/small_incorrect.png", 40, 10,0)
+         InitMySprite("small_correct0", "graphics/small_correct.png", 500,500,0)
+         InitMySprite("small_correct1", "graphics/small_correct.png", 500,500,0)
+         InitMySprite("small_correct2", "graphics/small_correct.png", 500,500,0)
+         InitMySprite("small_correct3", "graphics/small_correct.png", 500,500,0)
+         InitMySprite("small_correct4", "graphics/small_correct.png", 500,500,0)
+         InitMySprite("small_correct5", "graphics/small_correct.png", 500,500,0)
+         InitMySprite("small_correct6", "graphics/small_correct.png", 500,500,0)
+         InitMySprite("small_correct7", "graphics/small_correct.png", 500,500,0)
+     
      
      
      If  LEVEL2_State = #Status2_GameInPlay
@@ -800,7 +883,8 @@ If *capture
     
      If *image
        cvFlip(*image, #Null, 1)
-      
+       
+       
        currentTime = GetTickCount_()
        ForEach sprite_list()
          FrameManager(sprite_list()) ;active 상태인 것들만 다음 프레임으로
@@ -809,7 +893,42 @@ If *capture
        ForEach sprite_list()
          DrawMySprite(sprite_list())
        Next
-      
+       
+     
+    
+
+       ; Tutorial
+       If   Tutorial_lock_Lv2
+         
+          LEVEL2_Tutorial()
+          
+      Font40 = LoadFont(#PB_Any, "Impact", 15)     
+     If Tutorial_Num_Lv2 = 1
+     StartDrawing(ScreenOutput())  
+     DrawingMode(#PB_2DDrawing_Transparent)
+     DrawingFont(FontID(Font40))
+     DrawText(1450+2*Sin(x), 680, "다음" , RGB(0,0,0))
+   ;  DrawText(100-2*Sin(x), 150, "이전" , RGB(255,255,255))
+     StopDrawing()
+     ElseIf Tutorial_Num_Lv2 = 12
+          StartDrawing(ScreenOutput())  
+     DrawingMode(#PB_2DDrawing_Transparent)
+     DrawingFont(FontID(Font40))
+   ;  DrawText(1300+2*Sin(x), 150, "다음" , RGB(0,255,255))
+     DrawText(1000-2*Sin(x), 680, "이전" , RGB(0,0,0))
+     StopDrawing()
+     Else
+               StartDrawing(ScreenOutput())  
+     DrawingMode(#PB_2DDrawing_Transparent)
+     DrawingFont(FontID(Font40))
+     DrawText(1450+2*Sin(x), 680, "다음" , RGB(0,0,0))
+     DrawText(1000-2*Sin(x), 680, "이전" , RGB(0,0,0))
+     StopDrawing()
+     EndIf  
+     
+     x+1  
+        EndIf 
+       
        ;키보드 이벤트
        ExamineKeyboard()
       
@@ -842,8 +961,26 @@ If *capture
        If KeyboardReleased(#PB_Key_Space)
          markerState = 1
        EndIf
-      
-       If KeyboardReleased(#PB_Key_Left)
+       
+       
+       
+       If  Tutorial_lock_Lv2
+       
+       
+      If  KeyboardReleased(#PB_Key_Right) And Tutorial_Num_Lv2 <20
+          
+          Tutorial_Num_Lv2 + 1
+          
+        EndIf 
+        
+       If  KeyboardReleased(#PB_Key_Left) And Tutorial_Num_Lv2 > 1
+          
+          Tutorial_Num_Lv2 -1
+          
+        EndIf
+       
+     Else
+         If KeyboardReleased(#PB_Key_Left)
          ; 이전 마디로 이동
          If currentBar > 0
            currentBar-1
@@ -860,9 +997,20 @@ If *capture
          EndIf
        EndIf
        
+       EndIf  
+       
+       If KeyboardPushed(#PB_Key_A) ; ANSWER CHECK <- 이거 겁나 연타하면 멈춤 ㄱ- ㅋㅋ
+         
+         AnswerCheck_Lv2()
+         EndIf  
+       
+       
+       
           If KeyboardPushed(#PB_Key_P) ; PAUSE
         LEVEL2_State = #Status2_GameInPause  
-        EndIf 
+               
+            
+          EndIf 
     
      DrawBoxs_Lv2(*image)
     
@@ -894,9 +1042,7 @@ If *capture
        LEVEL2_State = #Status2_GameEnd
        
        EndIf
-       
-       
-      
+
      EndIf
      
       ElseIf LEVEL2_State = #Status2_GameInPause 
@@ -912,7 +1058,6 @@ If *capture
  MessageRequester("PureBasic Interface to OpenCV", "Unable to connect to a webcam - operation cancelled.", #MB_ICONERROR)
 EndIf
 
-Debug "LEVEL2 asdfasdf"
 
 ProcedureReturn  
 
@@ -930,8 +1075,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 660
-; FirstLine = 193
-; Folding = CAx-
+; CursorPosition = 1003
+; FirstLine = 328
+; Folding = AAA-
 ; EnableXP
 ; DisableDebugger

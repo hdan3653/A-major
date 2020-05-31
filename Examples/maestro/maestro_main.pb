@@ -35,6 +35,20 @@ LoadImage(#Image_Lv2_Stage, "./graphics/Lv2_stage.png")
 
 Global BackgroundX = 1536, BackgroundY = 897
 
+
+
+Procedure DrawTextEx(X.i, Y.i, Text.s)
+   Protected I.i, Max = CountString(Text, #CRLF$)+1
+   Protected Line.s
+   For I = 1 To Max
+      Line = StringField(Text, I, #CRLF$)
+      DrawText(X, Y, Line, RGB(0,0,0))
+      Y + TextHeight(" ")
+   Next
+EndProcedure
+
+
+
 IncludeFile "./includes/cv_functions.pbi"
 IncludeFile "LEVEL1.pb"
 IncludeFile "LEVEL2.pb"
@@ -248,7 +262,6 @@ Procedure StageSelectScene(LevelNum)
   UsePNGImageDecoder()
   LoadImage(#Image_MAIN, "./graphics/MAIN.png")
   Font202 = LoadFont(#PB_Any, "Impact", 50)
-  ;Font202 = LoadFont(#PB_Any, "System", 50)
   Repeat
    
     FlipBuffers()
@@ -262,13 +275,6 @@ Procedure StageSelectScene(LevelNum)
        ElseIf  StageNum = 3         
           Score = LEVEL1_stage3_score         
        EndIf  
-    
-    
- ;     StartDrawing(ScreenOutput())
- ;     DrawingFont(FontID(Font202))
- ;     DrawText(200, 200, "LEVEL"+ LevelNum, TextColor)
- ;     DrawingMode(#PB_2DDrawing_Transparent)
- ;     StopDrawing()
       
       StartDrawing(ScreenOutput())
       Box(0, 0, 600, 600, RGB(0,0,0))
@@ -322,7 +328,7 @@ EndProcedure
 Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3,튜토, 캘리  확인 : 4, 종료 escape 
   Font202 = LoadFont(#PB_Any, "System", 20)
   MENUSelect = 1
-  Debug MENUSelect
+
   Repeat  
 
    StartDrawing(ScreenOutput())
@@ -343,8 +349,6 @@ Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3,튜토, �
    StopDrawing()    
    
 
-   
-   
    If MENUSelect = 1 ;LEVEL1
      LEVEL1_pos +1     
    ElseIf MENUSelect = 2 ;LEVEL2
@@ -400,6 +404,8 @@ Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3,튜토, �
 
 EndProcedure
 
+
+
 ;Engine Init
 InitSprite()
 InitSound()
@@ -414,7 +420,7 @@ UsePNGImageDecoder()
 
 
 ;Screen
-MainWindow= OpenWindow(0, 0, 0, 1980, 1020, "Main Window", #PB_Window_SystemMenu |#PB_Window_MaximizeGadget | #PB_Window_ScreenCentered)
+MainWindow= OpenWindow(0, 0, 0, 1980, 1020, "Main Window", #PB_Window_SystemMenu |#PB_Window_Maximize | #PB_Window_ScreenCentered |#PB_Window_BorderLess)
 OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
 
  SceneNumber = #StartScene
@@ -431,9 +437,10 @@ OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
   DrawImage(ImageID(#Image_MAIN), 0, 0, BackgroundX, BackgroundY)
   DrawingMode(#PB_2DDrawing_Transparent)
   DrawingFont(FontID(ImpactFont))
-  DrawText(20, 15, "A-MAJOR", TextColor)
+  DrawTextEx(0,0, "A-MAJOR "+#CRLF$+" asdfasf")
+  DrawText(20, 15, "A-MAJOR "+#CRLF$+" asdfasf", TextColor)
   DrawText(20, 50, "USER NAME", TextColor)
-    DrawText(700, 700 + 3*Sin(posy), "Press Any Key", TextColor) 
+    DrawText(680, 700 + 3*Sin(posy), "Press Any Key", TextColor) 
   StopDrawing() 
     
     posy= x/5
@@ -498,8 +505,8 @@ OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
   
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 270
-; FirstLine = 144
-; Folding = 1
+; CursorPosition = 406
+; FirstLine = 123
+; Folding = h
 ; EnableXP
 ; Executable = maestro.exe
