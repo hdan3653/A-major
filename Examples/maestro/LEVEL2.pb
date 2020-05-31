@@ -10,6 +10,7 @@ Global LEVEL2_State
 
 Enumeration InGameStatus
   #Stage_Tutorial
+  #Status2_Intro
   #Status2_GameInPlay
   #Status2_GameInPause
   #Status2_GameEnd
@@ -612,17 +613,11 @@ Procedure PlayNotes(parameter)
 Procedure GamePause_Lv2()
   
   UsePNGImageDecoder()
- ; LoadImage(#Image_PAUSE, "PAUSE.png")
    Font40 = LoadFont(#PB_Any, "Impact", 100)
-  ;Font40 = LoadFont(#PB_Any, "System", 50,#PB_Font_Bold)  
-  
   StartDrawing(ScreenOutput())
-  ;Box(0, 0, 1500, 1000, RGBA(215, 73, 11,20))
-  ;Box(0, 0, 1920, 1080, $00000000)
- ; DrawImage(ImageID(#Image_PAUSE), 0, 0, 1920, 1080)  
   DrawingMode(#PB_2DDrawing_Transparent)
   DrawingFont(FontID(Font40))
-  DrawText(640, 400, "PAUSE", RGB(255,255,255))
+  DrawText(640, 400, "PAUSED", RGB(255,255,255))
 
   StopDrawing()
   ExamineKeyboard()
@@ -636,16 +631,110 @@ EndProcedure
 
 ;==================================================PAUSE =========================================================
  
+
+Procedure Gamestage_Lv2()
+  UsePNGImageDecoder()
+  LoadImage(#Image_Lv2_Stage, "./graphics/Lv2_stage.png")
+  Font202 = LoadFont(#PB_Any, "System", 20)
+  MENUSelect = 1
+  Debug MENUSelect
+  InitSprite()
+  
+  StageNodeX_Lv2 = 600
+  StageNodeY_Lv2 = 150
+  
+  Repeat  
+    
+   ClearScreen(RGB(255,255,255))
+    
+   StartDrawing(ScreenOutput())
+   ; 똑같은건데 #Image_MENU는 오류나고 #Image_MENU2는 괜찮음. 어디서 이름이 겹치나..? 그래서 그냥 #Image_MENU2 로 합니다.
+   DrawImage(ImageID(#Image_MENU2), 0, 0, BackgroundX, BackgroundY)  
+   DrawingMode(#PB_2DDrawing_Transparent)
+   DrawingFont(FontID(Font202))
+   DrawText(20, 15, "MENU SCENE", TextColor)
+   DrawText(20, 50, "USER NAME", TextColor)
+   
+   DrawingFont(FontID(Font202))
+   DrawingMode(#PB_2DDrawing_Transparent)
+   
+   DrawImage(ImageID(#Image_Lv2_Stage), 470, 350- (3*Sin(LEVEL1_pos)),StageNodeX_Lv2, StageNodeY_Lv2)  
+   DrawImage(ImageID(#Image_Lv2_Stage), 470, 550 -(3*Sin(LEVEL2_pos)),StageNodeX_Lv2, StageNodeY_Lv2) 
+      DrawText(500, 450- (3*Sin(LEVEL1_pos)), "비행기", TextColor)
+   DrawText(500, 650 -(3*Sin(LEVEL2_pos)), "학교 종", TextColor)
+   DrawingMode(#PB_2DDrawing_Transparent)  
+   StopDrawing()    
+   
+   If MENUSelect = 1 ;LEVEL1
+     LEVEL1_pos +1     
+   ElseIf MENUSelect = 2 ;LEVEL2
+     LEVEL2_pos +1
+   EndIf  
+   
+    ; 좌우로 눌러서 메뉴 선택 , 4로 확인
+    If  ExamineKeyboard()
+    If KeyboardReleased(#PB_Key_Left)
+        If  MENUSelect > 1
+        MENUSelect - 1
+        EndIf 
+    ElseIf   KeyboardReleased(#PB_Key_Right) 
+      
+      If MENUSelect < 5
+        MENUSelect + 1
+      EndIf  
+      
+    EndIf
+   EndIf 
+   
+   If KeyboardReleased(#PB_Key_Escape)
+     MENUSelect = 10
+     Break  
+     EndIf  
+
+       FlipBuffers()
+ Until KeyboardReleased(#PB_Key_4)
  
+
+    If MENUSelect = 1
+      ;  SceneNumber = #SceneLevel1
+      ProcedureReturn 0
+    ElseIf   MENUSelect = 2 
+      ProcedureReturn 1
+    EndIf   
+  Debug MENUSelect
+  
+  
+  
+  
+EndProcedure
+
+
+
  
  Procedure CreateLEVEL2 ()
 
    Shared MainWindow
-   LEVEL2_State = #Status2_GameInPlay
-OpenConsole("Test Console")
+   OpenConsole("Test Console")
  
 markerState = 0 ; 마커 입력 상태
 threadStatus = 0; thread 상태. 0-실행안함, 1-실행중
+
+
+    LEVEL2_State = #Status2_Intro
+    If  LEVEL2_State = #Status2_Intro
+    currentProblem = Gamestage_Lv2()
+    LEVEL2_State = #Status2_GameInPlay
+   EndIf 
+   
+   ;-- TODO random
+   ;currentProblem = Random(1)
+   PrintN("Problem Count is " + Str(problem_count))
+   PrintN("Current Problem Number is " + Str(currentProblem)) 
+
+
+
+
+
 
 
 ; @@
@@ -685,11 +774,12 @@ If *capture
    TransparentSpriteColor(#PB_Default, RGB(255, 0, 255))
   
    InitMySprite("background", "../graphics/background.png", 0, 0)
-  
-   ;-- TODO random
-   currentProblem = Random(1)
-   PrintN("Problem Count is " + Str(problem_count))
-   PrintN("Current Problem Number is " + Str(currentProblem))
+   
+   
+   
+   
+    
+   
   
    currentBar = 0
    For i=0 To MaxBar-1
@@ -824,6 +914,9 @@ EndIf
 
 Debug "LEVEL2 asdfasdf"
 
+ProcedureReturn  
+
+
 EndProcedure
 
 
@@ -837,8 +930,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 773
-; FirstLine = 230
-; Folding = AAw
+; CursorPosition = 660
+; FirstLine = 193
+; Folding = CAx-
 ; EnableXP
 ; DisableDebugger

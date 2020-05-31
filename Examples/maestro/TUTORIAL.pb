@@ -172,7 +172,7 @@ Procedure Tutorial_play()
 
 EndProcedure
 
-Procedure CreateTutorial(SelectedStage)
+Procedure CreateTutorial()
   
   Shared MainWindow
   
@@ -215,7 +215,7 @@ keyColor(0)\r = 216
   
 
 InitChords()
-stageNum = SelectedStage
+;stageNum = SelectedStage
 InitProblem()
 
 ;사운드 시스템 초기화, 점검
@@ -512,8 +512,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 33
-; FirstLine = 5
-; Folding = w
+; CursorPosition = 26
+; FirstLine = 12
+; Folding = 5
 ; EnableXP
 ; DisableDebugger

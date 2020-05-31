@@ -1,5 +1,39 @@
 ﻿;Score 
 Global LEVEL1_stage1_score =0, LEVEL1_stage2_score =0, LEVEL1_stage3_score =0
+Enumeration Image
+  #Image_MAIN
+  #Image_MENU
+  #Image_MENU2
+  #Image_PAUSE2
+  #Image_StageBackground    
+  #Image_StageNode
+  #Image_Stage_left
+  #Image_Stage_right
+  #Image_LEVELSelectBackground
+  #Image_LEVEL1_Button
+  #Image_LEVEL2_Button
+  #Image_LEVEL3_Button
+  #Image_Calibration_Button
+  #Image_Score1
+  #Image_Score2
+  #Image_Score3
+  #Image_Lv2_Stage
+EndEnumeration
+
+;Setup Sprite
+UsePNGImageDecoder()
+LoadImage(#Image_MAIN, "./graphics/MAIN.png")
+LoadImage(#Image_MENU, "./graphics/MENU.png")
+LoadImage(#Image_MENU2, "./graphics/MENU.png")
+LoadImage(#Image_StageBackground, "./graphics/StageBackground.png")
+LoadImage(#Image_StageNode, "./graphics/stage1.png")
+LoadImage(#Image_LEVEL1_Button, "./graphics/LEVEL1.png")
+LoadImage(#Image_LEVEL2_Button, "./graphics/LEVEL2.png")
+LoadImage(#Image_LEVEL3_Button, "./graphics/LEVEL3.png")
+LoadImage(#Image_Calibration_Button, "./graphics/CalibrationButton.png")
+LoadImage(#Image_Lv2_Stage, "./graphics/Lv2_stage.png")
+
+Global BackgroundX = 1536, BackgroundY = 897
 
 IncludeFile "./includes/cv_functions.pbi"
 IncludeFile "LEVEL1.pb"
@@ -36,25 +70,6 @@ Enumeration Status
   #Status_GameInPause
 EndEnumeration
 
-Enumeration Image
-  #Image_MAIN
-  #Image_MENU
-  #Image_MENU2
-  #Image_PAUSE2
-  #Image_StageBackground    
-  #Image_StageNode
-  #Image_Stage_left
-  #Image_Stage_right
-  #Image_LEVELSelectBackground
-  #Image_LEVEL1_Button
-  #Image_LEVEL2_Button
-  #Image_LEVEL3_Button
-  #Image_Calibration_Button
-  #Image_Score1
-  #Image_Score2
-  #Image_Score3
-EndEnumeration
-
 ; + correct.png, incorrect.png
 
 
@@ -69,7 +84,7 @@ Font40 = LoadFont(#PB_Any, "System", 40,#PB_Font_Bold)
 
 ;Image Size
 Global *image.IplImage
-Global BackgroundX = 1536, BackgroundY = 897
+;Global BackgroundX = 1536, BackgroundY = 897
 Global LevelNodeX = 300, LevelNodeY = 300
 Global StageNodeX = 400, StageNodeY = 400
 Global StageNodePosX = 548 ,StageNodePosY = 349
@@ -82,17 +97,7 @@ Global NodeTextX = StageNodePosX+105,NodeTextY = StageNodePosY+155
 ScreenDefaultColor    = RGB(215, 73, 11)
 TextColor             = RGB(200, 0, 0)
 
-;Setup Sprite
-UsePNGImageDecoder()
-LoadImage(#Image_MAIN, "./graphics/MAIN.png")
-LoadImage(#Image_MENU, "./graphics/MENU.png")
-LoadImage(#Image_MENU2, "./graphics/MENU.png")
-LoadImage(#Image_StageBackground, "./graphics/StageBackground.png")
-LoadImage(#Image_StageNode, "./graphics/stage1.png")
-LoadImage(#Image_LEVEL1_Button, "./graphics/LEVEL1.png")
-LoadImage(#Image_LEVEL2_Button, "./graphics/LEVEL2.png")
-LoadImage(#Image_LEVEL3_Button, "./graphics/LEVEL3.png")
-LoadImage(#Image_Calibration_Button, "./graphics/CalibrationButton.png")
+
 
 Global Event          
 
@@ -226,7 +231,7 @@ EndProcedure
 
 Procedure StageSelectScene(LevelNum)
   
-  cvWaitKey(10)
+  
     If LevelNum = 1 
     StageMax =3 
    ElseIf LevelNum =2
@@ -259,11 +264,11 @@ Procedure StageSelectScene(LevelNum)
        EndIf  
     
     
-      StartDrawing(ScreenOutput())
-      DrawingFont(FontID(Font202))
-      DrawText(200, 200, "LEVEL"+ LevelNum, TextColor)
-      DrawingMode(#PB_2DDrawing_Transparent)
-      StopDrawing()
+ ;     StartDrawing(ScreenOutput())
+ ;     DrawingFont(FontID(Font202))
+ ;     DrawText(200, 200, "LEVEL"+ LevelNum, TextColor)
+ ;     DrawingMode(#PB_2DDrawing_Transparent)
+ ;     StopDrawing()
       
       StartDrawing(ScreenOutput())
       Box(0, 0, 600, 600, RGB(0,0,0))
@@ -325,8 +330,8 @@ Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3,튜토, �
    DrawImage(ImageID(#Image_MENU2), 0, 0, BackgroundX, BackgroundY)  
    DrawingMode(#PB_2DDrawing_Transparent)
    DrawingFont(FontID(Font202))
-   DrawText(20, 15, "MENU SCENE", TextColor)
-   DrawText(20, 50, "USER NAME", TextColor)
+   ;DrawText(20, 15, "MENU SCENE", TextColor)
+   ;DrawText(20, 50, "USER NAME", TextColor)
    
    DrawImage(ImageID(#Image_LEVEL1_Button), 200, 350- (3*Sin(LEVEL1_pos)),LevelNodeX,LevelNodeY)  
    DrawImage(ImageID(#Image_LEVEL2_Button), 600, 350 -(3*Sin(LEVEL2_pos)),LevelNodeX,LevelNodeY) 
@@ -413,7 +418,7 @@ MainWindow= OpenWindow(0, 0, 0, 1980, 1020, "Main Window", #PB_Window_SystemMenu
 OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
 
  SceneNumber = #StartScene
-	
+	 
 
   Repeat
   FlipBuffers()
@@ -434,7 +439,6 @@ OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
     posy= x/5
     x+1
     ExamineKeyboard()
-    ; cvWaitKey(10)
     If KeyboardReleased(#PB_Key_All)
       ClearScreen(RGB(0, 0, 0))
       SceneNumber = #MenuSelect
@@ -446,29 +450,28 @@ OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
     ; 여기도 나중에 MENUSCENE함수로 빼내기    
     MenuSelectScene()   
   ElseIf SceneNumber = #Tutorial
-    CreateTutorial(1)
+    CreateTutorial()
     SceneNumber = #MenuSelect
-    ClearScreen(RGB(0, 0, 200))
+    ClearScreen(RGB(0, 0, 0))
   ElseIf SceneNumber = #SceneLevel1
     SelectedStage = StageSelectScene(1)
     CreateLevel1(SelectedStage)
     SceneNumber = #MenuSelect
-    ClearScreen(RGB(0, 200, 0))
+    ClearScreen(RGB(0, 0, 0))
   ;Scene Level 2  
     ElseIf SceneNumber = #SceneLevel2
-    ;SelectedStage = StageSelectScene(2)
     CreateLevel2()
     SceneNumber = #MenuSelect
-    ClearScreen(RGB(0, 200, 0))
+    ClearScreen(RGB(0, 0, 0))
   ;Scene Level 3
     ElseIf SceneNumber = #SceneLevel3 
-      CreateTutorial(1)
+      CreateTutorial()
       SceneNumber = #MenuSelect
-    ClearScreen(RGB(0, 0, 200))  
+    ClearScreen(RGB(0, 0, 0))  
     ElseIf SceneNumber = #CalibrationScene ; 여기 제스쳐 할때 캘리브레이션한 마스크 리턴해가지고 trackred한테 넘겨주면될듯?
       Createcali()
       SceneNumber = #MenuSelect
-      ClearScreen(RGB(0, 0, 200))
+      ClearScreen(RGB(0, 0, 0))
       
       ElseIf  SceneNumber = #Program_End
       Break
@@ -486,16 +489,17 @@ OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
   midiOutReset_(hMidiOut)
   midiOutClose_(hMidiOut)
   ;FreeSprite(#PB_All)
-  FreeImage(#PB_All)
+  ;FreeImage(#PB_All)
   CloseWindow(#PB_All)
   CloseConsole()
   cvDestroyAllWindows()
+  CloseScreen()
   Debug "프로그램끝"
   
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 493
-; FirstLine = 251
-; Folding = 5
+; CursorPosition = 270
+; FirstLine = 144
+; Folding = 1
 ; EnableXP
 ; Executable = maestro.exe

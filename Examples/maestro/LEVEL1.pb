@@ -65,6 +65,11 @@ Global Dim line_position(6)
 Global Dim elements(2) ; container 안에 3개 element spirte 구조체 포인터 저장
 Global Dim keyColor.color(6)
 
+Global Tutorial_lock = #True  
+Global.i Tutorial_Num_Lv1 = 1
+
+
+
 Procedure DrawMySprite(*this.mySprite)
   If *this\active = 1
     ; 일반 스프라이트
@@ -755,7 +760,7 @@ Procedure GamePause()
   StartDrawing(ScreenOutput())
   DrawingMode(#PB_2DDrawing_Transparent)
   DrawingFont(FontID(Font40))
-  DrawText(640, 400, "PAUSE", RGB(255,255,255))
+  DrawText(640, 400, "PAUSED", RGB(255,255,255))
 
   StopDrawing()
   ExamineKeyboard()
@@ -770,10 +775,77 @@ EndProcedure
 
 ;==================================================PAUSE =========================================================
 
+Procedure ant_saying(script.s, pos_x, pos_y)
+  
+     *p = FindSprite("ant_say")
+     SetMySprite(*p, 900, 500, 1) 
+     Font40 = LoadFont(#PB_Any, "Impact", 20) 
+     StartDrawing(ScreenOutput())  
+     DrawingMode(#PB_2DDrawing_Transparent)
+     DrawingFont(FontID(Font40))
+     DrawText(pos_x, pos_y, script , RGB(0,0,0))
+     StopDrawing()
+
+  EndProcedure
+
+
+
+Procedure LEVEL1_Tutorial()
+  
+  
+  pos_x = 1000
+  pos_y = 600
+  
+  Select Tutorial_Num_Lv1
+      
+     Case 1     
+       ant_saying("안녕 나는 음악개미야", pos_x, pos_y)
+       
+       Case 2
+      ant_saying("LEVEL1에 관해 간단히 설명해줄게", pos_x, pos_y) 
+      
+     Case 3 
+       ant_saying("내 앞에 경단이 보이지?", pos_x, pos_y)
+       
+      Case 4
+       ant_saying("이 경단은 과일 세개로 이루어지는 화음 경단이야", pos_x, pos_y)
+       
+     Case 5
+        ant_saying("이 경단에 어울리는 과일을 세개씩 모아서 가져가려고 해", pos_x, pos_y)
+              
+     Case 6
+       ant_saying("OO을 누르면 어울리는 과일의 소리를 들을 수 있어", pos_x, pos_y)
+       
+     Case 7
+        ant_saying("OO을 누르면 일시 멈춤 할 수 있어", pos_x, pos_y)
+     Case 8
+       ant_saying("화음을 잘 듣고 마커를 사용해서 과일을 골라줘", pos_x, pos_y)     
+       
+     Case 9
+       ant_saying("마커의 사용방법을 모르면 마커 사용법을 익히고 오도록해!", pos_x, pos_y)
+                                             
+     Case 10
+       ant_saying("소리가 어울리지 않으면 경단이 부숴질거야!", pos_x, pos_y) 
+       
+     Case 11
+       ant_saying("게임 시작!", pos_x, pos_y)   
+       
+     Case 12
+      *p = FindSprite("ant_say")
+        SetMySprite(*p, 900, 500, 0)
+       Tutorial_lock = #False      
+
+  EndSelect
+  
+  
+  
+EndProcedure
+
+
+
 
 Procedure Gamestage(StageNum)
 
- ; Font100 = LoadFont(#PB_Any, "System", 100)
   Font100 = LoadFont(#PB_Any, "Impact", 100)
   
   ClearScreen(RGB(255,255,255))
@@ -911,6 +983,8 @@ If *capture
     InitMySprite("antmove", "graphics/antmove.png", 700, 630, 0)
     InitMySprite("correct","graphics/correct.png", 500,500,0)
     InitMySprite("incorrect","graphics/incorrect.png", 500,500,0)
+    InitMySprite("ant_say", "graphics/ant_say.png", 500,500,0)   
+    
     line_position(0) = 800
     line_position(1) = 890
     line_position(2) = 990
@@ -978,6 +1052,42 @@ If *capture
           DrawMySprite(sprite_list())
         Next
         
+        
+        If   Tutorial_lock
+          LEVEL1_Tutorial()
+          
+      Font40 = LoadFont(#PB_Any, "Impact", 15)     
+     If Tutorial_Num_Lv1 = 1
+     StartDrawing(ScreenOutput())  
+     DrawingMode(#PB_2DDrawing_Transparent)
+     DrawingFont(FontID(Font40))
+     DrawText(1450+2*Sin(x), 700, "다음" , RGB(0,0,0))
+   ;  DrawText(100-2*Sin(x), 150, "이전" , RGB(255,255,255))
+     StopDrawing()
+     ElseIf Tutorial_Num_Lv1 = 12
+          StartDrawing(ScreenOutput())  
+     DrawingMode(#PB_2DDrawing_Transparent)
+     DrawingFont(FontID(Font40))
+   ;  DrawText(1300+2*Sin(x), 150, "다음" , RGB(0,255,255))
+     DrawText(1000-2*Sin(x), 700, "이전" , RGB(0,0,0))
+     StopDrawing()
+   Else
+               StartDrawing(ScreenOutput())  
+     DrawingMode(#PB_2DDrawing_Transparent)
+     DrawingFont(FontID(Font40))
+     DrawText(1450+2*Sin(x), 700, "다음" , RGB(0,0,0))
+     DrawText(1000-2*Sin(x), 700, "이전" , RGB(0,0,0))
+     StopDrawing()
+     EndIf  
+     
+     x+1
+          
+          
+          
+          
+        EndIf 
+        
+        
         ;키보드 이벤트
         ExamineKeyboard()
         If KeyboardReleased(#PB_Key_1) And answerNum < stageNum
@@ -1005,9 +1115,22 @@ If *capture
           ElseIf  markerState = 0
             markerState = 1
           EndIf 
-          
-          
         EndIf
+        
+        
+        If  KeyboardReleased(#PB_Key_Right) And Tutorial_Num_Lv1 <12
+          
+          Tutorial_Num_Lv1 + 1
+          
+        EndIf 
+        
+       If  KeyboardReleased(#PB_Key_Left) And Tutorial_Num_Lv1 > 1
+          
+          Tutorial_Num_Lv1 -1
+          
+        EndIf 
+        
+        
         If KeyboardReleased(#PB_Key_3)
           PlayChordSound()
         EndIf 
@@ -1072,9 +1195,7 @@ If *capture
      StopDrawing()
      EndIf  
      
-     
-     
-     
+
      
      FlipBuffers()
      
@@ -1103,6 +1224,9 @@ EndIf
 
 Debug "level1 정상종료?"
 
+
+ProcedureReturn
+
 EndProcedure
 
 
@@ -1111,8 +1235,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 1095
-; FirstLine = 399
-; Folding = IAAA-
+; CursorPosition = 843
+; FirstLine = 220
+; Folding = IAAw-
 ; EnableXP
 ; DisableDebugger
