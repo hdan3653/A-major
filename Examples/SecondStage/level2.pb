@@ -931,7 +931,7 @@ Else
 EndIf
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 931
-; FirstLine = 895
+; CursorPosition = 921
+; FirstLine = 893
 ; Folding = ----
 ; EnableXP
