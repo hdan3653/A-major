@@ -234,7 +234,7 @@ Procedure InitProblem_Lv2()
         problem_list(prob)\fixed(count) = ValD(entry()\Item())
         count+1
       Next
-      
+
       ;-- add to problem_list
       prob+1
       
@@ -435,6 +435,35 @@ Procedure GetCode(code.i, *note.Code)
   EndSelect  
 EndProcedure
 
+; ## 05.30 ?�치 바꿈, ?�용 ?�정??
+Procedure DrawBarMarker_Lv2()
+  posX = 70
+  posY = 30
+  delta_x.i = 80
+  problem.Problem_Lv2 = problem_list(currentProblem)
+  
+  For i=MaxBar-1 To 0 Step -1
+    If i = currentBar
+      If problem\fixed(i) = 1
+        InitMySprite("barMarker"+Str(i), "../graphics/marker_"+Str(problem\answers(i))+"_s_active.png", posX+i*delta_x, posY)
+      ElseIf userAnswers(i) <> -1
+        InitMySprite("barMarker"+Str(i), "../graphics/marker_"+Str(userAnswers(i))+"_s_active.png", posX+i*delta_x, posY)
+      Else
+        InitMySprite("barMarker"+Str(i), "../graphics/container_s_active.png", posX+i*delta_x, posY)
+      EndIf
+    Else
+      If problem\fixed(i) = 1
+        InitMySprite("barMarker"+Str(i), "../graphics/marker_"+Str(problem\answers(i))+"_s.png", posX+i*delta_x, posY)
+      ElseIf userAnswers(i) <> -1
+        InitMySprite("barMarker"+Str(i), "../graphics/marker_"+Str(userAnswers(i))+"_s.png", posX+i*delta_x, posY)
+      Else
+        InitMySprite("barMarker"+Str(i), "../graphics/container_s.png", posX+i*delta_x, posY)
+      EndIf
+    EndIf
+  Next
+  
+EndProcedure
+
 Procedure StaticAnt_Lv2(bar.i, code, distance.i)
   
   ; 비료
@@ -530,6 +559,9 @@ Procedure MovingAnt_Lv2(code.i, bar.i)
   ;공통
   *p.mySprite = InitMySprite("ant"+Str(currentBar), "../graphics/ant.png", Lv2_antX, Lv2_antY)
   
+  ; ## 05.30 추�?
+  DrawBarMarker_Lv2()
+  
 EndProcedure
 
 Procedure CheckArea_Lv2(key)
@@ -558,19 +590,6 @@ Procedure CheckArea_Lv2(key)
   
 EndProcedure
 
-Procedure DrawBarMarker_Lv2()
-  posX = 100
-  posY = 30
-  For i=MaxBar-1 To 0 Step -1
-    If i = currentBar
-      InitMySprite("barMarker"+Str(i), "../graphics/bubble2.png", posX+i*40, posY)
-    Else
-      InitMySprite("barMarker"+Str(i), "../graphics/bubble4.png", posX+i*40, posY)
-    EndIf
-  Next
-  
-EndProcedure
-
 Procedure DrawNotes_Lv2()
   ;-- TODO DrawNote
   ForEach sprite_list()
@@ -582,8 +601,16 @@ Procedure DrawNotes_Lv2()
   weight.f = 0.0
   distance.i = 790
   
+  ; ## 05.31
+  bgWidth = 1536
+  width = 640
   ; 배경 그려주기
-  InitMySprite("background", "../graphics/background.png", 0, 0)
+  InitMySprite("background", "../graphics/background.png", -(width*currentBar), 0)
+  ; ## 05.30 추�?
+  InitMySprite("background2", "../graphics/background2.png", bgWidth*1 -(width*currentBar), 0)
+  InitMySprite("background3", "../graphics/background2.png", bgWidth*2 -(width*currentBar), 0)
+  InitMySprite("background4", "../graphics/background2.png", bgWidth*3 -(width*currentBar), 0)
+  ; ##
   
   DrawBarMarker_Lv2()
   
@@ -639,10 +666,10 @@ Procedure AnswerCheck_Lv2()
     answer = problem_list(currentProblem)\answers(i)
     input = userAnswers(i)
     If answer = input
-    PrintN(Str(i+1) + "번째 마디 ?�답 / ?�력 : " + Str(userAnswers(i)) + "/ ?�제 ??: " + Str(answer))
-           Else
-    PrintN(Str(i+1) + "번째 마디 ?�답 / ?�력 : " + Str(userAnswers(i)) + "/ ?�제 ??: " + Str(answer))
-           EndIf
+      PrintN(Str(i+1) + "번째 마디 ?�답 / ?�력 : " + Str(userAnswers(i)) + "/ ?�제 ??: " + Str(answer))
+    Else
+      PrintN(Str(i+1) + "번째 마디 ?�답 / ?�력 : " + Str(userAnswers(i)) + "/ ?�제 ??: " + Str(answer))
+    EndIf
   Next
 EndProcedure
 
@@ -681,6 +708,29 @@ Procedure MoveNotes(distance.i)
       *note2\x = *note2\x+distance
     EndIf
   Next
+  
+  ; ## 05.30 추�?
+  *back.mySprite = FindSprite("background")
+  If *back <> #Null
+    *back\x = *back\x+distance
+  EndIf
+  
+  *back2.mySprite = FindSprite("background2")
+  If *back2 <> #Null
+    *back2\x = *back2\x+distance
+  EndIf
+  
+  *back3.mySprite = FindSprite("background3")
+  If *back3 <> #Null
+    *back3\x = *back3\x+distance
+  EndIf
+  
+  *back4.mySprite = FindSprite("background4")
+  If *back4 <> #Null
+    *back4\x = *back4\x+distance
+  EndIf
+  ; ##
+  
 EndProcedure
 
 Procedure PlayNotes(parameter)
@@ -694,6 +744,12 @@ Procedure PlayNotes(parameter)
   
   ; ?�체 ?�생?�면 ?�면 멈춰버리??증상
   For i=0 To 7
+    
+    ; ## 05.30 추�?
+    currentBar = i
+    DrawBarMarker_Lv2()
+    ; ##
+    
     noteCount = problem_list(currentProblem)\bars(i)\noteCount
     
     For j=0 To noteCount-1
@@ -931,7 +987,7 @@ Else
 EndIf
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 921
-; FirstLine = 893
+; CursorPosition = 987
+; FirstLine = 951
 ; Folding = ----
 ; EnableXP
