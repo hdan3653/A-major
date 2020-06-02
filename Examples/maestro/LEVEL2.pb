@@ -331,6 +331,38 @@ Procedure StaticAnt_Lv2(bar.i, code, distance.i)
   *p.mySprite = InitMySprite("ant"+Str(bar), "../graphics/ant.png", distance-90, Lv2_antY)
  EndProcedure
  
+ 
+
+ ;  ## 05.30
+Procedure DrawBarMarker_Lv2()
+  posX = 70
+  posY = 30
+  delta_x.i = 80
+  problem.Problem_Lv2 = problem_list(currentProblem)
+  
+  For i=MaxBar-1 To 0 Step -1
+    If i = currentBar
+      If problem\fixed(i) = 1
+        InitMySprite("barMarker"+Str(i), "../graphics/marker_"+Str(problem\answers(i))+"_s_active.png", posX+i*delta_x, posY)
+      ElseIf userAnswers(i) <> -1
+        InitMySprite("barMarker"+Str(i), "../graphics/marker_"+Str(userAnswers(i))+"_s_active.png", posX+i*delta_x, posY)
+      Else
+        InitMySprite("barMarker"+Str(i), "../graphics/container_s_active.png", posX+i*delta_x, posY)
+      EndIf
+    Else
+      If problem\fixed(i) = 1
+        InitMySprite("barMarker"+Str(i), "../graphics/marker_"+Str(problem\answers(i))+"_s.png", posX+i*delta_x, posY)
+      ElseIf userAnswers(i) <> -1
+        InitMySprite("barMarker"+Str(i), "../graphics/marker_"+Str(userAnswers(i))+"_s.png", posX+i*delta_x, posY)
+      Else
+        InitMySprite("barMarker"+Str(i), "../graphics/container_s.png", posX+i*delta_x, posY)
+      EndIf
+    EndIf
+  Next
+  
+EndProcedure
+
+
 Procedure MovingAnt_Lv2(code.i, bar.i)
   b = currentBar
  ; 비료
@@ -386,7 +418,12 @@ Procedure MovingAnt_Lv2(code.i, bar.i)
   *p\active = 0
  ;공통
  *p.mySprite = InitMySprite("ant"+Str(currentBar), "../graphics/ant.png", Lv2_antX, Lv2_antY)
- EndProcedure
+ 
+  ; ## 05.30 추가
+  DrawBarMarker_Lv2()
+  
+ 
+EndProcedure 
  
 Procedure CheckArea_Lv2(key)
  code.i
@@ -409,18 +446,10 @@ Procedure CheckArea_Lv2(key)
  EndIf
  EndProcedure
  
-Procedure DrawBarMarker_Lv2()
- posX = 100
- posY = 30
- For i=MaxBar-1 To 0 Step -1
-   If i = currentBar
-     InitMySprite("barMarker"+Str(i), "../graphics/bubble2.png", posX+i*40, posY)
-   Else
-     InitMySprite("barMarker"+Str(i), "../graphics/bubble4.png", posX+i*40, posY)
-   EndIf
- Next
- EndProcedure
  
+
+
+
 Procedure DrawNotes_Lv2()
  ;-- TODO DrawNote
  ForEach sprite_list()
@@ -428,9 +457,19 @@ Procedure DrawNotes_Lv2()
  Next
   problem.Problem_Lv2 = problem_list(currentProblem)
   weight.f = 0.0
- distance.i = 790
+  distance.i = 790
+  
+    ; ## 05.31
+  bgWidth = 1536
+  width = 640
+  
   ; 배경 그려주기
- InitMySprite("background", "../graphics/background.png", 0, 0)
+  InitMySprite("background", "../graphics/background.png", -(width*currentBar), 0)
+  ; ## 05.30 추가
+  InitMySprite("background2", "../graphics/background2.png", bgWidth*1 -(width*currentBar), 0)
+  InitMySprite("background3", "../graphics/background2.png", bgWidth*2 -(width*currentBar), 0)
+  InitMySprite("background4", "../graphics/background2.png", bgWidth*3 -(width*currentBar), 0)
+  ; ##
   DrawBarMarker_Lv2()
   posX.i = distance
  posY.i = 160
@@ -536,6 +575,30 @@ Procedure MoveNotes(distance.i)
      *note2\x = *note2\x+distance
    EndIf
  Next
+ 
+   ; ## 05.30 추가
+  *back.mySprite = FindSprite("background")
+  If *back <> #Null
+    *back\x = *back\x+distance
+  EndIf
+  
+  *back2.mySprite = FindSprite("background2")
+  If *back2 <> #Null
+    *back2\x = *back2\x+distance
+  EndIf
+  
+  *back3.mySprite = FindSprite("background3")
+  If *back3 <> #Null
+    *back3\x = *back3\x+distance
+  EndIf
+  
+  *back4.mySprite = FindSprite("background4")
+  If *back4 <> #Null
+    *back4\x = *back4\x+distance
+  EndIf
+  ; ##
+ 
+ 
 EndProcedure
  
 Procedure PlayNotes(parameter)
@@ -546,6 +609,14 @@ Procedure PlayNotes(parameter)
  weight.f = 0
   ; 전체 재생하면 화면 멈춰버리는 증상
  For i=0 To 7
+   
+       ; ## 05.30 추�?
+    currentBar = i
+    DrawBarMarker_Lv2()
+    ; ##
+    
+   
+   
    noteCount = problem_list(currentProblem)\bars(i)\noteCount
   
    For j=0 To noteCount-1
@@ -1075,8 +1146,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 1003
-; FirstLine = 328
-; Folding = AAA-
+; CursorPosition = 449
+; FirstLine = 80
+; Folding = A9E-
 ; EnableXP
 ; DisableDebugger

@@ -54,8 +54,8 @@ IncludeFile "LEVEL3.pb"
 IncludeFile "LEVEL1.pb"
 IncludeFile "LEVEL2.pb"
 IncludeFile "TUTORIAL.pb"
-
 IncludeFile "cv_colorcalibration.pb"
+
 ;EnableExplicit
 Global Event
 Global SceneNumber
@@ -457,11 +457,13 @@ OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
     
   ElseIf SceneNumber = #MenuSelect
     ; 여기도 나중에 MENUSCENE함수로 빼내기    
-    MenuSelectScene()   
+    MenuSelectScene()
+     ;Scene Tutorial
   ElseIf SceneNumber = #Tutorial
     CreateTutorial()
     SceneNumber = #MenuSelect
     ClearScreen(RGB(0, 0, 0))
+     ;Scene Level 1
   ElseIf SceneNumber = #SceneLevel1
     SelectedStage = StageSelectScene(1)
     CreateLevel1(SelectedStage)
@@ -476,7 +478,8 @@ OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
     ElseIf SceneNumber = #SceneLevel3    
       CreateLEVEL3()
       SceneNumber = #MenuSelect
-    ClearScreen(RGB(0, 0, 0))  
+      ClearScreen(RGB(0, 0, 0))  
+       ;Scene Calibration
     ElseIf SceneNumber = #CalibrationScene ; 여기 제스쳐 할때 캘리브레이션한 마스크 리턴해가지고 trackred한테 넘겨주면될듯?
       Createcali()
       SceneNumber = #MenuSelect
@@ -506,8 +509,8 @@ OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
   
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 476
-; FirstLine = 445
+; CursorPosition = 57
+; FirstLine = 18
 ; Folding = +
 ; EnableXP
 ; Executable = maestro.exe
