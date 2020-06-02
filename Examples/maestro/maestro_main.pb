@@ -243,19 +243,20 @@ Procedure StageSelectScene(LevelNum)
   
     If LevelNum = 1 
     StageMax =3 
-   ElseIf LevelNum =2
-     StageMax=2
+ ;  ElseIf LevelNum =2
+;     StageMax=2
    EndIf 
   
   
   
   If InitSprite() = 0 Or InitKeyboard() = 0
   MessageRequester("Error", "Sprite system can't be initialized", 0)
-  EndIf
+EndIf
+
   StageNum =1
 
   UsePNGImageDecoder()
-  LoadImage(#Image_MAIN, "./graphics/MAIN.png")
+  LoadImage(#Image_MAIN, "graphics/MAIN.png")
 
   Repeat
    
@@ -277,21 +278,29 @@ Procedure StageSelectScene(LevelNum)
       DrawingMode(#PB_2DDrawing_Transparent)
        StopDrawing() 
 
-         
+         ; TODO 위치 조정
        StartDrawing(ScreenOutput())
        DrawingMode(#PB_2DDrawing_Transparent)
        DrawImage(ImageID (#Image_StageNode),StageNodePosX,StageNodePosY,StageNodeX,StageNodeY)
        DrawingFont(FontID(font50))
        DrawingMode(#PB_2DDrawing_Transparent)
        DrawText(NodeTextX, NodeTextY, "Stage"+StageNum, TextColor)
-       DrawText(NodeTextX-50, NodeTextY+100, "score : "+Score, TextColor)
+       DrawingFont(FontID(font100))
+       If Score < 10 
+       DrawText(NodeTextX-20, NodeTextY, "☆☆☆", TextColor)
+       ElseIf Score < 50
+       DrawText(NodeTextX-20, NodeTextY, "★☆☆", TextColor)
+       ElseIf Score < 100
+       DrawText(NodeTextX-20, NodeTextY, "★★☆", TextColor)
+       ElseIf Score < 150
+       DrawText(NodeTextX-20, NodeTextY, "★★★", TextColor)  
+        EndIf  
+       DrawingFont(FontID(font20))
+       DrawText(NodeTextX+20, NodeTextY+100, "score : " + Str(Score), TextColor)
        StopDrawing()
        
 
-
        ExamineKeyboard()
-       ; 이부분...귀찮은데 나중에 고치기 (return stagenum 하고 함수안에서 stagenum 판별해서 vibe할지 이동할지 하도록.)
-       ; 나중에.....
       If KeyboardPushed(#PB_Key_Left)
         If  StageNum < StageMax      
         drawStageSelect(StageNum, 0, LevelNum) 
@@ -492,8 +501,8 @@ OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
   
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 430
-; FirstLine = 132
-; Folding = h
+; CursorPosition = 280
+; FirstLine = 146
+; Folding = p
 ; EnableXP
 ; Executable = maestro.exe

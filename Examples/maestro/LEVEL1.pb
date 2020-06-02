@@ -1153,9 +1153,13 @@ If *capture
                 tuto_popup(1) = 0
                 tuto_popup(2) = 0
                 tuto_popup(3) = 1
-
+                
+              Default 
+                tuto_popup(1) = 0
+                tuto_popup(2) = 0
+                tuto_popup(3) = 0
+                
                 EndSelect
-            
         Else           
                 tuto_popup(1) = 0
                 tuto_popup(2) = 0
@@ -1255,8 +1259,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 1141
-; FirstLine = 396
+; CursorPosition = 1161
+; FirstLine = 402
 ; Folding = IAAA9
 ; EnableXP
 ; DisableDebugger
