@@ -39,11 +39,6 @@ Structure mySprite_lv3
   
 EndStructure
 
-Structure color
-  r.i
-  g.i
-  b.i
-EndStructure
 
 ;-Structure Bar_lv3
 Structure Bar_lv3
@@ -62,7 +57,6 @@ Structure myPosition_lv3
   frametime.i
 EndStructure
 
-
 Enumeration Chordes ;--2단계 코드에서 순서 바꿈!!
   #CHORD_C = 1 ;1부터 시작, 1도 화음
   #CHORD_Dm
@@ -73,19 +67,14 @@ Enumeration Chordes ;--2단계 코드에서 순서 바꿈!!
   
 EndEnumeration
 
-
 Structure Problem_lv3
   note1.i
   note2.i
   answer.i
 EndStructure
 
-
 ;-- 전역변수 선언
-Global *rectimg.IplImage, *loadbox1.IplImage, *loadbox2.IplImage
-Global.l hMidiOut
-Global Window_0, Screen_0, Window_1
-Global markerState, marker1X, marker1Y, marker2X, marker2Y
+
 Global keyInput, inputTone, answerTone, currentTime, direction, inputCount = -1
 Global intervalStart = 0, intervalEnd = 0, dist_lv3, beat_lv3, beatSum_lv3 = 0 ;박자 측정하기 위한 변수
 Global Dim ptBox.CvPoint(7, 4)
@@ -98,17 +87,11 @@ Global barCount = 0, currentBar.i ;마디 수 측정
 Global inputMode = 0              ;입력모드(화음 or 음 입력)
 Global editMode = 0               ;편집모드
 Global Dim note_lv3(2)
-Global Lv2_antX = 700
-Global Lv2_antY = 630
-Global Lv2_noteY = 610
-Global Lv2_contX = 560
-Global Lv2_contY = 600
 Global chordCount = 0
 Global check = 0
 Global Dim score(7)
 
 Global Dim keyColor.color(6)
-
 
 
 Procedure DrawMySprite_lv3(*this.mySprite_lv3)
@@ -212,9 +195,6 @@ Procedure FindSprite_lv3(name.s)
   ProcedureReturn returnStructrue
 EndProcedure
 
-
-
-
 ; 좌표값 옮겨주는 함수
 Procedure ChangePos_lv3(*this.myPosition_lv3)
   If *this\startdelay > 0
@@ -285,10 +265,6 @@ Procedure MoveAnt_Lv3()
   Until ListSize(position_list_lv3()) = 0
   
 EndProcedure
-
-
-
-
 
 ;음 길이 계산하는 함수, 여기서 음 길이는 현재 입력 음이 아닌 바로 앞의 음에 해당(음 두 개의 간격으로 계산하므로)
 Procedure CalcBeat_lv3()
@@ -1505,8 +1481,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 1461
-; FirstLine = 505
-; Folding = AAAA-
+; CursorPosition = 18
+; FirstLine = 6
+; Folding = AAAA+
 ; EnableXP
 ; DisableDebugger

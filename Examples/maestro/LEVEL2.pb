@@ -12,7 +12,7 @@ Enumeration InGameStatus
   #Stage_Tutorial
   #Status2_Intro
   #Status2_GameInPlay
-  #Status2_GameInPause
+ ; #Status2_GameInPause
   #Status2_GameEnd
 EndEnumeration
 
@@ -49,8 +49,8 @@ Structure Problem_Lv2
 EndStructure
  
 Global Window_0, Screen_0, Window_1
-Global *rectimg.IplImage, *loadbox1.IplImage, *loadbox2.IplImage
-Global markerState, marker1X, marker1Y, marker2X, marker2Y, direction
+;Global *rectimg.IplImage, *loadbox1.IplImage, *loadbox2.IplImage
+;Global markerState, marker1X, marker1Y, marker2X, marker2Y, direction
 Global keyInput, answerTone, threadStatus, currentThread, currentTime, currentProblem.i
 Global Dim ptBox.CvPoint(6, 4)
  
@@ -58,8 +58,7 @@ Global NewList sprite_list.mySprite()
 Global NewList position_list.myPosition()
 Global Dim problem_list.Problem_Lv2(10)
 Global problem_count.i = 0
-Global.l hMidiOut
- 
+;Global.l hMidiOut
 Global currentBar.i
 Global Dim userAnswers.i(8)
 Global MaxBar = 8 ; 최대 8마디
@@ -68,7 +67,6 @@ Global Lv2_antY = 630
 Global Lv2_noteY = 610
 Global Lv2_contX = 560
 Global Lv2_contY = 600
- 
 Global Tutorial_Num_Lv2 =1
 Global Tutorial_lock_Lv2 = #True
  
@@ -343,19 +341,19 @@ Procedure DrawBarMarker_Lv2()
   For i=MaxBar-1 To 0 Step -1
     If i = currentBar
       If problem\fixed(i) = 1
-        InitMySprite("barMarker"+Str(i), "../graphics/marker_"+Str(problem\answers(i))+"_s_active.png", posX+i*delta_x, posY)
+        InitMySprite("barMarker"+Str(i), "graphics/marker_"+Str(problem\answers(i))+"_s_active.png", posX+i*delta_x, posY)
       ElseIf userAnswers(i) <> -1
-        InitMySprite("barMarker"+Str(i), "../graphics/marker_"+Str(userAnswers(i))+"_s_active.png", posX+i*delta_x, posY)
+        InitMySprite("barMarker"+Str(i), "graphics/marker_"+Str(userAnswers(i))+"_s_active.png", posX+i*delta_x, posY)
       Else
-        InitMySprite("barMarker"+Str(i), "../graphics/container_s_active.png", posX+i*delta_x, posY)
+        InitMySprite("barMarker"+Str(i), "graphics/container_s_active.png", posX+i*delta_x, posY)
       EndIf
     Else
       If problem\fixed(i) = 1
-        InitMySprite("barMarker"+Str(i), "../graphics/marker_"+Str(problem\answers(i))+"_s.png", posX+i*delta_x, posY)
+        InitMySprite("barMarker"+Str(i), "graphics/marker_"+Str(problem\answers(i))+"_s.png", posX+i*delta_x, posY)
       ElseIf userAnswers(i) <> -1
-        InitMySprite("barMarker"+Str(i), "../graphics/marker_"+Str(userAnswers(i))+"_s.png", posX+i*delta_x, posY)
+        InitMySprite("barMarker"+Str(i), "graphics/marker_"+Str(userAnswers(i))+"_s.png", posX+i*delta_x, posY)
       Else
-        InitMySprite("barMarker"+Str(i), "../graphics/container_s.png", posX+i*delta_x, posY)
+        InitMySprite("barMarker"+Str(i), "graphics/container_s.png", posX+i*delta_x, posY)
       EndIf
     EndIf
   Next
@@ -366,10 +364,10 @@ EndProcedure
 Procedure MovingAnt_Lv2(code.i, bar.i)
   b = currentBar
  ; 비료
- InitMySprite("container"+Str(b), "../graphics/container.png", Lv2_contX, Lv2_contY)
+ InitMySprite("container"+Str(b), "graphics/container.png", Lv2_contX, Lv2_contY)
  *p2.mySprite = FindSprite("container"+Str(b))
  InitMyPosition(*p2, 10, 0, Lv2_antX+60, 0, 20)
-  InitMySprite("antmove"+Str(b), "../graphics/antmove.png", Lv2_antX-200, Lv2_antY)
+  InitMySprite("antmove"+Str(b), "graphics/antmove.png", Lv2_antX-200, Lv2_antY)
  *p.mySprite = FindSprite("antmove"+Str(b))
  *p\f_horizontal = 4
  *p\f_width = *p\width/4
@@ -384,9 +382,9 @@ Procedure MovingAnt_Lv2(code.i, bar.i)
  note2Y = Lv2_noteY+60
   note.Code
  GetCode(code, @note)
-  InitMySprite("note"+Str(currentBar)+"\0", "../graphics/bubble"+Str(note\note0)+".png", note0X, note0Y)
- InitMySprite("note"+Str(currentBar)+"\1", "../graphics/bubble"+Str(note\note1)+".png", note1X, note1Y)
- InitMySprite("note"+Str(currentBar)+"\2", "../graphics/bubble"+Str(note\note2)+".png", note2X, note2Y)
+  InitMySprite("note"+Str(currentBar)+"\0", "graphics/bubble"+Str(note\note0)+".png", note0X, note0Y)
+ InitMySprite("note"+Str(currentBar)+"\1", "graphics/bubble"+Str(note\note1)+".png", note1X, note1Y)
+ InitMySprite("note"+Str(currentBar)+"\2", "graphics/bubble"+Str(note\note2)+".png", note2X, note2Y)
   *n0 = FindSprite("note"+Str(currentBar)+"\0")
  *n1 = FindSprite("note"+Str(currentBar)+"\1")
  *n2 = FindSprite("note"+Str(currentBar)+"\2")
@@ -417,7 +415,7 @@ Procedure MovingAnt_Lv2(code.i, bar.i)
  midiOutShortMsg_(hMidiOut, $80 | 0 | GetNote_Lv2(note\note2) << 8 | 0 << 16 )
   *p\active = 0
  ;공통
- *p.mySprite = InitMySprite("ant"+Str(currentBar), "../graphics/ant.png", Lv2_antX, Lv2_antY)
+ *p.mySprite = InitMySprite("ant"+Str(currentBar), "graphics/ant.png", Lv2_antX, Lv2_antY)
  
   ; ## 05.30 추가
   DrawBarMarker_Lv2()
@@ -445,10 +443,6 @@ Procedure CheckArea_Lv2(key)
    MovingAnt_Lv2(code, 0)
  EndIf
  EndProcedure
- 
- 
-
-
 
 Procedure DrawNotes_Lv2()
  ;-- TODO DrawNote
@@ -464,11 +458,11 @@ Procedure DrawNotes_Lv2()
   width = 640
   
   ; 배경 그려주기
-  InitMySprite("background", "../graphics/background.png", -(width*currentBar), 0)
+  InitMySprite("background", "graphics/background.png", -(width*currentBar), 0)
   ; ## 05.30 추가
-  InitMySprite("background2", "../graphics/background2.png", bgWidth*1 -(width*currentBar), 0)
-  InitMySprite("background3", "../graphics/background2.png", bgWidth*2 -(width*currentBar), 0)
-  InitMySprite("background4", "../graphics/background2.png", bgWidth*3 -(width*currentBar), 0)
+  InitMySprite("background2", "graphics/background2.png", bgWidth*1 -(width*currentBar), 0)
+  InitMySprite("background3", "graphics/background2.png", bgWidth*2 -(width*currentBar), 0)
+  InitMySprite("background4", "graphics/background2.png", bgWidth*3 -(width*currentBar), 0)
   ; ##
   DrawBarMarker_Lv2()
   posX.i = distance
@@ -496,7 +490,7 @@ Procedure DrawNotes_Lv2()
      note.Note = bar\note(i)
     
      spriteName.s = "line" + Str(b) + "/" + Str(i)
-     InitMySprite(spriteName, "../graphics/line"+note\note+".png", posX, posY)
+     InitMySprite(spriteName, "graphics/line"+note\note+".png", posX, posY)
     
      ; 다음 음표를 위한 거리 가중치 (간격을 맞춰주기 위해)
      weight.f = note\length
@@ -505,14 +499,19 @@ Procedure DrawNotes_Lv2()
   
    If b <> MaxBar-1
      posX + 80
-     InitMySprite("separator"+Str(b), "../graphics/leaf.png", posX, posY)
+     InitMySprite("separator"+Str(b), "graphics/leaf.png", posX, posY)
      posX + 80
    EndIf
   
  Next
  EndProcedure
  
-Procedure AnswerCheck_Lv2()
+ Procedure AnswerCheck_Lv2()
+   
+     posX = 70
+  posY = 30
+  delta_x.i = 80
+   
  For i=0 To MaxBar-1
    If problem_list(currentProblem)\fixed(i)
      ; 주어진 답은 비교하지 않음
@@ -524,17 +523,17 @@ Procedure AnswerCheck_Lv2()
      PrintN(Str(i+1) + "번째 마디 정답 / 입력 : " + Str(userAnswers(i)) + "/ 실제 답 : " + Str(answer))
      ; InitMySprite("small_correct"+i, "graphics/small_correct.png", 40*i, 10,1)
        *p = FindSprite("small_correct"+i)
-       SetMySprite(*p, 40*i , 30, 1)
+       SetMySprite(*p, posX +delta_x*i , posY, 1)
        *p = FindSprite("small_incorrect"+i)
-       SetMySprite(*p, 40*i , 30, 0)  
+       SetMySprite(*p, posX +delta_x*i , posY, 0)  
    Else
      PrintN(Str(i+1) + "번째 마디 오답 / 입력 : " + Str(userAnswers(i)) + "/ 실제 답 : " + Str(answer))
      Debug "initmysprite" + i
      ;   InitMySprite("small_incorrect"+i, "graphics/small_incorrect.png", 40*i, 10,1) 
-            *p = FindSprite("small_correct"+i)
-       SetMySprite(*p, 40*i , 30, 0)
+        *p = FindSprite("small_correct"+i)
+        SetMySprite(*p, posX +delta_x*i , posY, 0)
         *p = FindSprite("small_incorrect"+i)
-        SetMySprite(*p, 40*i , 30, 1)  
+        SetMySprite(*p, posX +delta_x*i , posY, 1)  
    EndIf
  Next
  
@@ -692,15 +691,14 @@ Procedure PlayNotes(parameter)
  DrawNotes_Lv2()
  EndProcedure
  
- ; ==================================================PAUSE ====================================================
 
+;제외
 Procedure GamePause_Lv2()
   
   UsePNGImageDecoder()
-   Font40 = LoadFont(#PB_Any, "Impact", 100)
   StartDrawing(ScreenOutput())
   DrawingMode(#PB_2DDrawing_Transparent)
-  DrawingFont(FontID(Font40))
+  DrawingFont(FontID(Font100))
   DrawText(640, 400, "PAUSED", RGB(255,255,255))
 
   StopDrawing()
@@ -713,15 +711,11 @@ FlipBuffers()
 
 EndProcedure
 
-;==================================================PAUSE =========================================================
- 
-
-
 
 Procedure LEVEL2_Tutorial()
   
   pos_x = 1000
-  pos_y = 600
+  pos_y = 500
   x + 1
   Debug  Tutorial_Num_Lv2
   
@@ -792,12 +786,11 @@ Procedure LEVEL2_Tutorial()
 EndProcedure
 
 
-
 Procedure Gamestage_Lv2()
   UsePNGImageDecoder()
-  LoadImage(#Image_Lv2_Stage, "./graphics/Lv2_stage.png")
+  LoadImage(#Image_Lv2_Stage, "graphics/Lv2_stage.png")
   InitMySprite("ant_say", "graphics/ant_say.png", 500,500,0)   
-  Font202 = LoadFont(#PB_Any, "System", 20)
+
   ProbSelect = 1
   Debug ProbSelect
   InitSprite()
@@ -814,7 +807,7 @@ Procedure Gamestage_Lv2()
    DrawImage(ImageID(#Image_MENU2), 0, 0, BackgroundX, BackgroundY)  
    DrawingMode(#PB_2DDrawing_Transparent)
    
-   DrawingFont(FontID(Font202))  
+   DrawingFont(FontID(Font20))  
    DrawImage(ImageID(#Image_Lv2_Stage), 470, 350- (3*Sin(node1_pos)),StageNodeX_Lv2, StageNodeY_Lv2)  
    DrawImage(ImageID(#Image_Lv2_Stage), 470, 550 -(3*Sin(node2_pos)),StageNodeX_Lv2, StageNodeY_Lv2) 
    DrawText(500, 450- (3*Sin(node1_pos)), "비행기", TextColor)
@@ -851,7 +844,6 @@ ProcedureReturn ProbSelect
   
 
 EndProcedure
-
 
  Procedure CreateLEVEL2 ()
 
@@ -973,25 +965,25 @@ If *capture
          
           LEVEL2_Tutorial()
           
-      Font40 = LoadFont(#PB_Any, "Impact", 15)     
+  
      If Tutorial_Num_Lv2 = 1
      StartDrawing(ScreenOutput())  
      DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font40))
+     DrawingFont(FontID(Font15))
      DrawText(1450+2*Sin(x), 680, "다음" , RGB(0,0,0))
    ;  DrawText(100-2*Sin(x), 150, "이전" , RGB(255,255,255))
      StopDrawing()
      ElseIf Tutorial_Num_Lv2 = 12
           StartDrawing(ScreenOutput())  
      DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font40))
+     DrawingFont(FontID(Font15))
    ;  DrawText(1300+2*Sin(x), 150, "다음" , RGB(0,255,255))
      DrawText(1000-2*Sin(x), 680, "이전" , RGB(0,0,0))
      StopDrawing()
      Else
                StartDrawing(ScreenOutput())  
      DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font40))
+     DrawingFont(FontID(Font15))
      DrawText(1450+2*Sin(x), 680, "다음" , RGB(0,0,0))
      DrawText(1000-2*Sin(x), 680, "이전" , RGB(0,0,0))
      StopDrawing()
@@ -1076,12 +1068,10 @@ If *capture
          EndIf  
        
        
-       
-          If KeyboardPushed(#PB_Key_P) ; PAUSE
-        LEVEL2_State = #Status2_GameInPause  
-               
-            
-          EndIf 
+       ; 제외함
+        ;  If KeyboardPushed(#PB_Key_P) ; PAUSE
+       ; LEVEL2_State = #Status2_GameInPause  
+       ;   EndIf 
     
      DrawBoxs_Lv2(*image)
     
@@ -1115,9 +1105,9 @@ If *capture
        EndIf
 
      EndIf
-     
-      ElseIf LEVEL2_State = #Status2_GameInPause 
-      GamePause_Lv2()
+     ;pause 제외
+   ;   ElseIf LEVEL2_State = #Status2_GameInPause 
+   ;   GamePause_Lv2()
      
      EndIf  
 
@@ -1136,7 +1126,6 @@ ProcedureReturn
 EndProcedure
 
 
-;CreateLEVEL2()
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
 ; CursorPosition = 549
@@ -1146,8 +1135,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 449
-; FirstLine = 80
-; Folding = A9E-
+; CursorPosition = 695
+; FirstLine = 98
+; Folding = AAQ+
 ; EnableXP
 ; DisableDebugger

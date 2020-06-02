@@ -1,4 +1,6 @@
-﻿;Score 
+﻿IncludeFile "./includes/cv_functions.pbi"
+
+;Score 
 Global LEVEL1_stage1_score =0, LEVEL1_stage2_score =0, LEVEL1_stage3_score =0
 Enumeration Image
   #Image_MAIN
@@ -36,6 +38,15 @@ LoadImage(#Image_Lv2_Stage, "./graphics/Lv2_stage.png")
 Global BackgroundX = 1536, BackgroundY = 897
 
 
+;Setup Font
+Global ImpactFont = LoadFont(#PB_Any, "Impact", 30)
+Global Font15 = LoadFont(#PB_Any, "Impact", 15)
+Global Font20 = LoadFont(#PB_Any, "Impact", 20)
+Global Font25 = LoadFont(#PB_Any, "Impact", 25)
+Global Font40 = LoadFont(#PB_Any, "Impact", 40,#PB_Font_Bold)
+Global Font50 = LoadFont(#PB_Any, "Impact", 50)
+Global Font100 = LoadFont(#PB_Any, "Impact", 100)
+
 
 Procedure DrawTextEx(X.i, Y.i, Text.s)
    Protected I.i, Max = CountString(Text, #CRLF$)+1
@@ -47,17 +58,13 @@ Procedure DrawTextEx(X.i, Y.i, Text.s)
    Next
 EndProcedure
 
-
-
-IncludeFile "./includes/cv_functions.pbi"
-IncludeFile "LEVEL3.pb"
-IncludeFile "LEVEL1.pb"
-IncludeFile "LEVEL2.pb"
-IncludeFile "TUTORIAL.pb"
-IncludeFile "cv_colorcalibration.pb"
+Structure color
+  r.i
+  g.i
+  b.i
+EndStructure
 
 ;EnableExplicit
-Global Event
 Global SceneNumber
 Global GameState
 
@@ -86,21 +93,9 @@ Enumeration Status
   #Status_GameInPause
 EndEnumeration
 
-; + correct.png, incorrect.png
-
-
-;Setup Font
-ImpactFont = LoadFont(#PB_Any, "Impact", 30)
-Font15 = LoadFont(#PB_Any, "System", 15)
-Font20 = LoadFont(#PB_Any, "System", 20)
-Font25 = LoadFont(#PB_Any, "System", 23)
-Font40 = LoadFont(#PB_Any, "System", 40,#PB_Font_Bold)
-
-
 
 ;Image Size
 Global *image.IplImage
-;Global BackgroundX = 1536, BackgroundY = 897
 Global LevelNodeX = 300, LevelNodeY = 300
 Global StageNodeX = 400, StageNodeY = 400
 Global StageNodePosX = 548 ,StageNodePosY = 349
@@ -113,16 +108,15 @@ Global NodeTextX = StageNodePosX+105,NodeTextY = StageNodePosY+155
 ScreenDefaultColor    = RGB(215, 73, 11)
 TextColor             = RGB(200, 0, 0)
 
-
-
-Global Event          
-
-; [KEYBOARD] 1: green tracking, 2: red tracking, spacebar: state change
-; 처음 시작 후, 마우스 커서와 키보드 1(혹은 2)로 박스 영역 설정 -> 스페이스바로 상태 전환 -> 마우스 커서와 키보드 1(혹은 2)로 음 출력, 키보드 3으로 정답 화음 재생
-
 Global markerState, marker1X, marker1Y, marker2X, marker2Y
-Global keyInput, answerTone.i, currentTime, currentProblem.i, spriteinitial.i
 Global.l hMidiOut
+
+IncludeFile "LEVEL1.pb"
+IncludeFile "LEVEL2.pb"
+IncludeFile "LEVEL3.pb"
+IncludeFile "TUTORIAL.pb"
+IncludeFile "cv_colorcalibration.pb"
+
 
 
 
@@ -136,7 +130,7 @@ Procedure drawStageSelect(StageNum, LeftOrRight, LevelNum)
 
   UsePNGImageDecoder()
   LoadImage(#Image_MAIN, "./graphics/MAIN.png")
-  Font202 = LoadFont(#PB_Any, "Impact", 50)
+ ; Font50 = LoadFont(#PB_Any, "Impact", 50)
   ;  Font202 = LoadFont(#PB_Any, "System", 50)
   
   
@@ -159,7 +153,7 @@ Procedure drawStageSelect(StageNum, LeftOrRight, LevelNum)
       StartDrawing(ScreenOutput())     
       DrawImage(ImageID(#Image_StageNode), StageNodePosX, StageNodePosY,StageNodeX, StageNodeY) 
       DrawingMode(#PB_2DDrawing_Transparent)
-      DrawingFont(FontID(Font202))
+      DrawingFont(FontID(font50))
       DrawText(NodeTextX, NodeTextY, "Stage"+AfterStage, TextColor)    
       StopDrawing()
 
@@ -167,7 +161,7 @@ Procedure drawStageSelect(StageNum, LeftOrRight, LevelNum)
       
       DrawImage(ImageID(#Image_StageNode), StageNodePosX-var_x+z, StageNodePosY,StageNodeX, StageNodeY) 
       DrawingMode(#PB_2DDrawing_Transparent)
-      DrawingFont(FontID(Font202))
+      DrawingFont(FontID(font50))
       DrawText(NodeTextX -var_x+z, NodeTextY, "Stage"+StageNum, TextColor)    
       StopDrawing()
         
@@ -181,14 +175,14 @@ Procedure drawStageSelect(StageNum, LeftOrRight, LevelNum)
       StartDrawing(ScreenOutput())     
       DrawImage(ImageID(#Image_StageNode), StageNodePosX, StageNodePosY,StageNodeX, StageNodeY) 
       DrawingMode(#PB_2DDrawing_Transparent)
-      DrawingFont(FontID(Font202))
+      DrawingFont(FontID(font50))
       DrawText(NodeTextX, NodeTextY, "Stage"+StageNum, TextColor)    
       StopDrawing()
       
       StartDrawing(ScreenOutput())
       DrawImage(ImageID(#Image_StageNode), StageNodePosX-var_x+z, StageNodePosY,StageNodeX, StageNodeY) 
       DrawingMode(#PB_2DDrawing_Transparent)
-      DrawingFont(FontID(Font202))
+      DrawingFont(FontID(font50))
       DrawText(NodeTextX-var_x+z, NodeTextY, "Stage"+BeforeStage, TextColor)    
       StopDrawing()
 
@@ -221,8 +215,7 @@ Procedure drawStageVibe(StageNum, LevelNum)
 
   UsePNGImageDecoder()
   LoadImage(#Image_MAIN, "./graphics/MAIN.png")
-  Font202 = LoadFont(#PB_Any, "Impact", 50)
-  ;Font202 = LoadFont(#PB_Any, "System", 50)
+
   
     Repeat
    
@@ -235,7 +228,7 @@ Procedure drawStageVibe(StageNum, LevelNum)
       StartDrawing(ScreenOutput())
       DrawImage(ImageID(#Image_StageNode), StageNodePosX-20*Sin(var_x), StageNodePosY,StageNodeX, StageNodeY)
       DrawingMode(#PB_2DDrawing_Transparent)
-      DrawingFont(FontID(Font202))
+      DrawingFont(FontID(font50))
       DrawText(NodeTextX-20*Sin(var_x), NodeTextY, "Stage"+StageNum, TextColor)
       StopDrawing()
       var_x+20      
@@ -263,7 +256,7 @@ Procedure StageSelectScene(LevelNum)
 
   UsePNGImageDecoder()
   LoadImage(#Image_MAIN, "./graphics/MAIN.png")
-  Font202 = LoadFont(#PB_Any, "Impact", 50)
+
   Repeat
    
     FlipBuffers()
@@ -288,7 +281,7 @@ Procedure StageSelectScene(LevelNum)
        StartDrawing(ScreenOutput())
        DrawingMode(#PB_2DDrawing_Transparent)
        DrawImage(ImageID (#Image_StageNode),StageNodePosX,StageNodePosY,StageNodeX,StageNodeY)
-       DrawingFont(FontID(Font202))
+       DrawingFont(FontID(font50))
        DrawingMode(#PB_2DDrawing_Transparent)
        DrawText(NodeTextX, NodeTextY, "Stage"+StageNum, TextColor)
        DrawText(NodeTextX-50, NodeTextY+100, "score : "+Score, TextColor)
@@ -328,7 +321,7 @@ Procedure StageSelectScene(LevelNum)
 EndProcedure
 
 Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3,튜토, 캘리  확인 : 4, 종료 escape 
-  Font202 = LoadFont(#PB_Any, "System", 20)
+
   MENUSelect = 1
 
   Repeat  
@@ -337,7 +330,7 @@ Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3,튜토, �
    ; 똑같은건데 #Image_MENU는 오류나고 #Image_MENU2는 괜찮음. 어디서 이름이 겹치나..? 그래서 그냥 #Image_MENU2 로 합니다.
    DrawImage(ImageID(#Image_MENU2), 0, 0, BackgroundX, BackgroundY)  
    DrawingMode(#PB_2DDrawing_Transparent)
-   DrawingFont(FontID(Font202))
+   DrawingFont(FontID(font15))
    ;DrawText(20, 15, "MENU SCENE", TextColor)
    ;DrawText(20, 50, "USER NAME", TextColor)
    
@@ -346,6 +339,8 @@ Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3,튜토, �
    DrawImage(ImageID(#Image_LEVEL3_Button), 1000, 350 -(3*Sin(LEVEL3_pos)),LevelNodeX,LevelNodeY) 
    DrawImage(ImageID(#Image_Calibration_Button), 50, 100-(3*Sin(CaliButton)), 200,50)
    DrawImage(ImageID(#Image_Calibration_Button), 1300, 100-(3*Sin(Tutorialbutton)), 200,50)
+   DrawText(60, 120-(3*Sin(CaliButton)),"캘리브레이션", TextColor)
+   DrawText(1310, 120-(3*Sin(Tutorialbutton)),"튜토리얼", TextColor)
    DrawingMode(#PB_2DDrawing_Transparent)
    
    StopDrawing()    
@@ -407,7 +402,6 @@ Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3,튜토, �
 EndProcedure
 
 
-
 ;Engine Init
 InitSprite()
 InitSound()
@@ -416,33 +410,25 @@ OpenConsole()
 ;Setup Sprite
 UsePNGImageDecoder()
 
-
-;1980*1020 에서 배율 125%
 ;1536*897
 
-
-;Screen
-MainWindow= OpenWindow(0, 0, 0, 1980, 1020, "Main Window", #PB_Window_SystemMenu |#PB_Window_Maximize | #PB_Window_ScreenCentered |#PB_Window_BorderLess)
+;MainWindow
+MainWindow= OpenWindow(0, 0, 0, 1980, 1020, "QookQook", #PB_Window_SystemMenu |#PB_Window_Maximize | #PB_Window_ScreenCentered |#PB_Window_BorderLess)
 OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
 
  SceneNumber = #StartScene
-	 
 
   Repeat
-  FlipBuffers()
-  
+    FlipBuffers()
     
- 
   If SceneNumber = #StartScene
     
   StartDrawing(ScreenOutput())
   DrawImage(ImageID(#Image_MAIN), 0, 0, BackgroundX, BackgroundY)
   DrawingMode(#PB_2DDrawing_Transparent)
   DrawingFont(FontID(ImpactFont))
-  DrawTextEx(0,0, "A-MAJOR "+#CRLF$+" asdfasf")
-  DrawText(20, 15, "A-MAJOR "+#CRLF$+" asdfasf", TextColor)
-  DrawText(20, 50, "USER NAME", TextColor)
-    DrawText(680, 700 + 3*Sin(posy), "Press Any Key", TextColor) 
+  DrawTextEx(0,0, "A-MAJOR")
+    DrawText(680, 700 + 3*Sin(posy), "아무키나 누르세요", TextColor) 
   StopDrawing() 
     
     posy= var_x/5
@@ -456,7 +442,6 @@ OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
     
     
   ElseIf SceneNumber = #MenuSelect
-    ; 여기도 나중에 MENUSCENE함수로 빼내기    
     MenuSelectScene()
      ;Scene Tutorial
   ElseIf SceneNumber = #Tutorial
@@ -500,8 +485,6 @@ OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
   cvReleaseCapture(@*capture)  
   midiOutReset_(hMidiOut)
   midiOutClose_(hMidiOut)
-  ;FreeSprite(#PB_All)
-  ;FreeImage(#PB_All)
   CloseWindow(#PB_All)
   CloseConsole()
   cvDestroyAllWindows()
@@ -509,8 +492,8 @@ OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
   
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 57
-; FirstLine = 18
-; Folding = +
+; CursorPosition = 430
+; FirstLine = 132
+; Folding = h
 ; EnableXP
 ; Executable = maestro.exe

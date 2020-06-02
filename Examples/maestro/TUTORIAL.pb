@@ -10,23 +10,7 @@ Global Tutorial_State
 Enumeration InGameStatus
   #Tutorial_Intro
   #Tutorial_GameInPlay
-  #Tutorial_GameInPause
 EndEnumeration
-
-
-Global *rectimg.IplImage, *loadbox1.IplImage, *loadbox2.IplImage
-Global markerState, marker1X, marker1Y, marker2X, marker2Y
-Global.i keyInput, answerTone, currentTime, stageNum, answerNum, direction
-Global.l hMidiOut
-Global Dim ptBox.CvPoint(7, 4)
-Global NewList sprite_list.mySprite()
-Global NewList position_list.myPosition()
-Global Dim chord_list(5, 2)
-Global Dim currentProblem(3)
-Global Dim answer(2)
-Global Dim line_position(6)
-Global Dim elements(2) ; container 안에 3개 element spirte 구조체 포인터 저장
-Global Dim keyColor.color(6)
 
 Global Tutorial_Num = 0
 
@@ -56,11 +40,10 @@ EndProcedure
 Procedure WriteScript(script.s, pos_x, pos_y)
      *p = FindSprite("script_box")
      SetMySprite(*p, 0, 0, 1) 
-     Font40 = LoadFont(#PB_Any, "Impact", 40) 
      StartDrawing(ScreenOutput())  
      DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font40))
-     DrawText(pos_x, pos_y, script , RGB(0,0,0))
+     DrawingFont(FontID(Font20))
+     DrawTextEx(pos_x, pos_y, script)
      StopDrawing()
 
      
@@ -96,17 +79,17 @@ Procedure Tutorial_play()
        Case 5 
          
 
-         WriteScript("화면에 빨간 마커가 잘 보이도록 들고 \n 상단을 터치하여 버튼을 눌러보세요.", scriptPos_x, scriptPos_y)
+         WriteScript("화면에 빨간 마커가 잘 보이도록 들고" +#CRLF$+" 상단을 터치하여 버튼을 눌러보세요.", scriptPos_x, scriptPos_y)
         Tuto_Lock_5 = #True
 
        Case 6          
 
-        WriteScript("화면에 초록 마커가 잘 보이도록 들고 하단을 터치하여 버튼을 눌러보세요.", scriptPos_x, scriptPos_y) 
+        WriteScript("화면에 초록 마커가 잘 보이도록 들고 "+#CRLF$+"하단을 터치하여 버튼을 눌러보세요.", scriptPos_x, scriptPos_y) 
         Tuto_Lock_6 = #True
         
       Case 7 
         
-        WriteScript("색깔 박스가 잘 그려졋나요? 마커를 이용하여 박스의 크기를 적절히 조절해 보세요.", scriptPos_x, scriptPos_y) 
+        WriteScript("색깔 박스가 잘 그려졋나요? 마커를 이용하여"+#CRLF$+" 박스의 크기를 적절히 조절해 보세요.", scriptPos_x, scriptPos_y) 
 
       Case 8 
 
@@ -133,11 +116,11 @@ Procedure Tutorial_play()
         *p = FindSprite("highlight2")
         SetMySprite(*p, 750, 160, 0)
 
-        WriteScript("마커로 음을 입력하기 위해 space를 눌러 마커 모드를 음 입력모드로 바꿀 수 있습니다.", scriptPos_x, scriptPos_y) 
+        WriteScript("마커로 음을 입력하기 위해 space를 눌러 "+#CRLF$+"마커 모드를 음 입력모드로 바꿀 수 있습니다.", scriptPos_x, scriptPos_y) 
         Tuto_Lock_10= #True
   
       Case 11
-        WriteScript("이 과일들은 차례로 도레미파솔라시도 어쩌고 입니다 <-이걸 어떻게 쉽게 풀어서 쓰지", scriptPos_x, scriptPos_y)
+        WriteScript("이 과일들은 차례로 도레미파솔라시도"+#CRLF$+" 어쩌고 입니다 <-이걸 어떻게 쉽게 풀어서 쓰지", scriptPos_x, scriptPos_y)
           
       Case 12 
         WriteScript("이 과일들은 각각 음을 가지고 있고 캠 화면의 같은 색깔의 상자에 대응됩니다.", scriptPos_x, scriptPos_y)
@@ -148,7 +131,7 @@ Procedure Tutorial_play()
         WriteScript("다음은 화음에 대해 알아보겠습니다.", scriptPos_x, scriptPos_y)
                                                                       
       Case 15 
-              WriteScript("상자의 모양이 바뀌었습니다. 앞서 말했던 음들이 세가지가 모이면 조화로운 소리가 어쩌고 <-화음정의찾아서 어쩌고", scriptPos_x, scriptPos_y)
+              WriteScript("상자의 모양이 바뀌었습니다."+#CRLF$+" 앞서 말했던 음들이 세가지가 모이면 조화로운 소리가 어쩌고 <-화음정의찾아서 어쩌고", scriptPos_x, scriptPos_y)
               Tuto_Lock_15 = #True
       Case 16 
                WriteScript("화음 설명 어쩌고 저쩌고", scriptPos_x, scriptPos_y)
@@ -175,15 +158,9 @@ EndProcedure
 Procedure CreateTutorial()
   
   Shared MainWindow
-  
-  Tutorial_State = #Tutorial_Intro   
-  
-   If  Tutorial_State = #Tutorial_Intro
-      Tutorial_State = #Tutorial_GameInPlay
-   EndIf 
-  
-  
-  
+ 
+Tutorial_State = #Tutorial_GameInPlay
+
 OpenConsole()
 markerState = 0 ; 마커 입력 상태
 answerNum = 0
@@ -290,7 +267,6 @@ If *capture
     InitMySprite("highlight2","graphics/highlight2.png", 700,200,0)
     
     
-    
     line_position(0) = 800
     line_position(1) = 890
     line_position(2) = 990
@@ -303,29 +279,6 @@ If *capture
     x_note2 = 830
     y_note1 = 620
     
-    ; 문제 스프라이트 세팅
-  ;  If stageNum = 1
-  ;    *p.mySprite =  FindSprite("bubble" + Str(chord_list(currentProblem(0), currentProblem(1))))
-  ;    SetMySprite(*p, x_note1, y_note1, 1)
-  ;    elements(0) = *p
-  ;    *p = FindSprite("bubble" + chord_list(currentProblem(0), currentProblem(2)))
-  ;    SetMySprite(*p, x_note2, y_note1, 1)
-  ;    elements(1) = *p
-  ;  ElseIf stageNum = 2
-  ;    *p.mySprite =  FindSprite("bubble" + Str(chord_list(currentProblem(0), currentProblem(1))))
-  ;    SetMySprite(*p, x_note1, y_note1, 1)
-  ;    elements(0) = *p
-  ;  EndIf
-    
-    ; 애니메이션 스프라이트 세팅
-  ;  *p = FindSprite("antmove")
-  ;  *p\f_horizontal = 4
-  ;  *p\f_width = *p\width / 4
-  ;  *p\f_height = *p\height
-  ;  *p = FindSprite("scissors")
-  ;  *p\f_horizontal = 2
-  ;  *p\f_width = *p\width / 2
-  ;  *p\f_height = *p\height
     
     ClearScreen(RGB(255, 255, 255))
     
@@ -358,7 +311,14 @@ If *capture
           DrawMySprite(sprite_list())
         Next
         
+        
+        
+        ; 튜토리얼 함수 
         Tutorial_play()
+        
+        
+        
+        
         ;키보드 이벤트
         ExamineKeyboard()
         If KeyboardReleased(#PB_Key_1) And Tuto_Lock_5 
@@ -394,12 +354,6 @@ If *capture
             markerState = 1
           EndIf 
         EndIf
-    ;    If KeyboardReleased(#PB_Key_3)
-    ;      PlayChordSound()
-    ;    EndIf 
-    ;    If KeyboardReleased(#PB_Key_4)
-    ;      RemoveAnswer()
-    ;    EndIf 
         If KeyboardPushed(#PB_Key_Left) ; 
         If Tutorial_Num > 0
           Tutorial_Num = Tutorial_Num - 1  
@@ -413,9 +367,9 @@ If *capture
         EndIf 
       
       
-        If KeyboardPushed(#PB_Key_P) ; PAUSE
-        Tutorial_State = #Tutorial_GameInPause  
-        EndIf 
+   ;     If KeyboardPushed(#PB_Key_P) ; PAUSE
+    ;    Tutorial_State = #Tutorial_GameInPause  
+     ;   EndIf 
 
          If  Tuto_Lock_15 = #False 
           DrawBoxs(*image)
@@ -431,56 +385,47 @@ If *capture
       SetGadgetState(0, ImageID(1))     
       cvReleaseMat(@*mat)  
       
-      Font40 = LoadFont(#PB_Any, "Impact", 40) 
-      
      If markerState = 0
      StartDrawing(ScreenOutput())  
      DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font40))
-     DrawText(1040, 100, "마커모드 : 상자조절" , RGB(255,255,255))
+     DrawingFont(FontID(Font20))
+     DrawText(0, 800, "마커모드 : 상자조절" , RGB(255,255,255))
      StopDrawing()
       
      ElseIf  markerState =1 
-          StartDrawing(ScreenOutput())  
+     StartDrawing(ScreenOutput())  
      DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font40))
-     DrawText(1040, 100, "마커모드 : 음 입력모드" , RGB(255,255,255))
+     DrawingFont(FontID(Font20))
+     DrawText(0, 800, "마커모드 : 음 입력모드" , RGB(255,255,255))
      StopDrawing()
      EndIf  
       
-     
-     
+
      If Tutorial_Num = 0
      StartDrawing(ScreenOutput())  
      DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font40))
-     DrawText(1300+2*Sin(x), 150, "다음" , RGB(255,255,255))
+     DrawingFont(FontID(Font20))
+     DrawText(1300+2*Sin(x), 110, "다음" , RGB(0,0,0))
    ;  DrawText(100-2*Sin(x), 150, "이전" , RGB(255,255,255))
      StopDrawing()
      ElseIf Tutorial_Num >=20
           StartDrawing(ScreenOutput())  
      DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font40))
+     DrawingFont(FontID(Font20))
    ;  DrawText(1300+2*Sin(x), 150, "다음" , RGB(255,255,255))
-     DrawText(100-2*Sin(x), 150, "이전" , RGB(255,255,255))
+     DrawText(100-2*Sin(x), 110, "이전" , RGB(0,0,0))
      StopDrawing()
    Else
                StartDrawing(ScreenOutput())  
      DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font40))
-     DrawText(1300+2*Sin(x), 150, "다음" , RGB(255,255,255))
-     DrawText(100-2*Sin(x), 150, "이전" , RGB(255,255,255))
+     DrawingFont(FontID(Font20))
+     DrawText(1300+2*Sin(x), 110, "다음" , RGB(0,0,0))
+     DrawText(100-2*Sin(x), 110, "이전" , RGB(0,0,0))
      StopDrawing()
      EndIf  
      
      x+1
      
-     
-     
-     
-     
-     
-      
      FlipBuffers()
      
      If  KeyboardPushed(#PB_Key_0) And Tutorial_State = #Tutorial_GameInPlay;Escape
@@ -493,8 +438,8 @@ If *capture
         EndIf 
       EndIf
      
-         ElseIf Tutorial_State = #Tutorial_GameInPause      
-      GamePause()      
+     ;    ElseIf Tutorial_State = #Tutorial_GameInPause      
+     ; GamePause()      
     EndIf 
      
      
@@ -512,8 +457,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 421
-; FirstLine = 291
-; Folding = 5
+; CursorPosition = 413
+; FirstLine = 270
+; Folding = 7
 ; EnableXP
 ; DisableDebugger

@@ -1,6 +1,5 @@
 ﻿;IncludeFile "includes/cv_functions.pbi"
 
-
 ; [KEYBOARD] 1: green tracking(실제 입력), 2: red tracking(사운드 출력만), 3: 정답 화음 듣기, 4: 입력값 취소, spacebar: state change
 ; 처음 시작 후, 마우스 커서와 키보드 1(혹은 2)로 박스 영역 설정 -> 스페이스바로 상태 전환 -> 마우스 커서와 키보드 1(혹은 2)로 음 출력, 키보드 3으로 정답 화음 재생
 
@@ -10,7 +9,7 @@ Global LEVEL1_State
 Enumeration InGameStatus
   #Stage_Intro
   #Status1_GameInPlay
-  #Status1_GameInPause
+ ; #Status1_GameInPause
 EndEnumeration
 
 Structure mySprite
@@ -51,10 +50,8 @@ EndStructure
 ;  b.i
 ;EndStructure
 
-Global *rectimg.IplImage
-Global markerState, marker1X, marker1Y, marker2X, marker2Y
+Global *rectimg.IplImage, *loadbox1.IplImage, *loadbox2.IplImage
 Global.i keyInput, answerTone, currentTime, stageNum, answerNum, direction
-Global.l hMidiOut
 Global Dim ptBox.CvPoint(7, 4)
 Global NewList sprite_list.mySprite()
 Global NewList position_list.myPosition()
@@ -64,11 +61,7 @@ Global Dim answer(2)
 Global Dim line_position(6)
 Global Dim elements(2) ; container 안에 3개 element spirte 구조체 포인터 저장
 Global Dim keyColor.color(6)
-
 Global Tutorial_lock = #True  
-Global.i Tutorial_Num_Lv1 = 1
-
-
 
 Procedure DrawMySprite(*this.mySprite)
   If *this\active = 1
@@ -749,14 +742,10 @@ Procedure CheckArea(key)
   
 EndProcedure
 
-
-
-; ==================================================PAUSE ====================================================
-
+; 제외
 Procedure GamePause()
   
   UsePNGImageDecoder()
-  Font40 = LoadFont(#PB_Any, "Impact", 100) 
   StartDrawing(ScreenOutput())
   DrawingMode(#PB_2DDrawing_Transparent)
   DrawingFont(FontID(Font40))
@@ -773,27 +762,19 @@ FlipBuffers()
 
 EndProcedure
 
-;==================================================PAUSE =========================================================
-
-
-
 Procedure ant_saying(script.s, pos_x, pos_y)
   
      *p = FindSprite("ant_say")
-     SetMySprite(*p, 900, 500, 1) 
-     Font40 = LoadFont(#PB_Any, "Impact", 20) 
+     SetMySprite(*p, 900, 500, 1)  
      StartDrawing(ScreenOutput())  
      DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font40))
+     DrawingFont(FontID(Font20))
      DrawTextEx(pos_x, pos_y, script)
      StopDrawing()
 
   EndProcedure
 
-
-
-Procedure LEVEL1_Tutorial()
-  
+Procedure LEVEL1_Tutorial(x, Tutorial_Num_Lv1)
   
   pos_x = 1000
   pos_y = 600
@@ -838,18 +819,35 @@ Procedure LEVEL1_Tutorial()
        Tutorial_lock = #False      
 
   EndSelect
+    
+     If Tutorial_Num_Lv1 = 1
+     StartDrawing(ScreenOutput())  
+     DrawingMode(#PB_2DDrawing_Transparent)
+     DrawingFont(FontID(Font15))
+     DrawText(1450+2*Sin(x), 700, "다음" , RGB(0,0,0))
+   ;  DrawText(100-2*Sin(x), 150, "이전" , RGB(255,255,255))
+     StopDrawing()
+     ElseIf Tutorial_Num_Lv1 = 12
+          StartDrawing(ScreenOutput())  
+     DrawingMode(#PB_2DDrawing_Transparent)
+     DrawingFont(FontID(Font15))
+   ;  DrawText(1300+2*Sin(x), 150, "다음" , RGB(0,255,255))
+     DrawText(1000-2*Sin(x), 700, "이전" , RGB(0,0,0))
+     StopDrawing()
+   Else
+               StartDrawing(ScreenOutput())  
+     DrawingMode(#PB_2DDrawing_Transparent)
+     DrawingFont(FontID(Font15))
+     DrawText(1450+2*Sin(x), 700, "다음" , RGB(0,0,0))
+     DrawText(1000-2*Sin(x), 700, "이전" , RGB(0,0,0))
+     StopDrawing()
+     EndIf  
   
-  
-  
+
 EndProcedure
-
-
-
 
 Procedure Gamestage(StageNum)
 
-  Font100 = LoadFont(#PB_Any, "Impact", 100)
-  
   ClearScreen(RGB(255,255,255))
   
      StartDrawing(ScreenOutput())
@@ -867,13 +865,15 @@ Procedure Gamestage(StageNum)
       Delay(2000)
       
     EndProcedure
-
     
 Procedure CreateLEVEL1(SelectedStage)
   
   Shared LEVEL1_stage1_score, LEVEL1_stage2_score, LEVEL1_stage3_score
   Shared MainWindow
-  
+  ;튜토리얼 스크립트 번호 
+  Tutorial_Num_Lv1.i = 1
+  ;튜토리얼 팝업 번호 1,2, 3
+  Tutorial_popup_Num.i =1
   LEVEL1_State = #Stage_Intro   
   
    If  LEVEL1_State = #Stage_Intro
@@ -986,6 +986,9 @@ If *capture
     InitMySprite("correct","graphics/correct.png", 500,500,0)
     InitMySprite("incorrect","graphics/incorrect.png", 500,500,0)
     InitMySprite("ant_say", "graphics/ant_say.png", 500,500,0)   
+    InitMySprite("lv1_tutorial_1", "graphics/lv1_tutorial_1.png", 500,500,0)   
+    InitMySprite("lv1_tutorial_2", "graphics/lv1_tutorial_2.png", 500,500,0)   
+    InitMySprite("lv1_tutorial_3", "graphics/lv1_tutorial_3.png", 500,500,0)   
     
     line_position(0) = 800
     line_position(1) = 890
@@ -1036,8 +1039,7 @@ If *capture
     Repeat
       
       If  LEVEL1_State = #Status1_GameInPlay
-      
-      
+
       *image = cvQueryFrame(*capture)
       
       If *image
@@ -1054,39 +1056,11 @@ If *capture
           DrawMySprite(sprite_list())
         Next
         
-        
+        ; 처음 Tutorial_lock 걸려있는 동안은 tutorial 재생 
         If   Tutorial_lock
-          LEVEL1_Tutorial()
-          
-      Font40 = LoadFont(#PB_Any, "Impact", 15)     
-     If Tutorial_Num_Lv1 = 1
-     StartDrawing(ScreenOutput())  
-     DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font40))
-     DrawText(1450+2*Sin(x), 700, "다음" , RGB(0,0,0))
-   ;  DrawText(100-2*Sin(x), 150, "이전" , RGB(255,255,255))
-     StopDrawing()
-     ElseIf Tutorial_Num_Lv1 = 12
-          StartDrawing(ScreenOutput())  
-     DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font40))
-   ;  DrawText(1300+2*Sin(x), 150, "다음" , RGB(0,255,255))
-     DrawText(1000-2*Sin(x), 700, "이전" , RGB(0,0,0))
-     StopDrawing()
-   Else
-               StartDrawing(ScreenOutput())  
-     DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font40))
-     DrawText(1450+2*Sin(x), 700, "다음" , RGB(0,0,0))
-     DrawText(1000-2*Sin(x), 700, "이전" , RGB(0,0,0))
-     StopDrawing()
-     EndIf  
-     
-     x+1
-          
-          
-          
-          
+          LEVEL1_Tutorial( inc_x , Tutorial_Num_Lv1)
+           inc_x+1
+
         EndIf 
         
         
@@ -1110,6 +1084,7 @@ If *capture
             CheckArea(keyInput)
           EndIf
         EndIf
+        ; markerState 스페이스바로 토글하게 해놨는데 걍 수정하면됨
         If KeyboardReleased(#PB_Key_Space)
           
           If  markerState = 1
@@ -1120,16 +1095,18 @@ If *capture
         EndIf
         
         
-        If  KeyboardReleased(#PB_Key_Right) And Tutorial_Num_Lv1 <12
+        ; Tutorial_Num_Lv1 -> 스크립트 번호
+        ; Tutorial_popup_Num -> 팝업 한거 번호
+        If  KeyboardReleased(#PB_Key_Right)
           
-          Tutorial_Num_Lv1 + 1
-          
+          Tutorial_Num_Lv1 + 1 ; 0? ~12
+           Tutorial_popup_Num + 1 
         EndIf 
         
-       If  KeyboardReleased(#PB_Key_Left) And Tutorial_Num_Lv1 > 1
+        If  KeyboardReleased(#PB_Key_Left)
           
           Tutorial_Num_Lv1 -1
-          
+           Tutorial_popup_Num - 1 
         EndIf 
         
         
@@ -1139,9 +1116,59 @@ If *capture
         If KeyboardReleased(#PB_Key_4)
           RemoveAnswer()
         EndIf 
-        If KeyboardPushed(#PB_Key_P) ; PAUSE
-        LEVEL1_State = #Status1_GameInPause  
+        
+        
+        ; PAUSE 기능 제외 
+        ; Tutorial Popup 토글 
+        If KeyboardReleased(#PB_Key_P)
+        ; LEVEL1_State = #Status1_GameInPause      
+          
+         If  Tutorial_popup
+          Tutorial_popup = #False  
+         Else
+          Tutorial_popup = #True
+         EndIf 
+          
+       EndIf 
+      
+       
+       
+       ; 팝업 관리 
+        Dim tuto_popup(3)
+        If  Tutorial_popup 
+               
+        Debug Tutorial_popup_Num
+        
+            Select Tutorial_popup_Num
+              Case  1
+                tuto_popup(1) = 1
+                tuto_popup(2) = 0
+                tuto_popup(3) = 0
+                            
+              Case 2
+                tuto_popup(1) = 0
+                tuto_popup(2) = 1
+                tuto_popup(3) = 0
+              Case 3
+                tuto_popup(1) = 0
+                tuto_popup(2) = 0
+                tuto_popup(3) = 1
+
+                EndSelect
+            
+        Else           
+                tuto_popup(1) = 0
+                tuto_popup(2) = 0
+                tuto_popup(3) = 0
         EndIf 
+        
+        
+             *p = FindSprite("lv1_tutorial_1")
+             SetMySprite(*p, 0, 0, tuto_popup(1))    
+             *p = FindSprite("lv1_tutorial_2")
+             SetMySprite(*p, 0, 0, tuto_popup(2))    
+             *p = FindSprite("lv1_tutorial_3")
+             SetMySprite(*p, 0, 0, tuto_popup(3)) 
         
         
        
@@ -1153,47 +1180,40 @@ If *capture
       SetGadgetState(0, ImageID(1))     
       cvReleaseMat(@*mat)  
       
-      Font40 = LoadFont(#PB_Any, "Impact", 20) 
       
-     If stageNum = 1
+      
+     ; score 띄우기 
+     Select stageNum
+         
+       Case 1
+         score = LEVEL1_stage1_score
+       Case 2
+         score = LEVEL1_stage2_score
+       Case 3
+         score = LEVEL1_stage3_score
+
+     EndSelect
+     
      StartDrawing(ScreenOutput())  
      DrawingMode(#PB_2DDrawing_Transparent)
      DrawingFont(FontID(Font40))
-     DrawText(1040, 100, "SCORE : " + LEVEL1_stage1_score , RGB(255,255,255))
-     StopDrawing()
-     
-   ElseIf stageNum =2
-          StartDrawing(ScreenOutput())  
-     DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font40))
-     DrawText(1040, 100, "SCORE : " + LEVEL1_stage2_score , RGB(255,255,255))
-     StopDrawing()
-     
-   ElseIf stageNum =3
-     StartDrawing(ScreenOutput())  
-     DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font40))
-     DrawText(1040, 100, "SCORE : " + LEVEL1_stage3_score , RGB(255,255,255))
+     DrawText(1040, 100, "SCORE : " + score , RGB(255,255,255))
      StopDrawing()
      
      
-     EndIf  
-     
-     
-    
       
      If markerState = 0
      StartDrawing(ScreenOutput())  
      DrawingMode(#PB_2DDrawing_Transparent)
      DrawingFont(FontID(Font40))
-     DrawText(1040, 100, "마커모드 : 상자조절" , RGB(255,255,255))
+     DrawText(0, 800, "마커모드 : 상자조절" , RGB(255,255,255))
      StopDrawing()
       
      ElseIf  markerState =1 
           StartDrawing(ScreenOutput())  
      DrawingMode(#PB_2DDrawing_Transparent)
      DrawingFont(FontID(Font40))
-     DrawText(1040, 100, "마커모드 : 음 입력모드" , RGB(255,255,255))
+     DrawText(0, 800, "마커모드 : 음 입력모드" , RGB(255,255,255))
      StopDrawing()
      EndIf  
      
@@ -1211,12 +1231,12 @@ If *capture
         EndIf 
       EndIf
      
-         ElseIf LEVEL1_State = #Status1_GameInPause      
-      GamePause()      
+    ;     ElseIf LEVEL1_State = #Status1_GameInPause      
+    ;  GamePause()      
     EndIf 
      
      
-    Until WindowEvent() = #PB_Event_CloseWindow Or (KeyboardPushed(#PB_Key_0) And LEVEL1_State = #Status1_GameInPlay)
+    Until WindowEvent() = #PB_Event_CloseWindow Or KeyboardPushed(#PB_Key_0)
   EndIf
   
   
@@ -1232,13 +1252,11 @@ ProcedureReturn
 EndProcedure
 
 
-;CreateLEVEL1_2(2)
-
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 51
-; FirstLine = 31
-; Folding = IAAg-
+; CursorPosition = 1141
+; FirstLine = 396
+; Folding = IAAA9
 ; EnableXP
 ; DisableDebugger
