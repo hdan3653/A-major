@@ -50,9 +50,11 @@ EndProcedure
 
 
 IncludeFile "./includes/cv_functions.pbi"
+IncludeFile "LEVEL3.pb"
 IncludeFile "LEVEL1.pb"
 IncludeFile "LEVEL2.pb"
 IncludeFile "TUTORIAL.pb"
+
 IncludeFile "cv_colorcalibration.pb"
 ;EnableExplicit
 Global Event
@@ -163,14 +165,14 @@ Procedure drawStageSelect(StageNum, LeftOrRight, LevelNum)
 
       StartDrawing(ScreenOutput())
       
-      DrawImage(ImageID(#Image_StageNode), StageNodePosX-x+z, StageNodePosY,StageNodeX, StageNodeY) 
+      DrawImage(ImageID(#Image_StageNode), StageNodePosX-var_x+z, StageNodePosY,StageNodeX, StageNodeY) 
       DrawingMode(#PB_2DDrawing_Transparent)
       DrawingFont(FontID(Font202))
-      DrawText(NodeTextX -x+z, NodeTextY, "Stage"+StageNum, TextColor)    
+      DrawText(NodeTextX -var_x+z, NodeTextY, "Stage"+StageNum, TextColor)    
       StopDrawing()
         
-         x+20
-         If x > 700
+         var_x+20
+         If var_x > 700
               Break  
          EndIf  
    
@@ -184,10 +186,10 @@ Procedure drawStageSelect(StageNum, LeftOrRight, LevelNum)
       StopDrawing()
       
       StartDrawing(ScreenOutput())
-      DrawImage(ImageID(#Image_StageNode), StageNodePosX-x+z, StageNodePosY,StageNodeX, StageNodeY) 
+      DrawImage(ImageID(#Image_StageNode), StageNodePosX-var_x+z, StageNodePosY,StageNodeX, StageNodeY) 
       DrawingMode(#PB_2DDrawing_Transparent)
       DrawingFont(FontID(Font202))
-      DrawText(NodeTextX-x+z, NodeTextY, "Stage"+BeforeStage, TextColor)    
+      DrawText(NodeTextX-var_x+z, NodeTextY, "Stage"+BeforeStage, TextColor)    
       StopDrawing()
 
          y+20
@@ -231,14 +233,14 @@ Procedure drawStageVibe(StageNum, LevelNum)
       StopDrawing() 
       
       StartDrawing(ScreenOutput())
-      DrawImage(ImageID(#Image_StageNode), StageNodePosX-20*Sin(x), StageNodePosY,StageNodeX, StageNodeY)
+      DrawImage(ImageID(#Image_StageNode), StageNodePosX-20*Sin(var_x), StageNodePosY,StageNodeX, StageNodeY)
       DrawingMode(#PB_2DDrawing_Transparent)
       DrawingFont(FontID(Font202))
-      DrawText(NodeTextX-20*Sin(x), NodeTextY, "Stage"+StageNum, TextColor)
+      DrawText(NodeTextX-20*Sin(var_x), NodeTextY, "Stage"+StageNum, TextColor)
       StopDrawing()
-      x+20      
+      var_x+20      
     ExamineKeyboard()
-  Until KeyboardPushed(#PB_Key_Escape) Or x > 300
+  Until KeyboardPushed(#PB_Key_Escape) Or var_x > 300
        
   
 EndProcedure
@@ -443,8 +445,8 @@ OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
     DrawText(680, 700 + 3*Sin(posy), "Press Any Key", TextColor) 
   StopDrawing() 
     
-    posy= x/5
-    x+1
+    posy= var_x/5
+    var_x+1
     ExamineKeyboard()
     If KeyboardReleased(#PB_Key_All)
       ClearScreen(RGB(0, 0, 0))
@@ -471,8 +473,8 @@ OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
     SceneNumber = #MenuSelect
     ClearScreen(RGB(0, 0, 0))
   ;Scene Level 3
-    ElseIf SceneNumber = #SceneLevel3 
-      CreateTutorial()
+    ElseIf SceneNumber = #SceneLevel3    
+      CreateLEVEL3()
       SceneNumber = #MenuSelect
     ClearScreen(RGB(0, 0, 0))  
     ElseIf SceneNumber = #CalibrationScene ; 여기 제스쳐 할때 캘리브레이션한 마스크 리턴해가지고 trackred한테 넘겨주면될듯?
@@ -501,12 +503,11 @@ OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
   CloseConsole()
   cvDestroyAllWindows()
   CloseScreen()
-  Debug "프로그램끝"
   
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 406
-; FirstLine = 123
-; Folding = h
+; CursorPosition = 476
+; FirstLine = 445
+; Folding = +
 ; EnableXP
 ; Executable = maestro.exe

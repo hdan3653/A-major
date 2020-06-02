@@ -45,11 +45,11 @@ Structure myPosition
   frametime.i
 EndStructure
 
-Structure color
-  r.i
-  g.i
-  b.i
-EndStructure
+;Structure color
+;  r.i
+;  g.i
+;  b.i
+;EndStructure
 
 Global *rectimg.IplImage
 Global markerState, marker1X, marker1Y, marker2X, marker2Y
@@ -1237,8 +1237,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 777
-; FirstLine = 131
+; CursorPosition = 51
+; FirstLine = 31
 ; Folding = IAAg-
 ; EnableXP
 ; DisableDebugger

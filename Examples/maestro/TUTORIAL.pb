@@ -512,8 +512,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 26
-; FirstLine = 12
+; CursorPosition = 421
+; FirstLine = 291
 ; Folding = 5
 ; EnableXP
 ; DisableDebugger
