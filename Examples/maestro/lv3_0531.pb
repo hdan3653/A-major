@@ -1572,7 +1572,7 @@ Else
   MessageRequester("PureBasic Interface to OpenCV", "Unable to connect to a webcam - operation cancelled.", #MB_ICONERROR)
 EndIf
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 1540
+; CursorPosition = 1544
 ; FirstLine = 1532
 ; Folding = ----
 ; EnableXP

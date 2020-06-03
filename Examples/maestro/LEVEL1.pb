@@ -9,7 +9,7 @@ Global LEVEL1_State
 Enumeration InGameStatus
   #Stage_Intro
   #Status1_GameInPlay
- ; #Status1_GameInPause
+  ; #Status1_GameInPause
 EndEnumeration
 
 Structure mySprite
@@ -363,8 +363,8 @@ Procedure AnswerCheck()
   Next
   
   If isCorrect = #True
-  *p.mySprite =  FindSprite("correct")
-  SetMySprite(*p, x_note1, y_note1, 0)
+    *p.mySprite =  FindSprite("correct")
+    SetMySprite(*p, x_note1, y_note1, 0)
   Else
     *p.mySprite =  FindSprite("incorrect")
     SetMySprite(*p, x_note1, y_note1, 0)
@@ -438,7 +438,7 @@ Procedure CalcBoxs()
   count = 0
   Repeat
     If direction = 1 ;세로
-      ;left = (ptLeft + ptRight)/2 - 100
+                     ;left = (ptLeft + ptRight)/2 - 100
       bottom = ptBottom - count*ptLength
       ;right = (ptLeft + ptRight)/2 + 100
       top = ptBottom - (count+1)*ptLength      
@@ -490,7 +490,7 @@ Procedure DrawBoxs(*image)
   Until count >= 7
   
   cvAddWeighted(*image, 1, *rectimg, 0.5, 0, *image)
-
+  
 EndProcedure
 
 Procedure CalcArea(x, y)
@@ -750,29 +750,29 @@ Procedure GamePause()
   DrawingMode(#PB_2DDrawing_Transparent)
   DrawingFont(FontID(Font40))
   DrawText(640, 400, "PAUSED", RGB(255,255,255))
-
+  
   StopDrawing()
   ExamineKeyboard()
   If KeyboardPushed(#PB_Key_5)
-      LEVEL1_State = #Status1_GameInPlay         
+    LEVEL1_State = #Status1_GameInPlay         
   EndIf  
-              
-FlipBuffers() 
-
-
+  
+  FlipBuffers() 
+  
+  
 EndProcedure
 
 Procedure ant_saying(script.s, pos_x, pos_y)
   
-     *p = FindSprite("ant_say")
-     SetMySprite(*p, 900, 500, 1)  
-     StartDrawing(ScreenOutput())  
-     DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font20))
-     DrawTextEx(pos_x, pos_y, script)
-     StopDrawing()
-
-  EndProcedure
+  *p = FindSprite("ant_say")
+  SetMySprite(*p, 900, 500, 1)  
+  StartDrawing(ScreenOutput())  
+  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingFont(FontID(Font20))
+  DrawTextEx(pos_x, pos_y, script)
+  StopDrawing()
+  
+EndProcedure
 
 Procedure LEVEL1_Tutorial(x, Tutorial_Num_Lv1)
   
@@ -781,91 +781,91 @@ Procedure LEVEL1_Tutorial(x, Tutorial_Num_Lv1)
   
   Select Tutorial_Num_Lv1
       
-     Case 1     
-       ant_saying("안녕 나는 음악개미야", pos_x, pos_y)
-       
-       Case 2
+    Case 1     
+      ant_saying("안녕 나는 음악개미야", pos_x, pos_y)
+      
+    Case 2
       ant_saying("LEVEL1에 관해 간단히 설명해줄게", pos_x, pos_y) 
       
-     Case 3 
-       ant_saying("내 앞에 경단이 보이지?", pos_x, pos_y)
-       
-      Case 4
-       ant_saying("이 경단은 과일 세개로 이루어지는 화음 경단이야", pos_x, pos_y)
-       
-     Case 5
-        ant_saying("이 경단에 어울리는 과일을 세개씩 모아서 가져가려고 해", pos_x, pos_y)
-              
-     Case 6
-       ant_saying("OO을 누르면 어울리는 과일의 소리를 들을 수 있어", pos_x, pos_y)
-       
-     Case 7
-        ant_saying("OO을 누르면 일시 멈춤 할 수 있어", pos_x, pos_y)
-     Case 8
-       ant_saying("화음을 잘 듣고 마커를 사용해서 과일을 골라줘", pos_x, pos_y)     
-       
-     Case 9
-       ant_saying("마커의 사용방법을 모르면 마커 사용법을 익히고 오도록해!", pos_x, pos_y)
-                                             
-     Case 10
-       ant_saying("소리가 어울리지 않으면 경단이 부숴질거야!", pos_x, pos_y) 
-       
-     Case 11
-       ant_saying("게임 시작!", pos_x, pos_y)   
-       
-     Case 12
+    Case 3 
+      ant_saying("내 앞에 경단이 보이지?", pos_x, pos_y)
+      
+    Case 4
+      ant_saying("이 경단은 과일 세개로 이루어지는 화음 경단이야", pos_x, pos_y)
+      
+    Case 5
+      ant_saying("이 경단에 어울리는 과일을 세개씩 모아서 가져가려고 해", pos_x, pos_y)
+      
+    Case 6
+      ant_saying("OO을 누르면 어울리는 과일의 소리를 들을 수 있어", pos_x, pos_y)
+      
+    Case 7
+      ant_saying("OO을 누르면 일시 멈춤 할 수 있어", pos_x, pos_y)
+    Case 8
+      ant_saying("화음을 잘 듣고 마커를 사용해서 과일을 골라줘", pos_x, pos_y)     
+                                                     
+    Case 9
+      ant_saying("마커의 사용방법을 모르면 마커 사용법을 익히고 오도록해!", pos_x, pos_y)
+      
+    Case 10
+      ant_saying("소리가 어울리지 않으면 경단이 부숴질거야!", pos_x, pos_y) 
+      
+    Case 11
+      ant_saying("게임 시작!", pos_x, pos_y)   
+      
+    Case 12
       *p = FindSprite("ant_say")
-        SetMySprite(*p, 900, 500, 0)
-       Tutorial_lock = #False      
-
+      SetMySprite(*p, 900, 500, 0)
+      Tutorial_lock = #False      
+      
   EndSelect
-    
-     If Tutorial_Num_Lv1 = 1
-     StartDrawing(ScreenOutput())  
-     DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font15))
-     DrawText(1450+2*Sin(x), 700, "다음" , RGB(0,0,0))
-   ;  DrawText(100-2*Sin(x), 150, "이전" , RGB(255,255,255))
-     StopDrawing()
-     ElseIf Tutorial_Num_Lv1 = 12
-          StartDrawing(ScreenOutput())  
-     DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font15))
-   ;  DrawText(1300+2*Sin(x), 150, "다음" , RGB(0,255,255))
-     DrawText(1000-2*Sin(x), 700, "이전" , RGB(0,0,0))
-     StopDrawing()
-   Else
-               StartDrawing(ScreenOutput())  
-     DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font15))
-     DrawText(1450+2*Sin(x), 700, "다음" , RGB(0,0,0))
-     DrawText(1000-2*Sin(x), 700, "이전" , RGB(0,0,0))
-     StopDrawing()
-     EndIf  
   
-
+  If Tutorial_Num_Lv1 = 1
+    StartDrawing(ScreenOutput())  
+    DrawingMode(#PB_2DDrawing_Transparent)
+    DrawingFont(FontID(Font15))
+    DrawText(1450+2*Sin(x), 700, "다음" , RGB(0,0,0))
+    ;  DrawText(100-2*Sin(x), 150, "이전" , RGB(255,255,255))
+    StopDrawing()
+  ElseIf Tutorial_Num_Lv1 = 12
+    StartDrawing(ScreenOutput())  
+    DrawingMode(#PB_2DDrawing_Transparent)
+    DrawingFont(FontID(Font15))
+    ;  DrawText(1300+2*Sin(x), 150, "다음" , RGB(0,255,255))
+    DrawText(1000-2*Sin(x), 700, "이전" , RGB(0,0,0))
+    StopDrawing()
+  Else
+    StartDrawing(ScreenOutput())  
+    DrawingMode(#PB_2DDrawing_Transparent)
+    DrawingFont(FontID(Font15))
+    DrawText(1450+2*Sin(x), 700, "다음" , RGB(0,0,0))
+    DrawText(1000-2*Sin(x), 700, "이전" , RGB(0,0,0))
+    StopDrawing()
+  EndIf  
+  
+  
 EndProcedure
 
 Procedure Gamestage(StageNum)
-
+  
   ClearScreen(RGB(255,255,255))
   
-     StartDrawing(ScreenOutput())
-     ;Box(0, 0, 600, 600, RGB(215, 73, 11))
-     ;DrawImage(ImageID(#Image_PAUSE), 0, 0, 1920, 1080)  
-     DrawingMode(#PB_2DDrawing_Transparent)
+  StartDrawing(ScreenOutput())
+  ;Box(0, 0, 600, 600, RGB(215, 73, 11))
+  ;DrawImage(ImageID(#Image_PAUSE), 0, 0, 1920, 1080)  
+  DrawingMode(#PB_2DDrawing_Transparent)
+  
+  
+  DrawingFont(FontID(Font100))
+  DrawText(540, 350, "Stage" + StageNum, TextColor)
+  StopDrawing()
+  
+  FlipBuffers()
+  
+  Delay(2000)
+  
+EndProcedure
 
-    
-     DrawingFont(FontID(Font100))
-     DrawText(540, 350, "Stage" + StageNum, TextColor)
-     StopDrawing()
-     
-     FlipBuffers()
-
-      Delay(2000)
-      
-    EndProcedure
-    
 Procedure CreateLEVEL1(SelectedStage)
   
   Shared LEVEL1_stage1_score, LEVEL1_stage2_score, LEVEL1_stage3_score
@@ -876,21 +876,21 @@ Procedure CreateLEVEL1(SelectedStage)
   Tutorial_popup_Num.i =1
   LEVEL1_State = #Stage_Intro   
   
-   If  LEVEL1_State = #Stage_Intro
-      Gamestage(SelectedStage)
-      LEVEL1_State = #Status1_GameInPlay
-   EndIf 
+  If  LEVEL1_State = #Stage_Intro
+    Gamestage(SelectedStage)
+    LEVEL1_State = #Status1_GameInPlay
+  EndIf 
   
   
   
-OpenConsole()
-markerState = 0 ; 마커 입력 상태
-answerNum = 0
-answer(0) = -1
-answer(1) = -1
-answer(2) = -1
-
-keyColor(0)\r = 216
+  OpenConsole()
+  markerState = 0 ; 마커 입력 상태
+  answerNum = 0
+  answer(0) = -1
+  answer(1) = -1
+  answer(2) = -1
+  
+  keyColor(0)\r = 216
   keyColor(0)\g = 63
   keyColor(0)\b = 34
   keyColor(1)\r = 234
@@ -912,355 +912,356 @@ keyColor(0)\r = 216
   keyColor(6)\g = 25
   keyColor(6)\b = 146
   
-
-InitChords()
-stageNum = SelectedStage
-InitProblem()
-
-;사운드 시스템 초기화, 점검
-If InitSound() = 0 
-  MessageRequester("Error", "Sound system is not available",  0)
-  End
-EndIf
-
-OutDev.l
-result = midiOutOpen_(@hMidiOut, OutDev, 0, 0, 0)
-PrintN(Str(result))
-
-Repeat
-  nCreate + 1
-  *capture.CvCapture = cvCreateCameraCapture(0)
-Until nCreate = 5 Or *capture
-
-If *capture
-  FrameWidth = cvGetCaptureProperty(*capture, #CV_CAP_PROP_FRAME_WIDTH)
-  FrameHeight = cvGetCaptureProperty(*capture, #CV_CAP_PROP_FRAME_HEIGHT)
-  ;*image.IplImage
-  pbImage = CreateImage(#PB_Any, 640, 480)
-  *rectimg = cvCreateImage(FrameWidth, FrameHeight, #IPL_DEPTH_8U, 3)
   
-  ;If OpenWindow(0, 0, 0, FrameWidth, FrameHeight, "PureBasic Interface to OpenCV", #PB_Window_SystemMenu |#PB_Window_MaximizeGadget | #PB_Window_ScreenCentered|#PB_Window_Maximize)
-   If MainWindow 
-    OpenWindow(1, 0, WindowHeight(0)/2 - 200, FrameWidth-5, FrameHeight-30, "title") ; 웹캠용 윈도우
-    ImageGadget(0, 0, 0, FrameWidth, FrameHeight, ImageID(pbImage))
-    StickyWindow(1, #True) ; 항상 위에 고정
-    SetWindowLongPtr_(WindowID(1), #GWL_STYLE, GetWindowLongPtr_(WindowID(1), #GWL_STYLE)&~ #WS_THICKFRAME &~ #WS_DLGFRAME) ; 윈도우 타이틀 바 제거
-    SetForegroundWindow_(WindowID(0))
-    InitSprite()
-    InitKeyboard()
-    
-    ;Screen과 Sprite 생성
-    ;OpenWindowedScreen(WindowID(0), 0, 0, WindowWidth(0), WindowHeight(0))
-    
-    UsePNGImageDecoder()
-    
-    TransparentSpriteColor(#PB_Default, RGB(255, 0, 255))
-    InitMySprite("background", "graphics/background.png", 0, 0)
-    InitMySprite("line1", "graphics/line1.png", 800, 160)
-    InitMySprite("line2", "graphics/line2.png", 890, 160)
-    InitMySprite("line3", "graphics/line3.png", 990, 160)
-    InitMySprite("line4", "graphics/line4.png", 1080, 160)
-    InitMySprite("line5", "graphics/line5.png", 1170, 160)
-    InitMySprite("line6", "graphics/line6.png", 1270, 160)
-    InitMySprite("line7", "graphics/line7.png", 1350, 160)
-    InitMySprite("lineclipped", "graphics/line_clipped.png", 0, 160, 0)
-    InitMySprite("scissors", "graphics/scissors.png", 0, 200, 0)
-    InitMySprite("container", "graphics/container.png", 760, 600)
-    InitMySprite("failed", "graphics/failed.png", 760, 750, 0)
-    InitMySprite("note1", "graphics/do.png", 0, 650, 0)
-    InitMySprite("note2", "graphics/re.png", 0, 650, 0)
-    InitMySprite("note3", "graphics/mi.png", 0, 650, 0)
-    InitMySprite("note4", "graphics/fa.png", 0, 650, 0)
-    InitMySprite("note5", "graphics/so.png", 0, 650, 0)
-    InitMySprite("note6", "graphics/la.png", 0, 650, 0)
-    InitMySprite("note7", "graphics/ti.png", 0, 650, 0)
-    InitMySprite("bubble1", "graphics/bubble1.png", 0, 650, 0)
-    InitMySprite("bubble2", "graphics/bubble2.png", 0, 650, 0)
-    InitMySprite("bubble3", "graphics/bubble3.png", 0, 650, 0)
-    InitMySprite("bubble4", "graphics/bubble4.png", 0, 650, 0)
-    InitMySprite("bubble5", "graphics/bubble5.png", 0, 650, 0)
-    InitMySprite("bubble6", "graphics/bubble6.png", 0, 650, 0)
-    InitMySprite("bubble7", "graphics/bubble7.png", 0, 650, 0)
-    InitMySprite("ant", "graphics/ant.png", 700, 630)
-    InitMySprite("antmove", "graphics/antmove.png", 700, 630, 0)
-    InitMySprite("correct","graphics/correct.png", 500,500,0)
-    InitMySprite("incorrect","graphics/incorrect.png", 500,500,0)
-    InitMySprite("ant_say", "graphics/ant_say.png", 500,500,0)   
-    InitMySprite("lv1_tutorial_1", "graphics/lv1_tutorial_1.png", 500,500,0)   
-    InitMySprite("lv1_tutorial_2", "graphics/lv1_tutorial_2.png", 500,500,0)   
-    InitMySprite("lv1_tutorial_3", "graphics/lv1_tutorial_3.png", 500,500,0)   
-    
-    line_position(0) = 800
-    line_position(1) = 890
-    line_position(2) = 990
-    line_position(3) = 1080
-    line_position(4) = 1170
-    line_position(5) = 1270
-    line_position(6) = 1350
-    
-    x_note1 = 780
-    x_note2 = 830
-    y_note1 = 620
-    
-    ; 문제 스프라이트 세팅
-    If stageNum = 1
-      *p.mySprite =  FindSprite("bubble" + Str(chord_list(currentProblem(0), currentProblem(1))))
-      SetMySprite(*p, x_note1, y_note1, 1)
-      elements(0) = *p
-      *p = FindSprite("bubble" + chord_list(currentProblem(0), currentProblem(2)))
-      SetMySprite(*p, x_note2, y_note1, 1)
-      elements(1) = *p
-    ElseIf stageNum = 2
-      *p.mySprite =  FindSprite("bubble" + Str(chord_list(currentProblem(0), currentProblem(1))))
-      SetMySprite(*p, x_note1, y_note1, 1)
-      elements(0) = *p
-    EndIf
-    
-    ; 애니메이션 스프라이트 세팅
-    *p = FindSprite("antmove")
-    *p\f_horizontal = 4
-    *p\f_width = *p\width / 4
-    *p\f_height = *p\height
-    *p = FindSprite("scissors")
-    *p\f_horizontal = 2
-    *p\f_width = *p\width / 2
-    *p\f_height = *p\height
-    
-    ClearScreen(RGB(255, 255, 255))
-    
-    testN = 1
-    
-    Repeat
-      *image = cvQueryFrame(*capture)
-      testN = testN + 1
-    Until testN = 10
-    
-    
-    Repeat
-      
-      If  LEVEL1_State = #Status1_GameInPlay
-
-      *image = cvQueryFrame(*capture)
-      
-      If *image
-        cvFlip(*image, #Null, 1)
-        
-        ; 프레임 넘기기
-        currentTime = GetTickCount_()
-        ForEach sprite_list()
-          FrameManager(sprite_list()) ;active 상태인 것들만 다음 프레임으로
-        Next
-        
-        ; 렌더링
-        ForEach sprite_list()
-          DrawMySprite(sprite_list())
-        Next
-        
-        ; 처음 Tutorial_lock 걸려있는 동안은 tutorial 재생 
-        If   Tutorial_lock
-          LEVEL1_Tutorial( inc_x , Tutorial_Num_Lv1)
-           inc_x+1
-
-        EndIf 
-        
-        
-        ;키보드 이벤트
-        ExamineKeyboard()
-        If KeyboardReleased(#PB_Key_1) And answerNum < stageNum
-          keyInput = #PB_Key_1
-          GetCursorPos_(mouse.POINT) : mouse_x=mouse\x : mouse_y=mouse\y
-          marker1X = mouse_x
-          marker1Y = mouse_y - (WindowHeight(0)/2 - 200)
-          If (markerState = 1)
-            CheckArea(keyInput)
-          EndIf
-        EndIf
-        If KeyboardReleased(#PB_Key_2) And answerNum < stageNum
-          keyInput = #PB_Key_2
-          GetCursorPos_(mouse.POINT) : mouse_x=mouse\x : mouse_y=mouse\y
-          marker2X = mouse_x
-          marker2Y = mouse_y - (WindowHeight(0)/2 - 200)
-          If (markerState = 1)
-            CheckArea(keyInput)
-          EndIf
-        EndIf
-        ; markerState 스페이스바로 토글하게 해놨는데 걍 수정하면됨
-        If KeyboardReleased(#PB_Key_Space)
-          
-          If  markerState = 1
-            markerState = 0
-          ElseIf  markerState = 0
-            markerState = 1
-          EndIf 
-        EndIf
-        
-        
-        ; Tutorial_Num_Lv1 -> 스크립트 번호
-        ; Tutorial_popup_Num -> 팝업 한거 번호
-        If  KeyboardReleased(#PB_Key_Right)
-          
-          Tutorial_Num_Lv1 + 1 ; 0? ~12
-           Tutorial_popup_Num + 1 
-        EndIf 
-        
-        If  KeyboardReleased(#PB_Key_Left)
-          
-          Tutorial_Num_Lv1 -1
-           Tutorial_popup_Num - 1 
-        EndIf 
-        
-        
-        If KeyboardReleased(#PB_Key_3)
-          PlayChordSound()
-        EndIf 
-        If KeyboardReleased(#PB_Key_4)
-          RemoveAnswer()
-        EndIf 
-        
-        
-        ; PAUSE 기능 제외 
-        ; Tutorial Popup 토글 
-        If KeyboardReleased(#PB_Key_P)
-        ; LEVEL1_State = #Status1_GameInPause      
-          
-         If  Tutorial_popup
-          Tutorial_popup = #False  
-         Else
-          Tutorial_popup = #True
-         EndIf 
-          
-       EndIf 
-      
-       
-       
-       ; 팝업 관리 
-        Dim tuto_popup(3)
-        If  Tutorial_popup 
-               
-        Debug Tutorial_popup_Num
-        
-            Select Tutorial_popup_Num
-              Case  1
-                tuto_popup(1) = 1
-                tuto_popup(2) = 0
-                tuto_popup(3) = 0
-                            
-              Case 2
-                tuto_popup(1) = 0
-                tuto_popup(2) = 1
-                tuto_popup(3) = 0
-              Case 3
-                tuto_popup(1) = 0
-                tuto_popup(2) = 0
-                tuto_popup(3) = 1
-                
-              Default 
-                tuto_popup(1) = 0
-                tuto_popup(2) = 0
-                tuto_popup(3) = 0
-                
-                EndSelect
-        Else           
-                tuto_popup(1) = 0
-                tuto_popup(2) = 0
-                tuto_popup(3) = 0
-        EndIf 
-        
-        
-             *p = FindSprite("lv1_tutorial_1")
-             SetMySprite(*p, 0, 0, tuto_popup(1))    
-             *p = FindSprite("lv1_tutorial_2")
-             SetMySprite(*p, 0, 0, tuto_popup(2))    
-             *p = FindSprite("lv1_tutorial_3")
-             SetMySprite(*p, 0, 0, tuto_popup(3)) 
-        
-        
-       
-      
-      DrawBoxs(*image)
-      Debug Str(ptBox(0,0)\x) + "    " + Str(ptBox(0,0)\y) 
-      *mat.CvMat = cvEncodeImage(".bmp", *image, 0)     
-      Result = CatchImage(1, *mat\ptr)
-      SetGadgetState(0, ImageID(1))     
-      cvReleaseMat(@*mat)  
-      
-      
-      
-     ; score 띄우기 
-     Select stageNum
-         
-       Case 1
-         score = LEVEL1_stage1_score
-       Case 2
-         score = LEVEL1_stage2_score
-       Case 3
-         score = LEVEL1_stage3_score
-
-     EndSelect
-     
-     StartDrawing(ScreenOutput())  
-     DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font40))
-     DrawText(1040, 100, "SCORE : " + score , RGB(255,255,255))
-     StopDrawing()
-     
-     
-      
-     If markerState = 0
-     StartDrawing(ScreenOutput())  
-     DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font40))
-     DrawText(0, 800, "마커모드 : 상자조절" , RGB(255,255,255))
-     StopDrawing()
-      
-     ElseIf  markerState =1 
-          StartDrawing(ScreenOutput())  
-     DrawingMode(#PB_2DDrawing_Transparent)
-     DrawingFont(FontID(Font40))
-     DrawText(0, 800, "마커모드 : 음 입력모드" , RGB(255,255,255))
-     StopDrawing()
-     EndIf  
-     
-
-     
-     FlipBuffers()
-     
-     If  KeyboardPushed(#PB_Key_0) And LEVEL1_State = #Status1_GameInPlay;Escape
-          
-            FreeImage(pbImage)
-            cvReleaseCapture(@*capture)
-          midiOutReset_(hMidiOut)
-          midiOutClose_(hMidiOut)
-          CloseWindow(1)
-        EndIf 
-      EndIf
-     
-    ;     ElseIf LEVEL1_State = #Status1_GameInPause      
-    ;  GamePause()      
-    EndIf 
-     
-     
-    Until WindowEvent() = #PB_Event_CloseWindow Or KeyboardPushed(#PB_Key_0)
+  InitChords()
+  stageNum = SelectedStage
+  InitProblem()
+  
+  ;사운드 시스템 초기화, 점검
+  If InitSound() = 0 
+    MessageRequester("Error", "Sound system is not available",  0)
+    End
   EndIf
   
+  OutDev.l
+  result = midiOutOpen_(@hMidiOut, OutDev, 0, 0, 0)
+  PrintN(Str(result))
   
-Else
-  MessageRequester("PureBasic Interface to OpenCV", "Unable to connect to a webcam - operation cancelled.", #MB_ICONERROR)
-EndIf
-
-Debug "level1 정상종료?"
-
-
-ProcedureReturn
-
+  Repeat
+    nCreate + 1
+    *capture.CvCapture = cvCreateCameraCapture(0)
+  Until nCreate = 5 Or *capture
+  
+  If *capture
+    FrameWidth = cvGetCaptureProperty(*capture, #CV_CAP_PROP_FRAME_WIDTH)
+    FrameHeight = cvGetCaptureProperty(*capture, #CV_CAP_PROP_FRAME_HEIGHT)
+    ;*image.IplImage
+    pbImage = CreateImage(#PB_Any, 640, 480)
+    *rectimg = cvCreateImage(FrameWidth, FrameHeight, #IPL_DEPTH_8U, 3)
+    
+    ;If OpenWindow(0, 0, 0, FrameWidth, FrameHeight, "PureBasic Interface to OpenCV", #PB_Window_SystemMenu |#PB_Window_MaximizeGadget | #PB_Window_ScreenCentered|#PB_Window_Maximize)
+    If MainWindow 
+      OpenWindow(1, 0, WindowHeight(0)/2 - 200, FrameWidth-5, FrameHeight-30, "title") ; 웹캠용 윈도우
+      ImageGadget(0, 0, 0, FrameWidth, FrameHeight, ImageID(pbImage))
+      StickyWindow(1, #True) ; 항상 위에 고정
+      SetWindowLongPtr_(WindowID(1), #GWL_STYLE, GetWindowLongPtr_(WindowID(1), #GWL_STYLE)&~ #WS_THICKFRAME &~ #WS_DLGFRAME) ; 윈도우 타이틀 바 제거
+      SetForegroundWindow_(WindowID(0))
+      InitSprite()
+      InitKeyboard()
+      
+      ;Screen과 Sprite 생성
+      ;OpenWindowedScreen(WindowID(0), 0, 0, WindowWidth(0), WindowHeight(0))
+      
+      UsePNGImageDecoder()
+      
+      TransparentSpriteColor(#PB_Default, RGB(255, 0, 255))
+      InitMySprite("background", "graphics/background.png", 0, 0)
+      InitMySprite("line1", "graphics/line1.png", 800, 160)
+      InitMySprite("line2", "graphics/line2.png", 890, 160)
+      InitMySprite("line3", "graphics/line3.png", 990, 160)
+      InitMySprite("line4", "graphics/line4.png", 1080, 160)
+      InitMySprite("line5", "graphics/line5.png", 1170, 160)
+      InitMySprite("line6", "graphics/line6.png", 1270, 160)
+      InitMySprite("line7", "graphics/line7.png", 1350, 160)
+      InitMySprite("lineclipped", "graphics/line_clipped.png", 0, 160, 0)
+      InitMySprite("scissors", "graphics/scissors.png", 0, 200, 0)
+      InitMySprite("container", "graphics/container.png", 760, 600)
+      InitMySprite("failed", "graphics/failed.png", 760, 750, 0)
+      InitMySprite("note1", "graphics/do.png", 0, 650, 0)
+      InitMySprite("note2", "graphics/re.png", 0, 650, 0)
+      InitMySprite("note3", "graphics/mi.png", 0, 650, 0)
+      InitMySprite("note4", "graphics/fa.png", 0, 650, 0)
+      InitMySprite("note5", "graphics/so.png", 0, 650, 0)
+      InitMySprite("note6", "graphics/la.png", 0, 650, 0)
+      InitMySprite("note7", "graphics/ti.png", 0, 650, 0)
+      InitMySprite("bubble1", "graphics/bubble1.png", 0, 650, 0)
+      InitMySprite("bubble2", "graphics/bubble2.png", 0, 650, 0)
+      InitMySprite("bubble3", "graphics/bubble3.png", 0, 650, 0)
+      InitMySprite("bubble4", "graphics/bubble4.png", 0, 650, 0)
+      InitMySprite("bubble5", "graphics/bubble5.png", 0, 650, 0)
+      InitMySprite("bubble6", "graphics/bubble6.png", 0, 650, 0)
+      InitMySprite("bubble7", "graphics/bubble7.png", 0, 650, 0)
+      InitMySprite("ant", "graphics/ant.png", 700, 630)
+      InitMySprite("antmove", "graphics/antmove.png", 700, 630, 0)
+      InitMySprite("correct","graphics/correct.png", 500,500,0)
+      InitMySprite("incorrect","graphics/incorrect.png", 500,500,0)
+      InitMySprite("ant_say", "graphics/ant_say.png", 500,500,0)   
+      InitMySprite("lv1_tutorial_1", "graphics/lv1_tutorial_1.png", 500,500,0)   
+      InitMySprite("lv1_tutorial_2", "graphics/lv1_tutorial_2.png", 500,500,0)   
+      InitMySprite("lv1_tutorial_3", "graphics/lv1_tutorial_3.png", 500,500,0)   
+      
+      line_position(0) = 800
+      line_position(1) = 890
+      line_position(2) = 990
+      line_position(3) = 1080
+      line_position(4) = 1170
+      line_position(5) = 1270
+      line_position(6) = 1350
+      
+      x_note1 = 780
+      x_note2 = 830
+      y_note1 = 620
+      
+      ; 문제 스프라이트 세팅
+      If stageNum = 1
+        *p.mySprite =  FindSprite("bubble" + Str(chord_list(currentProblem(0), currentProblem(1))))
+        SetMySprite(*p, x_note1, y_note1, 1)
+        elements(0) = *p
+        *p = FindSprite("bubble" + chord_list(currentProblem(0), currentProblem(2)))
+        SetMySprite(*p, x_note2, y_note1, 1)
+        elements(1) = *p
+      ElseIf stageNum = 2
+        *p.mySprite =  FindSprite("bubble" + Str(chord_list(currentProblem(0), currentProblem(1))))
+        SetMySprite(*p, x_note1, y_note1, 1)
+        elements(0) = *p
+      EndIf
+      
+      ; 애니메이션 스프라이트 세팅
+      *p = FindSprite("antmove")
+      *p\f_horizontal = 4
+      *p\f_width = *p\width / 4
+      *p\f_height = *p\height
+      *p = FindSprite("scissors")
+      *p\f_horizontal = 2
+      *p\f_width = *p\width / 2
+      *p\f_height = *p\height
+      
+      ClearScreen(RGB(255, 255, 255))
+      
+      testN = 1
+      
+      Repeat
+        *image = cvQueryFrame(*capture)
+        testN = testN + 1
+      Until testN = 10
+      
+      
+      Repeat
+        
+        If  LEVEL1_State = #Status1_GameInPlay
+          
+          *image = cvQueryFrame(*capture)
+          
+          If *image
+            cvFlip(*image, #Null, 1)
+            
+            ; 프레임 넘기기
+            currentTime = GetTickCount_()
+            ForEach sprite_list()
+              FrameManager(sprite_list()) ;active 상태인 것들만 다음 프레임으로
+            Next
+            
+            ; 렌더링
+            ForEach sprite_list()
+              DrawMySprite(sprite_list())
+            Next
+            
+            ; 처음 Tutorial_lock 걸려있는 동안은 tutorial 재생 
+            If   Tutorial_lock
+              LEVEL1_Tutorial( inc_x , Tutorial_Num_Lv1)
+              inc_x+1
+              
+            EndIf 
+            
+            
+            ;키보드 이벤트
+            ExamineKeyboard()
+            If KeyboardReleased(#PB_Key_1) And answerNum < stageNum
+              keyInput = #PB_Key_1
+              GetCursorPos_(mouse.POINT) : mouse_x=mouse\x : mouse_y=mouse\y
+              marker1X = mouse_x
+              marker1Y = mouse_y - (WindowHeight(0)/2 - 200)
+              If (markerState = 1)
+                CheckArea(keyInput)
+              EndIf
+            EndIf
+            If KeyboardReleased(#PB_Key_2) And answerNum < stageNum
+              keyInput = #PB_Key_2
+              GetCursorPos_(mouse.POINT) : mouse_x=mouse\x : mouse_y=mouse\y
+              marker2X = mouse_x
+              marker2Y = mouse_y - (WindowHeight(0)/2 - 200)
+              If (markerState = 1)
+                CheckArea(keyInput)
+              EndIf
+            EndIf
+            ; markerState 스페이스바로 토글하게 해놨는데 걍 수정하면됨
+            If KeyboardReleased(#PB_Key_Space)
+              
+              If  markerState = 1
+                markerState = 0
+              ElseIf  markerState = 0
+                markerState = 1
+              EndIf 
+            EndIf
+            
+            
+            ; Tutorial_Num_Lv1 -> 스크립트 번호
+            ; Tutorial_popup_Num -> 팝업 한거 번호
+            ; 분ㄹ ㅣ ..
+            If  KeyboardReleased(#PB_Key_Right)
+              
+              Tutorial_Num_Lv1 + 1 ; 0? ~12
+              Tutorial_popup_Num + 1 
+            EndIf 
+            
+            If  KeyboardReleased(#PB_Key_Left)
+              
+              Tutorial_Num_Lv1 -1
+              Tutorial_popup_Num - 1 
+            EndIf 
+            
+            
+            If KeyboardReleased(#PB_Key_3)
+              PlayChordSound()
+            EndIf 
+            If KeyboardReleased(#PB_Key_4)
+              RemoveAnswer()
+            EndIf 
+            
+            
+            ; PAUSE 기능 제외 
+            ; Tutorial Popup 토글 
+            If KeyboardReleased(#PB_Key_P)
+              ; LEVEL1_State = #Status1_GameInPause      
+              
+              If  Tutorial_popup
+                Tutorial_popup = #False  
+              Else
+                Tutorial_popup = #True
+              EndIf 
+              
+            EndIf 
+            
+            
+            
+            ; 팝업 r-
+            Dim tuto_popup(3)
+            If  Tutorial_popup 
+              
+              Debug Tutorial_popup_Num
+              
+              Select Tutorial_popup_Num
+                Case  1
+                  tuto_popup(1) = 1
+                  tuto_popup(2) = 0
+                  tuto_popup(3) = 0
+                  
+                Case 2
+                  tuto_popup(1) = 0
+                  tuto_popup(2) = 1
+                  tuto_popup(3) = 0
+                Case 3
+                  tuto_popup(1) = 0
+                  tuto_popup(2) = 0
+                  tuto_popup(3) = 1
+                  
+                Default 
+                  tuto_popup(1) = 0
+                  tuto_popup(2) = 0
+                  tuto_popup(3) = 0
+                  
+              EndSelect
+            Else           
+              tuto_popup(1) = 0
+              tuto_popup(2) = 0
+              tuto_popup(3) = 0
+            EndIf 
+            
+            
+            *p = FindSprite("lv1_tutorial_1")
+            SetMySprite(*p, 0, 0, tuto_popup(1))    
+            *p = FindSprite("lv1_tutorial_2")
+            SetMySprite(*p, 0, 0, tuto_popup(2))    
+            *p = FindSprite("lv1_tutorial_3")
+            SetMySprite(*p, 0, 0, tuto_popup(3)) 
+            
+            
+            
+            
+            DrawBoxs(*image)
+            Debug Str(ptBox(0,0)\x) + "    " + Str(ptBox(0,0)\y) 
+            *mat.CvMat = cvEncodeImage(".bmp", *image, 0)     
+            Result = CatchImage(1, *mat\ptr)
+            SetGadgetState(0, ImageID(1))     
+            cvReleaseMat(@*mat)  
+            
+            
+            
+            ; score 띄우기 
+            Select stageNum
+                
+              Case 1
+                score = LEVEL1_stage1_score
+              Case 2
+                score = LEVEL1_stage2_score
+              Case 3
+                score = LEVEL1_stage3_score
+                
+            EndSelect
+            
+            StartDrawing(ScreenOutput())  
+            DrawingMode(#PB_2DDrawing_Transparent)
+            DrawingFont(FontID(Font40))
+            DrawText(1040, 100, "SCORE : " + score , RGB(255,255,255))
+            StopDrawing()
+            
+            
+            
+            If markerState = 0
+              StartDrawing(ScreenOutput())  
+              DrawingMode(#PB_2DDrawing_Transparent)
+              DrawingFont(FontID(Font40))
+              DrawText(0, 800, "마커모드 : 상자조절" , RGB(255,255,255))
+              StopDrawing()
+              
+            ElseIf  markerState =1 
+              StartDrawing(ScreenOutput())  
+              DrawingMode(#PB_2DDrawing_Transparent)
+              DrawingFont(FontID(Font40))
+              DrawText(0, 800, "마커모드 : 음 입력모드" , RGB(255,255,255))
+                                                 StopDrawing()
+            EndIf  
+            
+            
+            
+            FlipBuffers()
+            
+            If  KeyboardPushed(#PB_Key_0) And LEVEL1_State = #Status1_GameInPlay;Escape
+              
+              FreeImage(pbImage)
+              cvReleaseCapture(@*capture)
+              midiOutReset_(hMidiOut)
+              midiOutClose_(hMidiOut)
+              CloseWindow(1)
+            EndIf 
+          EndIf
+          
+          ;     ElseIf LEVEL1_State = #Status1_GameInPause      
+          ;  GamePause()      
+        EndIf 
+        
+        
+      Until WindowEvent() = #PB_Event_CloseWindow Or KeyboardPushed(#PB_Key_0)
+    EndIf
+    
+    
+  Else
+    MessageRequester("PureBasic Interface to OpenCV", "Unable to connect to a webcam - operation cancelled.", #MB_ICONERROR)
+  EndIf
+  
+  Debug "level1 정상종료?"
+  
+  
+  ProcedureReturn
+  
 EndProcedure
 
 
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 1161
-; FirstLine = 402
-; Folding = IAAA9
+; CursorPosition = 1259
+; FirstLine = 1219
+; Folding = -----
 ; EnableXP
 ; DisableDebugger
