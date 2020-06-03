@@ -529,7 +529,7 @@ Procedure AnswerCheck_Lv2()
     Else
       PrintN(Str(i+1) + "번째 마디 오답 / 입력 : " + Str(userAnswers(i)) + "/ 실제 답 : " + Str(answer))
       Debug "initmysprite" + i
-      ;   InitMySprite("small_incorrect"+i, "graphics/small_incorrect.png", 40*i, 10,1) 
+        ; InitMySprite("small_incorrect"+i, "graphics/small_incorrect.png", 40*i, 10,1) 
       *p = FindSprite("small_correct"+i)
       SetMySprite(*p, posX +delta_x*i , posY, 0)
       *p = FindSprite("small_incorrect"+i)
@@ -686,7 +686,7 @@ Procedure PlayNotes(parameter)
     Next
   Next
   ; 정답 체크
-  AnswerCheck_Lv2()
+  ;AnswerCheck_Lv2()
   currentBar = 0
   DrawNotes_Lv2()
 EndProcedure
@@ -1135,8 +1135,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 1134
-; FirstLine = 1094
-; Folding = ----
+; CursorPosition = 688
+; FirstLine = 178
+; Folding = AAE-
 ; EnableXP
 ; DisableDebugger

@@ -40,12 +40,12 @@ Global BackgroundX = 1536, BackgroundY = 897
 
 ;Setup Font
 Global ImpactFont = LoadFont(#PB_Any, "Impact", 30)
-Global Font15 = LoadFont(#PB_Any, "Impact", 15)
-Global Font20 = LoadFont(#PB_Any, "Impact", 20)
-Global Font25 = LoadFont(#PB_Any, "Impact", 25)
-Global Font40 = LoadFont(#PB_Any, "Impact", 40,#PB_Font_Bold)
-Global Font50 = LoadFont(#PB_Any, "Impact", 50)
-Global Font100 = LoadFont(#PB_Any, "Impact", 100)
+Global Font15 = LoadFont(#PB_Any, "궁서체", 15)
+Global Font20 = LoadFont(#PB_Any, "궁서체", 20)
+Global Font25 = LoadFont(#PB_Any, "궁서체", 25)
+Global Font40 = LoadFont(#PB_Any, "궁서체", 40,#PB_Font_Bold)
+Global Font50 = LoadFont(#PB_Any, "궁서체", 50)
+Global Font100 = LoadFont(#PB_Any, "궁서체", 100)
 
 
 Procedure DrawTextEx(X.i, Y.i, Text.s)
@@ -501,8 +501,8 @@ CloseScreen()
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 466
-; FirstLine = 460
+; CursorPosition = 45
+; FirstLine = 24
 ; Folding = -
 ; EnableXP
 ; Executable = maestro.exe
