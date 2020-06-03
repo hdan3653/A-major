@@ -1198,13 +1198,13 @@ If *capture
   
   
   ;전체화면으로 실행
-  If OpenWindow(0, 0, 0, FrameWidth, FrameHeight, "PureBasic Interface to OpenCV", #PB_Window_SystemMenu |#PB_Window_MaximizeGadget | #PB_Window_ScreenCentered|#PB_Window_Maximize)
-    
+ ; If OpenWindow(0, 0, 0, FrameWidth, FrameHeight, "PureBasic Interface to OpenCV", #PB_Window_SystemMenu |#PB_Window_MaximizeGadget | #PB_Window_ScreenCentered|#PB_Window_Maximize)
+    If   MainWindow
     OpenWindow(1, 0, WindowHeight(0)/2 - 200, FrameWidth-5, FrameHeight-30, "title") ; 웹캠용 윈도우
     ImageGadget(0, 0, 0, FrameWidth, FrameHeight, ImageID(pbImage))
     StickyWindow(1, #True) ; 항상 위에 고정
     SetWindowLongPtr_(WindowID(1), #GWL_STYLE, GetWindowLongPtr_(WindowID(1), #GWL_STYLE)&~ #WS_THICKFRAME &~ #WS_DLGFRAME) ; 윈도우 타이틀 바 제거
-    
+    SetForegroundWindow_(WindowID(0)) ; 윈도우 포커스 이동
     InitSprite()
     InitKeyboard()
     
@@ -1587,8 +1587,8 @@ EndIf
   
 EndProcedure
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 1466
-; FirstLine = 1440
-; Folding = -----
+; CursorPosition = 1512
+; FirstLine = 894
+; Folding = -fAg-
 ; EnableXP
 ; DisableDebugger
