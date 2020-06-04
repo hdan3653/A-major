@@ -40,12 +40,12 @@ Global BackgroundX = 1536, BackgroundY = 897
 
 ;Setup Font
 Global ImpactFont = LoadFont(#PB_Any, "Impact", 30)
-Global Font15 = LoadFont(#PB_Any, "궁서체", 15)
-Global Font20 = LoadFont(#PB_Any, "궁서체", 20)
-Global Font25 = LoadFont(#PB_Any, "궁서체", 25)
-Global Font40 = LoadFont(#PB_Any, "궁서체", 40,#PB_Font_Bold)
-Global Font50 = LoadFont(#PB_Any, "궁서체", 50)
-Global Font100 = LoadFont(#PB_Any, "궁서체", 100)
+Global Font15 = LoadFont(#PB_Any, "Impact", 15)
+Global Font20 = LoadFont(#PB_Any, "Impact", 20)
+Global Font25 = LoadFont(#PB_Any, "Impact", 25)
+Global Font40 = LoadFont(#PB_Any, "Impact", 40,#PB_Font_Bold)
+Global Font50 = LoadFont(#PB_Any, "Impact", 50)
+Global Font100 = LoadFont(#PB_Any, "Impact", 100)
 
 
 Procedure DrawTextEx(X.i, Y.i, Text.s)
@@ -101,7 +101,7 @@ Global StageNodeX = 400, StageNodeY = 400
 Global StageNodePosX = 548 ,StageNodePosY = 349
 Global ScorePosX = 845, ScorePosY =349
 Global ScoreWidth=200 , ScoreHeight=50
-Global NodeTextX = StageNodePosX+105,NodeTextY = StageNodePosY+155
+Global NodeTextX = StageNodePosX+90,NodeTextY = StageNodePosY+155
 
 
 ;Setup Screen Color
@@ -116,8 +116,6 @@ IncludeFile "LEVEL2.pb"
 IncludeFile "LEVEL3.pb"
 IncludeFile "TUTORIAL.pb"
 IncludeFile "cv_colorcalibration.pb"
-
-
 
 
 Procedure drawStageSelect(StageNum, LeftOrRight, LevelNum)
@@ -285,18 +283,18 @@ Procedure StageSelectScene(LevelNum)
     DrawingFont(FontID(font50))
     DrawingMode(#PB_2DDrawing_Transparent)
     DrawText(NodeTextX, NodeTextY, "Stage"+StageNum, TextColor)
-    DrawingFont(FontID(font100))
+    DrawingFont(FontID(Font25))
     If Score < 10 
-      DrawText(NodeTextX-20, NodeTextY, "☆☆☆", TextColor)
+      DrawText(StageNodePosX+20, StageNodePosY+10, "☆☆☆", TextColor)
     ElseIf Score < 50
-      DrawText(NodeTextX-20, NodeTextY, "★☆☆", TextColor)
+      DrawText(StageNodePosX+20, StageNodePosY+10, "★☆☆", TextColor)
     ElseIf Score < 100
-      DrawText(NodeTextX-20, NodeTextY, "★★☆", TextColor)
+      DrawText(StageNodePosX+20, StageNodePosY+10, "★★☆", TextColor)
     ElseIf Score < 150
-      DrawText(NodeTextX-20, NodeTextY, "★★★", TextColor)  
+      DrawText(StageNodePosX+20, StageNodePosY+10, "★★★", TextColor)  
     EndIf  
     DrawingFont(FontID(font20))
-    DrawText(NodeTextX+20, NodeTextY+100, "score : " + Str(Score), TextColor)
+    DrawText(StageNodePosX+245, StageNodePosY+20, "score : " + Str(Score), TextColor)
     StopDrawing()
     
     
@@ -501,8 +499,8 @@ CloseScreen()
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 45
-; FirstLine = 24
-; Folding = -
+; CursorPosition = 293
+; FirstLine = 153
+; Folding = o
 ; EnableXP
 ; Executable = maestro.exe

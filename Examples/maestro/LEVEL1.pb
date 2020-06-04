@@ -768,7 +768,7 @@ Procedure ant_saying(script.s, pos_x, pos_y)
   SetMySprite(*p, 900, 500, 1)  
   StartDrawing(ScreenOutput())  
   DrawingMode(#PB_2DDrawing_Transparent)
-  DrawingFont(FontID(Font20))
+  DrawingFont(FontID(Font15))
   DrawTextEx(pos_x, pos_y, script)
   StopDrawing()
   
@@ -777,12 +777,12 @@ EndProcedure
 Procedure LEVEL1_Tutorial(x, Tutorial_Num_Lv1)
   
   pos_x = 1000
-  pos_y = 600
+  pos_y = 500
   
   Select Tutorial_Num_Lv1
       
     Case 1     
-      ant_saying("안녕 나는 음악개미야", pos_x, pos_y)
+      ant_saying("안녕 나는 음악개미 꾹꾹이야", pos_x, pos_y)
       
     Case 2
       ant_saying("LEVEL1에 관해 간단히 설명해줄게", pos_x, pos_y) 
@@ -791,24 +791,24 @@ Procedure LEVEL1_Tutorial(x, Tutorial_Num_Lv1)
       ant_saying("내 앞에 경단이 보이지?", pos_x, pos_y)
       
     Case 4
-      ant_saying("이 경단은 과일 세개로 이루어지는 화음 경단이야", pos_x, pos_y)
+      ant_saying("이 경단은 과일 세 개로 이루어지는"+#CRLF$+"화음 경단이야", pos_x, pos_y)
       
     Case 5
-      ant_saying("이 경단에 어울리는 과일을 세개씩 모아서 가져가려고 해", pos_x, pos_y)
+      ant_saying("이 경단에 어울리는 과일을 세개씩 모아서"+#CRLF$+"가져가려고 해", pos_x, pos_y)
       
     Case 6
-      ant_saying("OO을 누르면 어울리는 과일의 소리를 들을 수 있어", pos_x, pos_y)
+      ant_saying("왼쪽 마커를 몸에 터치하면"+#CRLF$+"어울리는 과일의 소리를 들을 수 있어", pos_x, pos_y)
       
     Case 7
-      ant_saying("OO을 누르면 일시 멈춤 할 수 있어", pos_x, pos_y)
+      ant_saying("<왼쪽마커 위 제스처>로"+#CRLF$+"튜토리얼을 확인 할 수 있어", pos_x, pos_y)
     Case 8
-      ant_saying("화음을 잘 듣고 마커를 사용해서 과일을 골라줘", pos_x, pos_y)     
+      ant_saying("<오른쪽 마커 아래 제스처>로 화음을 잘 듣고"+#CRLF$+"마커를 사용해서 과일을 골라줘", pos_x, pos_y)     
                                                      
     Case 9
-      ant_saying("마커의 사용방법을 모르면 마커 사용법을 익히고 오도록해!", pos_x, pos_y)
+      ant_saying("마커의 사용방법을 모르면"+#CRLF$+"먼저 마커 사용법을 익히고 오도록해!", pos_x, pos_y)
       
     Case 10
-      ant_saying("소리가 어울리지 않으면 경단이 부숴질거야!", pos_x, pos_y) 
+      ant_saying("정답 화음을 맞추지 못하면 경단이 부서질거야!", pos_x, pos_y) 
       
     Case 11
       ant_saying("게임 시작!", pos_x, pos_y)   
@@ -1227,7 +1227,12 @@ Procedure CreateLEVEL1(SelectedStage)
             FlipBuffers()
             
             If  KeyboardPushed(#PB_Key_0) And LEVEL1_State = #Status1_GameInPlay;Escape
-              
+             ForEach sprite_list()
+                DeleteElement(sprite_list())
+              Next
+              ForEach position_list()
+                DeleteElement(position_list())
+              Next
               FreeImage(pbImage)
               cvReleaseCapture(@*capture)
               midiOutReset_(hMidiOut)
@@ -1260,8 +1265,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 1259
-; FirstLine = 1219
-; Folding = -----
+; CursorPosition = 779
+; FirstLine = 132
+; Folding = AAAg0
 ; EnableXP
 ; DisableDebugger
