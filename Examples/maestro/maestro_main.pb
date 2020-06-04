@@ -503,8 +503,8 @@ CloseScreen()
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 435
-; FirstLine = 134
+; CursorPosition = 11
+; FirstLine = 5
 ; Folding = g
 ; EnableXP
 ; Executable = maestro.exe

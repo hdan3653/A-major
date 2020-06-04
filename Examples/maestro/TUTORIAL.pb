@@ -410,7 +410,7 @@ Procedure CreateTutorial()
               DrawText(1420+2*Sin(x), 110, "다음" , RGB(0,0,0))
               ;  DrawText(100-2*Sin(x), 150, "이전" , RGB(255,255,255))
               StopDrawing()
-            ElseIf Tutorial_Num >=20
+            ElseIf Tutorial_Num >=23
               StartDrawing(ScreenOutput())  
               DrawingMode(#PB_2DDrawing_Transparent)
               DrawingFont(FontID(Font20))
@@ -459,8 +459,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 133
-; FirstLine = 90
+; CursorPosition = 412
+; FirstLine = 372
 ; Folding = 9
 ; EnableXP
 ; DisableDebugger
