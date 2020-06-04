@@ -4,14 +4,14 @@
 ; 처음 시작 후, 마우스 커서와 키보드 1(혹은 2)로 박스 영역 설정 -> 스페이스바로 상태 전환 -> 마우스 커서와 키보드 1(혹은 2)로 음 출력
 ; 키보드3 : 멜로디 입력 <-> 코드 입력 전환 (기본 상태는 멜로디 입력, 처음 누르면 코드 입력으로 전환)
 ; 키보드4 : 입력 <-> 수정 전환 (기본 상태는 입력, 처음 누르면 수정모드로 전환)
-
+  
 Structure mySprite
   sprite_id.i
   sprite_name.s
   filename.s
   
   num.i ; 몇 번 음(또는 화음)인지 저장
-  beat.i; 음표 스프라이트만 박자 저장
+  beat.i ; 음표 스프라이트만 박자 저장
   
   x.i   ; 위치 x
   y.i   ; 위치 y
@@ -137,7 +137,7 @@ Procedure FrameManager(*this.mySprite)
 EndProcedure
 
 Procedure InitMySprite_lv3(name.s, filename.s, x.i, y.i, type.i, active.i = 1) ;active는 옵션
-                                                                               ; 스프라이트 구조체 초기화
+                                                                   ; 스프라이트 구조체 초기화
   CreateSprite(#PB_Any, width, height)
   mysprite = LoadSprite(#PB_Any, filename.s)
   
@@ -145,14 +145,14 @@ Procedure InitMySprite_lv3(name.s, filename.s, x.i, y.i, type.i, active.i = 1) ;
     *newsprite.mySprite = AddElement(sprite_list())
   ElseIf type = 1 ;음표(과일) 스프라이트
     *newsprite.mySprite = AddElement(bar_list(currentBar)\note())   ;beat, bar 따로 저장
-  ElseIf type = 2                                                   ;화음 스프라이트
+  ElseIf type = 2 ;화음 스프라이트
     *newsprite.mySprite = AddElement(bar_list(currentBar)\chord())
   EndIf  
   
   
   *newsprite\num = -1 
   *newsprite\beat = -1  ;일반 스프라이트
-  
+    
   *newsprite\sprite_id = mysprite
   *newsprite\sprite_name = name
   *newsprite\filename = filename
@@ -259,7 +259,7 @@ Procedure MoveAnt_Lv3()
     ForEach sprite_list()
       FrameManager(sprite_list()) ;active 상태인 것들만 다음 프레임으로
     Next
-    
+
     
     ForEach sprite_list()
       DrawMySprite(sprite_list())
@@ -289,7 +289,7 @@ Procedure CalcBeat()
   
   interval = intervalStart - intervalEnd ;현재 음 입력시간 - 이전 음 입력시간
   
-  ; Debug Interval
+ ; Debug Interval
   
   If Interval >=1000 And Interval <5000
     dist = 160
@@ -326,7 +326,7 @@ Procedure DrawNote(b)
     ForEach bar_list(i)\chord()
       bar_list(i)\chord()\active = 0
     Next
-    
+
   Next
   
   ;Debug "b" + Str(b)
@@ -340,7 +340,7 @@ Procedure DrawNote(b)
     bar_list(b)\chord()\active= 1
   Next
   
-  
+
   
 EndProcedure
 
@@ -354,17 +354,17 @@ Procedure AddNote()
   xx = x
   x = xx + dist
   
-  ;수정모드
+    ;수정모드
   If editMode = 1 And inputCount = -1
     ClearList(bar_list(currentBar)\note())  
     x = 800
     barCount = currentBar
     beatSum = 0
   EndIf
-  
+ 
   ;현재 화면 밖으로 벗어나는 경우
   If x > 1440
-    ;If beatSum = 8  
+  ;If beatSum = 8  
     barCount = barCount + 1 ; 여기가 문제!!!!!!!!
     
     ;마디 수 체크
@@ -383,7 +383,7 @@ Procedure AddNote()
         *p\beat = 300 ;반박자
       EndIf
       ;inputCount = -1
-      
+    
     ElseIf editMode = 1
       ;inputCount = -1
       editMode = 0
@@ -438,14 +438,14 @@ Procedure AddNote()
       ;Debug "이전 음 beat" + Str(*p\beat) + "이전 음 x" + Str(*p\x)
       ;Debug "이전 음 x" + Str(*p\x)
       ;bar_list(currentBar)\note()\beat = beat
-      
-      
+
+     
       beatSum = 0
     EndIf
     
-    ;화면상에서 두번째 마디 시작
+  ;화면상에서 두번째 마디 시작
   ElseIf beatSum = 320
-    
+   
     currentBar = barCount
     
     ;숫자 마디 (비)활성화 
@@ -504,7 +504,7 @@ Procedure AddNote()
       *p.mySprite = FindSprite("bar"+Str(currentBar*2+2)+"_a")
       *p\active = 1
     EndIf
-    ;Debug "currentBar" + Str(currentBar)
+     ;Debug "currentBar" + Str(currentBar)
     
   EndIf
   
@@ -514,12 +514,12 @@ EndProcedure
 
 ;화음 입력하면 개미랑 비료 그려주는 함수
 Procedure AddChord(tone)
-  
+
   chord = tone
-  
+
   If chordCount < 8 Or editMode = 1
     
-    ;수정모드
+  ;수정모드
     If editMode = 1
       If check = 0
         check = check + 1
@@ -534,7 +534,7 @@ Procedure AddChord(tone)
       EndIf 
       ;Debug "currentBar : " + Str(currentBar)
       ;Debug "listSize : " + Str(ListSize(bar_list(currentBar)\chord()))
-      
+
     EndIf
     
     InitMySprite_lv3("antmove"+Str(currentBar), "graphics/antmove.png", Lv2_antX-200, Lv2_antY, 0)
@@ -542,14 +542,14 @@ Procedure AddChord(tone)
     *p\f_horizontal = 4
     *p\f_width = 98
     *p\f_height = 112
-    
+ 
     ;첫번째 화면의 첫번째 화음
     If ListSize(bar_list(currentBar)\chord()) = 0 And currentBar = 0
       InitMySprite_lv3("container"+Str(chordCount), "graphics/"+Str(chord+1)+".png", Lv2_contX, Lv2_contY, 2)
       
       *p2.mySprite = bar_list(currentBar)\chord()
       *p2\num = tone+1
-      
+    
       
       InitMySprite_lv3("bar_active_c"+Str(currentBar*2+1), "graphics/"+Str(chord+1)+"_active.png", 70, 30, 0)
       InitMySprite_lv3("bar_c"+Str(currentBar*2+1), "graphics/"+Str(chord+1)+"s.png", 70+80*(currentBar*2), 30, 0,0)
@@ -566,8 +566,8 @@ Procedure AddChord(tone)
       
       ;Debug "currentBar : " + Str(currentBar)
       ;Debug "listSize : " + Str(ListSize(bar_list(currentBar)\chord()))
-      
-      ;한 화면에서 두번째 마디  
+        
+    ;한 화면에서 두번째 마디  
     ElseIf ListSize(bar_list(currentBar)\chord()) = 1
       InitMySprite_lv3("container"+Str(chordCount), "graphics/"+Str(chord+1)+".png", 920, Lv2_contY, 2)
       *p2.mySprite = bar_list(currentBar)\chord()
@@ -588,7 +588,7 @@ Procedure AddChord(tone)
       InitMyPosition(*p, 10, 0, 1050, 0, 20)
       MoveAnt_Lv3()
       *p\active = 0
-      
+           
       *p.mySprite = FindSprite("ant")
       *p\active = 1
       
@@ -598,8 +598,8 @@ Procedure AddChord(tone)
         editMode = 0
         Debug "수정 끝"
       EndIf
-      
-      ;화면 전환 후 첫번째 마디
+  
+    ;화면 전환 후 첫번째 마디
     Else
       
       If editMode = 0
@@ -644,7 +644,7 @@ Procedure AddChord(tone)
       MoveAnt_Lv3()
       *p\active = 0
       ;InitMySprite_lv3("ant2"+Str(currentBar), "graphics/ant.png", Lv2_antX, Lv2_antY,0)
-      
+
       *p.mySprite = FindSprite("ant2")
       *p\active = 1
       
@@ -762,7 +762,7 @@ Procedure DrawBoxs(*image)
     cvAddWeighted(*image, 1, *rectimg, 0.5, 0, *image)
     cvResetImageROI(*image)
     
-    ;화음 입력모드  
+  ;화음 입력모드  
   Else
     If direction = 0   
       width = ptBox(5, 2)\x - ptBox(0, 0)\x
@@ -794,7 +794,7 @@ Procedure DrawBoxs(*image)
     ;cvReleaseImage(*boximg)
   EndIf
   
-  
+
 EndProcedure
 
 
@@ -899,12 +899,12 @@ Procedure CheckArea(key)
     tone = CalcArea_lv3(marker1X, marker1Y)
   EndIf
   
-  
+
   ; 음 입력모드인 경우 + 음이 도-시 사이인 경우만 출력
   If tone > -1 And tone < 7 And inputMode = 0
     ;이전 음 소리 제거
     If inputCount <> -1
-      midiOutShortMsg_(hMidiOut, $80 | 0 | GetNote(bar_list(currentBar)\note()\num) << 8 | 0 << 16)
+       midiOutShortMsg_(hMidiOut, $80 | 0 | GetNote(bar_list(currentBar)\note()\num) << 8 | 0 << 16)
     EndIf 
     
     intervalEnd = intervalStart
@@ -913,7 +913,7 @@ Procedure CheckArea(key)
     inputTone = tone
     
     AddNote()
-    
+ 
     If barCount < 4
       PlayPianoSound(tone+1)
       ;answerTone = tone
@@ -921,8 +921,8 @@ Procedure CheckArea(key)
       
     EndIf
     
-    
-    ; 화음 입력모드
+     
+  ; 화음 입력모드
   ElseIf inputMode = 1 And tone > -1 And tone < 6 And chordFlag = 0
     GetChord(tone+1)
     PlayChordSound()
@@ -932,7 +932,7 @@ Procedure CheckArea(key)
     EndIf
     
   EndIf
-  
+    
 EndProcedure
 
 
@@ -991,11 +991,11 @@ EndProcedure
 Procedure PlayAll()
   
   Repeat
-    
+ 
     ClearNote()
-    
+
     ForEach bar_list(i)\note()
-      
+ 
       note = bar_list(i)\note()\num
       beat = bar_list(i)\note()\beat
       
@@ -1003,7 +1003,7 @@ Procedure PlayAll()
       currentTime = GetTickCount_()
       FrameManager(bar_list(i)\note())
       DrawMySprite(bar_list(i)\note())
-      
+  
       If bar_list(i)\note()\x = 800
         *p.mySprite = FirstElement(bar_list(i)\chord())
         chord = *p\num
@@ -1014,18 +1014,18 @@ Procedure PlayAll()
         ;Debug("2*i+1 = "+ Str(2*i+1))
         
         
-        ;         If i <> 0
-        ;           *b.mySprite = FindSprite("bar_active_c"+Str(2*i))
-        ;           *b\active = 0
-        ;           *b.mySprite = FindSprite("bar_c"+Str(2*i))
-        ;           *b\active = 1
-        ;         EndIf
-        ;         *b.mySprite = FindSprite("bar_c"+Str(2*i+1))
-        ;         *b\active = 0
+;         If i <> 0
+;           *b.mySprite = FindSprite("bar_active_c"+Str(2*i))
+;           *b\active = 0
+;           *b.mySprite = FindSprite("bar_c"+Str(2*i))
+;           *b\active = 1
+;         EndIf
+;         *b.mySprite = FindSprite("bar_c"+Str(2*i+1))
+;         *b\active = 0
         *b.mySprite = FindSprite("bar_active_c"+Str(2*i+1))
         *b\active = 1
         
-        
+
       ElseIf bar_list(i)\note()\x = 1160
         *p.mySprite = LastElement(bar_list(i)\chord())
         chord = *p\num
@@ -1034,16 +1034,16 @@ Procedure PlayAll()
         PlayChordSound()
         
         ;Debug("2*i+2 = "+ Str(2*i+2))
-        ;         If i*2+1 <> 0
-        ;         *b.mySprite = FindSprite("bar_active_c"+Str(2*i+1))
-        ;         *b\active = 0
-        ;         *b.mySprite = FindSprite("bar_c"+Str(2*i+1))
-        ;         *b\active = 1
-        ;         EndIf
-        ;         
-        ;         *b.mySprite = FindSprite("bar_c"+Str(2*i+1))
-        ;*b\active = 0
-        
+;         If i*2+1 <> 0
+;         *b.mySprite = FindSprite("bar_active_c"+Str(2*i+1))
+;         *b\active = 0
+;         *b.mySprite = FindSprite("bar_c"+Str(2*i+1))
+;         *b\active = 1
+;         EndIf
+;         
+;         *b.mySprite = FindSprite("bar_c"+Str(2*i+1))
+;*b\active = 0
+     
         
         *b.mySprite = FindSprite("bar_active_c"+Str(2*i+2))
         *b\active = 1
@@ -1057,7 +1057,7 @@ Procedure PlayAll()
       DrawMySprite(sprite_list())
       DrawMySprite(bar_list(i)\chord())
       
-      
+  
       midiOutShortMsg_(hMidiOut, $90 | 0 | GetNote(note) << 8 | 127 << 16 )
       Delay(beat)
       midiOutShortMsg_(hMidiOut, $80 | 0 | GetNote(note) << 8 | 0 << 16)
@@ -1065,8 +1065,8 @@ Procedure PlayAll()
       FlipBuffers()
       
     Next
-    
-    i = i + 1
+
+  i = i + 1
   Until i = 4
   
 EndProcedure
@@ -1098,15 +1098,15 @@ Procedure Scoring()
         EndIf
       EndIf
     Next
-    
-    
+
+
     *p.mySprite = FirstElement(bar_list(i)\chord())
     *n.mySprite = AddElement(checkNote(2*i)\chord())
     *n\num =*p\num
     *p.mySprite = LastElement(bar_list(i)\chord())
     *n.mySprite = AddElement(checkNote(2*i+1)\chord())
     *n\num =*p\num
-    
+  
   Next
   
   ;flag = 1 (틀림), flag = 0 (맞음)
@@ -1120,16 +1120,16 @@ Procedure Scoring()
       If m= note(0) Or m = note(1) Or m = note(2)
         flag = 0
       EndIf
-      ;       Debug("기준음 " + Str(m))
-      ;       Debug("note 0 " + Str(note(0)))
-      ;       Debug("note 1 " + Str(note(1)))
-      ;       Debug("note 2 " + Str(note(2)))
-      ;       Debug("flag " + Str(flag))
+;       Debug("기준음 " + Str(m))
+;       Debug("note 0 " + Str(note(0)))
+;       Debug("note 1 " + Str(note(1)))
+;       Debug("note 2 " + Str(note(2)))
+;       Debug("flag " + Str(flag))
     Next
     If flag = 1
-      score(i) = 1
+        score(i) = 1
     Else
-      score(i) = 0
+        score(i) = 0
     EndIf
   Next
   
@@ -1140,7 +1140,7 @@ Procedure Scoring()
   For i=0 To 3     
     ForEach bar_list(i)\chord()
       *q.mySprite = bar_list(i)\chord()
-      
+ 
       ;G코드(5도) -> Dm(2도) or F(4도)
       If *p\num = 5 And (*q\num = 2 Or *q\num = 4)
         Debug("잘못된 코드진행")
@@ -1233,7 +1233,7 @@ If *capture
     
     InitMySprite_lv3("ant", "graphics/ant.png", 1050, Lv2_antY,0,0)
     InitMySprite_lv3("ant2", "graphics/ant.png", Lv2_antX, Lv2_antY,0,0)
-    
+
     
     ;숫자 마디
     InitMySprite_lv3("bar1", "graphics/bar1.png", 70, 30, 0, 1)
@@ -1263,11 +1263,11 @@ If *capture
     InitMySprite_lv3("c6", "graphics/container_s.png", 470, 30, 0, 0)
     InitMySprite_lv3("c7", "graphics/container_s.png", 550, 30, 0, 0)
     InitMySprite_lv3("c8", "graphics/container_s.png", 630, 30, 0, 0)
-    
+
     x_note1 = 800
     x_note2 = 840
     y_note1 = 610
-    
+   
     ClearScreen(RGB(255, 255, 255))
     
     Repeat
@@ -1279,7 +1279,7 @@ If *capture
         
         currentTime = GetTickCount_()
         
-        ForEach sprite_list()
+                ForEach sprite_list()
           FrameManager(sprite_list()) ;active 상태인 것들만 다음 프레임으로
         Next
         
@@ -1295,7 +1295,7 @@ If *capture
             FrameManager(bar_list(i)\chord())
           Next
         Next
-        
+       
         
         ClearScreen(RGB(255, 255, 255))
         
@@ -1314,8 +1314,8 @@ If *capture
           Next
           
         Next
-        
-        
+
+
         ;- 키보드 이벤트
         ExamineKeyboard()
         
@@ -1372,7 +1372,7 @@ If *capture
             *b.mySprite = FindSprite("background2")
             *b\active = 0
             
-            ;음 입력  
+          ;음 입력  
           Else
             inputMode = 0
             
@@ -1415,7 +1415,7 @@ If *capture
               *p.mySprite = FindSprite("bar"+Str(currentBar*2+2)+"_a")
               *p\active = 1
               
-              ;화음 모드일 때 화음마디  
+            ;화음 모드일 때 화음마디  
             ElseIf inputMode = 1
               For i=1 To 8
                 
@@ -1432,7 +1432,7 @@ If *capture
             EndIf
             
             DrawNote(currentBar)
-            
+
           EndIf
         EndIf
         
@@ -1440,8 +1440,8 @@ If *capture
         If KeyboardReleased(#PB_Key_Right)
           
           If currentBar < 3 And barCount > currentBar 
-            currentBar = currentBar+1
-            ;멜로디 모드일 때 숫자마디
+             currentBar = currentBar+1
+                     ;멜로디 모드일 때 숫자마디
             If inputMode = 0
               For i=1 To 8
                 *p.mySprite = FindSprite("bar"+Str(i)+"_a")
@@ -1454,10 +1454,10 @@ If *capture
               *p.mySprite = FindSprite("bar"+Str(currentBar*2+2)+"_a")
               *p\active = 1
               
-              ;화음 모드일 때 화음마디  
+            ;화음 모드일 때 화음마디  
             ElseIf inputMode = 1 And chordFlag = 0
               For i=1 To 8
-                
+                               
                 If (i=currentBar*2+1) Or (i=currentBar*2+2)
                   *p.mySprite = FindSprite("bar_active_c"+Str(i))
                   *p\active = 1
@@ -1490,7 +1490,7 @@ If *capture
             EndIf
             
             DrawNote(currentBar)
-            
+              
           EndIf
         EndIf
         
@@ -1530,9 +1530,9 @@ If *capture
           ;InitMySprite_lv3("o", "graphics/result_o.png", 70, 30, 0, 0)
           ;InitMySprite_lv3("x", "graphics/result_x.png", 230, 30, 0, 0)
           ;InitMySprite_lv3("c1", "graphics/container_s.png", 70, 30, 0, 0)
-          
+              
         EndIf
-        
+  
       EndIf
       
       DrawBoxs(*image)
@@ -1566,13 +1566,13 @@ If *capture
     Next
     
   Next
-  
+
   
 Else
   MessageRequester("PureBasic Interface to OpenCV", "Unable to connect to a webcam - operation cancelled.", #MB_ICONERROR)
 EndIf
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 1544
-; FirstLine = 1532
+; CursorPosition = 1572
+; FirstLine = 1533
 ; Folding = ----
 ; EnableXP
