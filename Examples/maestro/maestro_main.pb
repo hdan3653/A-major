@@ -436,8 +436,10 @@ Repeat
     DrawingMode(#PB_2DDrawing_Transparent)
     DrawingFont(FontID(Impact30))
     DrawTextEx(0,0, "A-MAJOR")
+    DrawingFont(FontID(Impact100))
+    DrawText(460, 160 + 3*Sin(posy), "Qook Qook", RGB(231,63,83)) 
     DrawingFont(FontID(Font25))
-    DrawText(600, 700 + 3*Sin(posy), "아무키나 누르세요", TextColor) 
+    DrawText(600, 700 + 3*Sin(posy), "아무키나 누르세요", RGB(0,0,0)) 
     StopDrawing() 
     
     posy= var_x/5
@@ -501,8 +503,8 @@ CloseScreen()
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 412
-; FirstLine = 105
+; CursorPosition = 435
+; FirstLine = 134
 ; Folding = g
 ; EnableXP
 ; Executable = maestro.exe
