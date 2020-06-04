@@ -48,7 +48,7 @@ Global Dim answer(2)
 Global Dim line_position(6)
 Global Dim elements(2) ; container 안에 3개 element spirte 구조체 포인터 저장
 
-ProcedureC TrackRed(*imgHSV.IplImage)
+ProcedureC TrackRight(*imgHSV.IplImage)
   *imgThresh.IplImage = cvCreateImage(*imgHSV\width, *imgHSV\height, #IPL_DEPTH_8U, 1)
   cvInRangeS(*imgHSV, 160, 140, 40, 0, 179, 255, 255, 0, *imgThresh)
   moments.CvMoments
@@ -71,7 +71,7 @@ ProcedureC TrackRed(*imgHSV.IplImage)
   
 EndProcedure
 
-ProcedureC TrackGreen(*imgHSV.IplImage)
+ProcedureC TrackLeft(*imgHSV.IplImage)
   
   *imgThresh2.IplImage = cvCreateImage(*imgHSV\width, *imgHSV\height, #IPL_DEPTH_8U, 1)
   cvInRangeS(*imgHSV, 65 , 60, 60, 0, 80, 255, 255, 0, *imgThresh2)
@@ -872,11 +872,11 @@ If *capture
               If (Asc(micbit$) < 50)
                 If(micbit$ = "0")
                   ;            Debug "this is from Blue"
-                  TrackRed(*imgHSV)
+                  TrackRight(*imgHSV)
                   debugStr$ = "micBlue:" + Str(marker1X) + ", " + Str(marker1Y)
                 ElseIf(micbit$ = "1")
                   ;            Debug "this is from Yellow"
-                  TrackGreen(*imgHSV)
+                  TrackLeft(*imgHSV)
                    debugStr$ = "micYellow:" + Str(marker2X) + ", " + Str(marker2Y)
                  EndIf
                  PrintN(debugStr$)
@@ -924,7 +924,8 @@ If *capture
     MessageRequester("PureBasic Interface to OpenCV", "Unable to connect to a webcam - operation cancelled.", #MB_ICONERROR)
   EndIf
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 3
+; CursorPosition = 866
+; FirstLine = 860
 ; Folding = -----
 ; EnableXP
 ; DisableDebugger
