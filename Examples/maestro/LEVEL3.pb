@@ -1772,7 +1772,7 @@ Procedure CreateLEVEL3()
   
 EndProcedure
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 1029
+; CursorPosition = 1011
 ; FirstLine = 245
 ; Folding = IAAM9
 ; EnableXP

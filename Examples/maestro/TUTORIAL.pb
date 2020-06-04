@@ -79,7 +79,7 @@ Procedure Tutorial_play()
     Case 5 
       
       
-      WriteScript("화면에 오른쪽 마커가 잘 보이도록 들고" +#CRLF$+" 마커로 이마를 터치하여 버튼을 눌러보세요.", scriptPos_x, scriptPos_y)
+      WriteScript("화면에 오른쪽 마커가 잘 보이도록 들고" +#CRLF$+"마커로 이마를 터치하여 버튼을 눌러보세요.", scriptPos_x, scriptPos_y)
       Tuto_Lock_5 = #True
       
     Case 6          
@@ -89,7 +89,7 @@ Procedure Tutorial_play()
       
     Case 7 
       
-      WriteScript("색깔 박스가 잘 그려졌나요? 마커를 이용하여"+#CRLF$+" 박스의 크기를 적절히 조절해 보세요. 가로로도 설정할 수 있어요.", scriptPos_x, scriptPos_y) 
+      WriteScript("색깔 박스가 잘 그려졌나요? 마커를 이용하여"+#CRLF$+"박스의 크기를 적절히 조절해 보세요. 가로로도 설정할 수 있어요.", scriptPos_x, scriptPos_y) 
       
     Case 8 
       
@@ -459,8 +459,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 401
-; FirstLine = 348
+; CursorPosition = 133
+; FirstLine = 90
 ; Folding = 9
 ; EnableXP
 ; DisableDebugger
