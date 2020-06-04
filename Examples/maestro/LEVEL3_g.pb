@@ -70,10 +70,10 @@ EndStructure
 
 ;-- 전역변수 선언
 
-Global *rectimg.IplImage, *loadbox1.IplImage, *loadbox2.IplImage
-Global.l hMidiOut
+;Global *rectimg.IplImage, *loadbox1.IplImage, *loadbox2.IplImage
+;Global.l hMidiOut
 Global Window_0, Screen_0, Window_1
-Global markerState, marker1X, marker1Y, marker2X, marker2Y
+;Global markerState, marker1X, marker1Y, marker2X, marker2Y
 Global keyInput, inputTone, answerTone, currentTime, direction, inputCount = -1
 Global intervalStart = 0, intervalEnd = 0, dist, beat, beatSum = 0 ;박자 측정하기 위한 변수
 Global Dim ptBox.CvPoint(7, 4)
@@ -100,6 +100,50 @@ Global Tutorial_lock_Lv3 = #True
 Global Dim keyColor.color(6)
 
 
+ProcedureC TrackRight_Lv3(*imgHSV.IplImage)
+  *imgThresh.IplImage = cvCreateImage(*imgHSV\width, *imgHSV\height, #IPL_DEPTH_8U, 1)
+  cvInRangeS(*imgHSV, 160, 140, 40, 0, 179, 255, 255, 0, *imgThresh)
+  moments.CvMoments
+  cvMoments(*imgThresh, @moments, 1)
+  moment10.d = moments\m10
+  moment01.d = moments\m01
+  area.d = moments\m00
+  
+  If area > 100
+    posX = moment10 / area
+    posY = moment01 / area
+    
+    If posX >= 0 And posY >= 0 
+      ;cvCircle(*imgTracking, posX, posY, 10, 0, 0, 255, 0, 2, #CV_AA, #Null)
+      marker1X = posX
+      marker1Y = posY
+      
+    EndIf
+  EndIf
+  
+EndProcedure
+
+ProcedureC TrackLeft_Lv3(*imgHSV.IplImage)
+  
+  *imgThresh2.IplImage = cvCreateImage(*imgHSV\width, *imgHSV\height, #IPL_DEPTH_8U, 1)
+  cvInRangeS(*imgHSV, 65 , 60, 60, 0, 80, 255, 255, 0, *imgThresh2)
+  moments.CvMoments
+  cvMoments(*imgThresh2, @moments, 1)
+  moment10.d = moments\m10
+  moment01.d = moments\m01
+  area.d = moments\m00
+  
+  If area > 100
+    posX = moment10 / area
+    posY = moment01 / area
+    
+    If posX >= 0 And posY >= 0
+      ;cvCircle(*imgTracking, posX, posY, 10, 0, 255, 0, 0, 2, #CV_AA, #Null)
+      marker2X = posX
+      marker2Y = posY
+    EndIf
+  EndIf
+EndProcedure
 
 Procedure DrawMySprite_lv3(*this.mySprite_lv3)
   If *this\active = 1
@@ -192,7 +236,6 @@ EndProcedure
 ; sprite_list_lv3 에서 이름으로 구조체 찾기. 퓨베 특성상 current element 이슈 때문에 도중에 일치해도 끝까지 루프를 돌아야함
 Procedure FindSprite_lv3(name.s)
   *returnStructure.mySprite_lv3
-  
   returnStructrue = FirstElement(sprite_list_lv3())
   
   ForEach sprite_list_lv3()
@@ -590,9 +633,9 @@ Procedure AddChord(tone)
       *p.mySprite_lv3 = FindSprite_lv3("ant")
       *p\active = 1
       
-     ; chordFlag = 1 ;;;;;;
+      ; chordFlag = 1 ;;;;;;
       
-            If currentBar <> 3
+      If currentBar <> 3
         chordFlag = 1 ;;;;;;
       EndIf
       
@@ -888,11 +931,11 @@ Procedure CalcArea_lv3(x, y)
   ProcedureReturn tone ; 음을 반환
 EndProcedure
 
-Procedure CheckArea_lv3(key)
-  If(key = #PB_Key_2)
+Procedure CheckArea_lv3(bit$)
+  If(bit$ = "1")
     ;    Debug("GREEN : " + Str(marker2X) + ", " + Str(marker2Y))
     tone = CalcArea_lv3(marker2X, marker2Y)
-  ElseIf(key = #PB_Key_1)
+  ElseIf(bit$ = "0")
     ;    Debug("RED : " + Str(marker1X) + ", " + Str(marker1Y))
     tone = CalcArea_lv3(marker1X, marker1Y)
   EndIf
@@ -951,7 +994,7 @@ Procedure LEVEL3_Tutorial(x, Tutorial_Num_Lv3)
   pos_x = 1000
   pos_y = 530
   ;x + 1
- ; Debug  Tutorial_Num_Lv2
+  ; Debug  Tutorial_Num_Lv2
   
   
   Select Tutorial_Num_Lv3
@@ -967,51 +1010,51 @@ Procedure LEVEL3_Tutorial(x, Tutorial_Num_Lv3)
       
     Case 3 
       
-      ant_saying_lv3("다른 마디로 이동하고 싶을 땐"+#CRLF$+"<오른쪽 마커의 왼쪽, 오른쪽 제스처>를 이용해봐!", pos_x, pos_y)
+      ant_saying_lv3("다른 마디로 이동하고 싶을 땐"+#CRLF$+"<오른쪽 마커의 왼쪽/오른쪽 제스처>를 써봐!", pos_x, pos_y)
       
     Case 4
       
-      ant_saying_lv3("혹시 입력한 멜로디가 마음에 들지 않으면"+#CRLF$+"OO제스처를 이용해서 수정할 수 있으니 걱정마!"+#CRLF$+"수정은 한 번에 두 마디씩 할 수 있어", pos_x, pos_y)
+      ant_saying_lv3("혹시 입력한 멜로디가 마음에 들지 않으면"+#CRLF$+"<오른쪽 마커 위 제스처>를 이용해서 수정할 수 있어!"+#CRLF$+"수정은 한 번에 두 마디씩 할 수 있어", pos_x, pos_y)
       
     Case 5
       ant_saying_lv3("멜로디를 다 입력했으면 이제 화음을 넣어보자!", pos_x, pos_y)
       
     Case 6       
-      ant_saying_lv3("OO제스처를 사용하면 화음을 입력할 수 있는 상태가 될거야."+#CRLF$+"혹시 화음을 입력하다가 다시 멜로디를 수정하고 싶을 때도"+#CRLF$+"이 제스처를 사용하면 음을 입력할 수 있어", pos_x, pos_y)
-
+      ant_saying_lv3("<왼쪽마커 오른쪽 제스처>를 사용하면" +#CRLF$+ "화음을 입력할 수 있는 상태가 될거야."+#CRLF$+"혹시 화음을 입력하다가 다시 멜로디를 수정하고 싶을 때도"+#CRLF$+"이 제스처를 사용하면 음을 입력할 수 있어", pos_x, pos_y)
+                                                                                                                                           
     Case 7
       ant_saying_lv3("멜로디에 있는 과일과 비슷한 과일로"+#CRLF$+"이루어진 화음을 고르면 잘 어울릴거야."+#CRLF$+"2단계에서도 해봤으니 잘 할 수 있겠지?", pos_x, pos_y)     
     Case 8       
-      ant_saying_lv3("화음을 넣을 때도 OO제스처로 원하는 마디로 이동할 수 있어."+#CRLF$+"두 마디에 화음을 다 입력하면"+#CRLF$+"오른쪽 제스처로 다음 마디로 넘겨봐!", pos_x, pos_y)         
+      ant_saying_lv3("화음을 넣을 때도 "+#CRLF$+"제스처로 원하는 마디로 이동할 수 있어."+#CRLF$+"두 마디에 화음을 다 입력하면"+#CRLF$+"오른쪽 제스처로 다음 마디로 넘겨봐!", pos_x, pos_y)         
     Case 9
-     
       
-      ant_saying_lv3("잘못 입력했을 때도 OO 제스처로 다시 입력할 수 있어", pos_x, pos_y)
+      
+      ant_saying_lv3("잘못 입력했을 때도 다시 입력할 수 있어", pos_x, pos_y)
       
     Case 10
       ant_saying_lv3("화음까지 다 입력했다면,"+#CRLF$+"입력한 화음이 멜로디랑 같이 어떤 소리를 낼지 궁금할거야", pos_x, pos_y) 
       
     Case 11
-      ant_saying_lv3("OO제스처를 통해 우리가 만든 곡을 한번 들어봐", pos_x, pos_y)   
+      ant_saying_lv3("<오른쪽마커 아래 제스처>를 통해 "+#CRLF$+"우리가 만든 곡을 한번 들어봐", pos_x, pos_y)   
       
     Case 12
-      ant_saying_lv3("혹시 마음에 들지 않는다면"+#CRLF$+"OO제스처로 화음이나 음 입력 모드로 돌아가서"+#CRLF$+"OO제스처로 수정한 다음에 다시 들어볼 수 있어", pos_x, pos_y)   
+      ant_saying_lv3("혹시 마음에 들지 않는다면"+#CRLF$+"제스처로 화음이나 음 입력 모드로 돌아가서"+#CRLF$+"수정한 다음에 다시 들어볼 수 있어", pos_x, pos_y)   
       
     Case  13  
-      ant_saying_lv3("마음에 든다면 OO제스처로 곡을 완성해줘!"+#CRLF$+"그러면 1, 2단계에서 배운 내용을 잘 적용했는지 확인할 수 있을거야", pos_x, pos_y)   
-     Case 14
+      ant_saying_lv3("마음에 든다면 <왼쪽마커 아래 제스처>로 곡을 완성해줘!"+#CRLF$+"그러면 1, 2단계에서 배운 내용을 잘 적용했는지 확인할 수 있을거야", pos_x, pos_y)   
+    Case 14
       
-       ant_saying_lv3("그러면 게임 시작!", pos_x, pos_y)
-    Case 15    
+    ant_saying_lv3("그러면 게임 시작!", pos_x, pos_y)
+                                        Case 15    
       *p = FindSprite_lv3("ant_say")
       SetMySprite_lv3(*p, 900, 500, 0)
-       *p = FindSprite_lv3("ant_tuto")   
+      *p = FindSprite_lv3("ant_tuto")   
       SetMySprite_lv3(*p, 900, 500, 0)
       Tutorial_lock_Lv3 = #False  
       
   EndSelect
   
-    If Tutorial_Num_Lv3 = 1
+  If Tutorial_Num_Lv3 = 1
     StartDrawing(ScreenOutput())  
     DrawingMode(#PB_2DDrawing_Transparent)
     DrawingFont(FontID(Font15))
@@ -1094,13 +1137,15 @@ EndProcedure
 
 ;전체 재생해주는 함수
 Procedure PlayAll_lv3()
-  
+  FirstElement(bar_list_lv3(0)\note_lv3())
+  DeleteElement(bar_list_lv3(0)\note_lv3())
+
   Repeat
     
     ClearNote_lv3()
-    
+    Debug "어디지1"
     ForEach bar_list_lv3(i)\note_lv3()
-      
+      Debug "i ==== " + i
       note_lv3 = bar_list_lv3(i)\note_lv3()\num
       beat = bar_list_lv3(i)\note_lv3()\beat
       
@@ -1108,81 +1153,60 @@ Procedure PlayAll_lv3()
       currentTime = GetTickCount_()
       FrameManager_lv3(bar_list_lv3(i)\note_lv3())
       DrawMySprite_lv3(bar_list_lv3(i)\note_lv3())
+      
+      Debug "어디지2"
       Debug bar_list_lv3(i)\note_lv3()\x
       If bar_list_lv3(i)\note_lv3()\x = 800
+        Debug "어디지5"
         *p.mySprite_lv3 = FirstElement(bar_list_lv3(i)\chord())
         chord = *p\num
         *p\active = 1
         GetChord(chord)
         PlayChordSound_lv3()
         
-        ;Debug("2*i+1 = "+ Str(2*i+1))
         
-        
-        ;         If i <> 0
-        ;           *b.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(2*i))
-        ;           *b\active = 0
-        ;           *b.mySprite_lv3 = FindSprite_lv3("bar_c"+Str(2*i))
-        ;           *b\active = 1
-        ;         EndIf
-        ;         *b.mySprite_lv3 = FindSprite_lv3("bar_c"+Str(2*i+1))
-        ;         *b\active = 0
-      ;  *b.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(2*i+1))
-       ; *b\active = 1
-        
-        
-         If i<3
+        If i<3
           *b.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(2*i+1)) ;==============================================
           *b\active = 0
           *b.mySprite_lv3 = FindSprite_lv3("bar_c"+Str(2*i+1))            ;==============================================
           *b\active = 1
           
           *b.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(2*(i+1)+1)) ;==============================================
-          *b\active = 1                                           ;==============================================
+          *b\active = 1                                                   ;==============================================
         EndIf
-        
+        Debug "어디지3"
         
       ElseIf bar_list_lv3(i)\note_lv3()\x = 1160
+        Debug "어디지6"
         *p.mySprite_lv3 = LastElement(bar_list_lv3(i)\chord())
         chord = *p\num
         *p\active = 1
         GetChord(chord)
-        PlayChordSound_lv3()
+        PlayChordSound_lv3()        
         
-        ;Debug("2*i+2 = "+ Str(2*i+2))
-        ;         If i*2+1 <> 0
-        ;         *b.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(2*i+1))
-        ;         *b\active = 0
-        ;         *b.mySprite_lv3 = FindSprite_lv3("bar_c"+Str(2*i+1))
-        ;         *b\active = 1
-        ;         EndIf
-        ;         
-        ;         *b.mySprite_lv3 = FindSprite_lv3("bar_c"+Str(2*i+1))
-        ;*b\active = 0
-        
-        
-    ;    *b.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(2*i+2))
-    ;    *b\active = 1
-        
-        
-         If i<3
+        If i<3
           *b.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(2*i+2)) ;==============================================
           *b\active = 0
           *b.mySprite_lv3 = FindSprite_lv3("bar_c"+Str(2*i+2))            ;==============================================
           *b\active = 1
           
           *b.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(2*(i+1)+2)) ;==============================================
-          *b\active = 1                                           ;==============================================
+          *b\active = 1                                                   ;==============================================
         EndIf
-
+        Debug "어디지4"
       EndIf  
       
+      Debug "어디지7"
       currentTime = GetTickCount_()
       FrameManager_lv3(sprite_list_lv3())
+      Debug "bar cord: " + Str(bar_list_lv3(i)\chord())
       FrameManager_lv3(bar_list_lv3(i)\chord())
-      
+      Debug "어디지9"
+
       DrawMySprite_lv3(sprite_list_lv3())
+      Debug "어디지10"
       DrawMySprite_lv3(bar_list_lv3(i)\chord())
+      Debug "어디지11"
       
       
       midiOutShortMsg_(hMidiOut, $90 | 0 | GetNote_lv3(note_lv3) << 8 | 127 << 16 )
@@ -1327,6 +1351,12 @@ Procedure CreateLEVEL3()
     *rectimg = cvCreateImage(FrameWidth, FrameHeight, #IPL_DEPTH_8U, 3)
     *loadbox1 = cvLoadImage("graphics/graphics_lv3/chord_box.png", 1)
     *loadbox2 = cvLoadImage("graphics/graphics_lv3/chord_box2.png", 1)
+    *imgTracking = cvCreateImage(FrameWidth, FrameHeight, #IPL_DEPTH_8U, 3)
+    *imgTracking2 = cvCreateImage(FrameWidth, FrameHeight, #IPL_DEPTH_8U, 3)
+    *imgHSV.IplImage = cvCreateImage(FrameWidth, FrameHeight, #IPL_DEPTH_8U, 3)
+    *imgHSV2.IplImage = cvCreateImage(FrameWidth, FrameHeight, #IPL_DEPTH_8U, 3)
+    cvSetZero(*imgTracking)
+    cvSetZero(*imgTracking2)
     
     
     ;전체화면으로 실행
@@ -1341,7 +1371,7 @@ Procedure CreateLEVEL3()
       InitKeyboard()
       
       ;Screen과 Sprite 생성
-  ;    Screen_0 = OpenWindowedScreen(WindowID(Window_0), 0, 0, WindowWidth(0), WindowHeight(0))
+      ;    Screen_0 = OpenWindowedScreen(WindowID(Window_0), 0, 0, WindowWidth(0), WindowHeight(0))
       
       UsePNGImageDecoder()
       
@@ -1350,6 +1380,7 @@ Procedure CreateLEVEL3()
       InitMySprite_lv3("fake", "graphics/graphics_lv3/fake.png", 0, 830, 0)
       InitMySprite_lv3("background", "graphics/graphics_lv3/background.png", 0, 0, 0)
       InitMySprite_lv3("background2", "graphics/graphics_lv3/background2.png", 0, 0, 0, 0)
+      ;InitMySprite_lv3("gesture_lv3", "graphics/gesture_lv3.png", 900, 740, 1)
       InitMySprite_lv3("leaf1", "graphics/graphics_lv3/leaf.png", 1120, 165, 0)
       InitMySprite_lv3("leaf2", "graphics/graphics_lv3/leaf.png", 1480, 170, 0)
       InitMySprite_lv3("note1", "graphics/graphics_lv3/do.png", 0, 650, 0, 0)
@@ -1396,7 +1427,8 @@ Procedure CreateLEVEL3()
       
       ;튜토리얼 개미
       InitMySprite_lv3("ant_tuto", "graphics/ant.png", 800, 630, 0)
-      InitMySprite_lv3("ant_say", "graphics/ant_say.png", 500,500,0)   
+      InitMySprite_lv3("ant_say", "graphics/ant_say.png", 500,500,0) 
+      InitMySprite_lv3("gesture_lv3", "graphics/gesture_lv3.png", 900, 740, 1)
       
       x_note1 = 800
       x_note2 = 840
@@ -1406,10 +1438,14 @@ Procedure CreateLEVEL3()
       
       Repeat
         *image = cvQueryFrame(*capture)
-        ;*image = cvCreateImage(FrameWidth, FrameHeight, #IPL_DEPTH_8U, 3)
+        micbit$ = ""
         
         If *image
           cvFlip(*image, #Null, 1)
+          cvSmooth(*image, *image, #CV_GAUSSIAN, 3, 3, 0, 0)
+          cvCvtColor(*image, *imgHSV, #CV_BGR2HSV, 1)
+          cvSmooth(*imgThresh, *imgThresh, #CV_GAUSSIAN, 3, 3, 0, 0)
+          cvSmooth(*imgThresh2, *imgThresh2, #CV_GAUSSIAN, 3, 3, 0, 0)
           
           currentTime = GetTickCount_()
           
@@ -1449,120 +1485,77 @@ Procedure CreateLEVEL3()
             
           Next
           
-          
-            ; 처음 Tutorial_lock 걸려있는 동안은 tutorial 재생 
-            If   Tutorial_lock_Lv3
-              LEVEL3_Tutorial( inc_x , Tutorial_Num_Lv3)
-              inc_x+1
-              
-            EndIf
-          
-          
-          
-          
-          ;- 키보드 이벤트
-          ExamineKeyboard()
-          
-          If KeyboardReleased(#PB_Key_1)
-            keyInput = #PB_Key_1
-            GetCursorPos_(mouse.POINT) : mouse_x=mouse\x : mouse_y=mouse\y
-            marker1X = mouse_x
-            marker1Y = mouse_y - (WindowHeight(0)/2 - 200)
-            ;marker1Y = mouse_y - (WindowHeight(0)- FrameHeight + 20)
-            If (markerState = 1)
-              CheckArea_lv3(keyInput)
-            EndIf
+          ; 처음 Tutorial_lock 걸려있는 동안은 tutorial 재생 
+          If   Tutorial_lock_Lv3
+            LEVEL3_Tutorial( inc_x , Tutorial_Num_Lv3)
+            inc_x+1
+            
           EndIf
           
-          If KeyboardReleased(#PB_Key_2)
-            keyInput = #PB_Key_2
-            GetCursorPos_(mouse.POINT) : mouse_x=mouse\x : mouse_y=mouse\y
-            marker2X = mouse_x
-            marker2Y = mouse_y - (WindowHeight(0)/2 - 200)
-            ;marker2Y = mouse_y - (WindowHeight(0)- FrameHeight + 20)
-            If (markerState = 1)
-              CheckArea_lv3(keyInput)
+          If IsSerialPort(Com) <> 0 And AvailableSerialPortInput(Com) > 0 
+            ;마이크로비트 포트 값
+            If ReadSerialPortData(Com, @Buffer, 1)
+              micbit$ = Chr(Buffer)           
             EndIf
-          EndIf
+          EndIf 
           
-          If KeyboardReleased(#PB_Key_Space)
-            markerState = 1
-          EndIf
-          
-          ;입력 모드 변경_ 0이면 음 입력, 1이면 화음 입력
-          If KeyboardReleased(#PB_Key_3)
-            ;화음입력
-            If inputMode = 0
-              inputMode = 1
-              currentBar = 0
-              DrawNote_lv3(currentBar)
-              ;숫자 마디 비활성화
-              For i=1 To 8
-                *p.mySprite_lv3 = FindSprite_lv3("bar"+Str(i))
-                *p\active = 0
-                *p.mySprite_lv3 = FindSprite_lv3("bar"+Str(i)+"_a")
-                *p\active = 0
-              Next
-              
-              ;화음 마디 활성화
-              For i=1 To 8
-                *p.mySprite_lv3 = FindSprite_lv3("c"+Str(i))
-                *p\active = 1
-              Next
-              
-              ;첫번째 배경으로 변경
-              *b.mySprite_lv3 = FindSprite_lv3("background")
-              *b\active = 1
-              *b.mySprite_lv3 = FindSprite_lv3("background2")
-              *b\active = 0
-              
-              ;음 입력  
-            Else
-              inputMode = 0
-              
+          ;마이크로비트 인터랙션
+          If (Asc(micbit$) > 47 And Asc(micbit$) < 50)
+            If(micbit$ = "0")
+              TrackRight(*imgHSV)
+            ElseIf(micbit$ = "1")
+              TrackLeft(*imgHSV)
             EndIf
-          EndIf
-          
-          
-          ;입력모드 <-> 수정모드
-          If KeyboardReleased(#PB_Key_4)
-            If editMode = 0
-              Debug "수정모드"
-              editMode = 1
-              inputCount = -1 ;멜로디 수정 시에만
-              If inputMode = 1 And chordFlag = 1
-                chordFlag = 0
+            ;상태가 음 출력 상태이면 음을 출력한다
+            If markerState = 1
+              CheckArea_lv3(micbit$)
+            EndIf
+          Else
+            If Tutorial_lock_Lv3
+              If(micbit$ = "6")
+                Tutorial_Num_Lv3 - 1
+              ElseIf(micbit$ = "8")
+                Tutorial_Num_Lv3 + 1
               EndIf
+            ElseIf markerState = 0 And micbit$ = "5"
+              markerState = 1              
             Else
-              editMode = 0
-              Debug "입력모드"
-            EndIf
-          EndIf
-          
-          
-          ;앞의 마디로 이동
-          If KeyboardReleased(#PB_Key_Left)
-            If currentBar > 0
-              ;Debug currentBar-1
-              currentBar = currentBar-1 
               
-              ;멜로디 모드일 때 숫자마디
-              If inputMode = 0
-                For i=1 To 8
-                  *p.mySprite_lv3 = FindSprite_lv3("bar"+Str(i)+"_a")
+              If(micbit$ = "2")
+                If editMode = 0
+                  Debug "수정모드"
+                  editMode = 1
+                  inputCount = -1 ;멜로디 수정 시에만
+                  If inputMode = 1 And chordFlag = 1
+                    chordFlag = 0
+                  EndIf
+                Else
+                  editMode = 0
+                  Debug "입력모드"
+                EndIf
+                
+              ElseIf(micbit$ = "4")
+                For i=1 To 8   
+                  *p.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(i))
                   *p\active = 0
-                Next
+                  *p.mySprite_lv3 = FindSprite_lv3("bar_c"+Str(i))
+                  *p\active = 0        
+                Next  
                 
-                *p.mySprite_lv3 = FindSprite_lv3("bar"+Str(currentBar*2+1)+"_a")
+                *p.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(1))
+                *p\active = 1
+                *p.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(2))
                 *p\active = 1
                 
-                *p.mySprite_lv3 = FindSprite_lv3("bar"+Str(currentBar*2+2)+"_a")
-                *p\active = 1
+                PlayAll_lv3()
                 
-                ;화음 모드일 때 화음마디  
-              ElseIf inputMode = 1
-                For i=1 To 8
-                  
+                ;    currentBar = 3
+                
+                Delay(500)
+                
+                ;종료하면 첫째마디로 이동
+                currentBar = 0
+                For i=1 To 8         
                   If (i=currentBar*2+1) Or (i=currentBar*2+2)
                     *p.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(i))
                     *p\active = 1
@@ -1573,149 +1566,160 @@ Procedure CreateLEVEL3()
                     *p\active = 1
                   EndIf
                 Next
-              EndIf
-              
-              DrawNote_lv3(currentBar)
-              
-            EndIf
-          EndIf
-          
-          
-          
-          If KeyboardReleased(#PB_Key_B)
-            
-            Tutorial_Num_Lv3 + 1
-            
-            
-          EndIf
-          
-          
-         If KeyboardReleased(#PB_Key_V)
-            
-            Tutorial_Num_Lv3 -1
-
-          EndIf
-
-          ;뒤의 마디로 이동
-          If KeyboardReleased(#PB_Key_Right)
-            
-            If currentBar < 3 And barCount > currentBar 
-              currentBar = currentBar+1
-              ;멜로디 모드일 때 숫자마디
-              If inputMode = 0
-                For i=1 To 8
-                  *p.mySprite_lv3 = FindSprite_lv3("bar"+Str(i)+"_a")
-                  *p\active = 0
-                Next
+                ;EndIf
                 
-                *p.mySprite_lv3 = FindSprite_lv3("bar"+Str(currentBar*2+1)+"_a")
-                *p\active = 1
+                DrawNote_lv3(currentBar)
                 
-                *p.mySprite_lv3 = FindSprite_lv3("bar"+Str(currentBar*2+2)+"_a")
-                *p\active = 1
+              ElseIf(micbit$ = "5")
+                ;2. 멜로디x코드 올바른지 체크
+                Scoring_lv3()
                 
-                ;화음 모드일 때 화음마디  
-              ElseIf inputMode = 1 And chordFlag = 0
-                For i=1 To 8
-                  
-                  If (i=currentBar*2+1) Or (i=currentBar*2+2)
-                    *p.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(i))
-                    *p\active = 1
-                    *p.mySprite_lv3 = FindSprite_lv3("bar_c"+Str(i))
-                    *p\active = 0
+                For i=0 To 7
+                  If score(i) = 0
+                    ;녹색 동그라미
+                    InitMySprite_lv3("result"+Str(i), "graphics/graphics_lv3/result_o.png", 70+80*i, 30, 0, 1)
+                    
                   Else
-                    *p.mySprite_lv3 = FindSprite_lv3("bar_c"+Str(i))
-                    *p\active = 1
-                  EndIf           
+                    ;빨간 동그라미
+                    InitMySprite_lv3("result"+Str(i), "graphics/graphics_lv3/result_x.png", 70+80*i, 30, 0, 1)
+                  EndIf
                 Next
                 
+              ElseIf(micbit$ = "6")
+                ; 이전 마디로 이동
+                If currentBar > 0
+                  ;Debug currentBar-1
+                  currentBar = currentBar-1 
+                  
+                  ;멜로디 모드일 때 숫자마디
+                  If inputMode = 0
+                    For i=1 To 8
+                      *p.mySprite_lv3 = FindSprite_lv3("bar"+Str(i)+"_a")
+                      *p\active = 0
+                    Next
+                    
+                    *p.mySprite_lv3 = FindSprite_lv3("bar"+Str(currentBar*2+1)+"_a")
+                    *p\active = 1
+                    
+                    *p.mySprite_lv3 = FindSprite_lv3("bar"+Str(currentBar*2+2)+"_a")
+                    *p\active = 1
+                    
+                    ;화음 모드일 때 화음마디  
+                  ElseIf inputMode = 1
+                    For i=1 To 8
+                      
+                      If (i=currentBar*2+1) Or (i=currentBar*2+2)
+                        *p.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(i))
+                        *p\active = 1
+                        *p.mySprite_lv3 = FindSprite_lv3("bar_c"+Str(i))
+                        *p\active = 0
+                      Else
+                        *p.mySprite_lv3 = FindSprite_lv3("bar_c"+Str(i))
+                        *p\active = 1
+                      EndIf
+                    Next
+                  EndIf
+                  
+                  DrawNote_lv3(currentBar)
+                  
+                EndIf
+                
+              ElseIf(micbit$ = "8")
+                ; 다음 마디로 이동
+                If currentBar < 3 And barCount > currentBar 
+                  currentBar = currentBar+1
+                  ;멜로디 모드일 때 숫자마디
+                  If inputMode = 0
+                    For i=1 To 8
+                      *p.mySprite_lv3 = FindSprite_lv3("bar"+Str(i)+"_a")
+                      *p\active = 0
+                    Next
+                    
+                    *p.mySprite_lv3 = FindSprite_lv3("bar"+Str(currentBar*2+1)+"_a")
+                    *p\active = 1
+                    
+                    *p.mySprite_lv3 = FindSprite_lv3("bar"+Str(currentBar*2+2)+"_a")
+                    *p\active = 1
+                    
+                    ;화음 모드일 때 화음마디  
+                  ElseIf inputMode = 1 And chordFlag = 0
+                    For i=1 To 8
+                      
+                      If (i=currentBar*2+1) Or (i=currentBar*2+2)
+                        *p.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(i))
+                        *p\active = 1
+                        *p.mySprite_lv3 = FindSprite_lv3("bar_c"+Str(i))
+                        *p\active = 0
+                      Else
+                        *p.mySprite_lv3 = FindSprite_lv3("bar_c"+Str(i))
+                        *p\active = 1
+                      EndIf           
+                    Next
+                    
+                  EndIf
+                  
+                  ;화음 입력 안끝났을 때(입력하는 도중)
+                  If chordFlag = 1
+                    chordFlag = 0
+                    
+                    *b.mySprite_lv3 = FindSprite_lv3("background")
+                    *b\active = 0
+                    
+                    *b.mySprite_lv3 = FindSprite_lv3("background2")
+                    *b\active = 1
+                    
+                    
+                    *p1.mySprite_lv3 = FindSprite_lv3("ant")
+                    *p1\active = 0
+                    *p1.mySprite_lv3 = FindSprite_lv3("ant2")
+                    *p1\active = 0
+                    
+                  EndIf
+                  
+                  DrawNote_lv3(currentBar)
+                  
+                EndIf
+                
+              ElseIf(micbit$ = "9")
+                ;화음입력
+                If inputMode = 0
+                  inputMode = 1
+                  currentBar = 0
+                  DrawNote_lv3(currentBar)
+                  ;숫자 마디 비활성화
+                  For i=1 To 8
+                    *p.mySprite_lv3 = FindSprite_lv3("bar"+Str(i))
+                    *p\active = 0
+                    *p.mySprite_lv3 = FindSprite_lv3("bar"+Str(i)+"_a")
+                    *p\active = 0
+                  Next
+                  
+                  ;화음 마디 활성화
+                  For i=1 To 8
+                    *p.mySprite_lv3 = FindSprite_lv3("c"+Str(i))
+                    *p\active = 1
+                  Next
+                  
+                  ;첫번째 배경으로 변경
+                  *b.mySprite_lv3 = FindSprite_lv3("background")
+                  *b\active = 1
+                  *b.mySprite_lv3 = FindSprite_lv3("background2")
+                  *b\active = 0
+                  
+                  ;음 입력  
+                Else
+                  inputMode = 0
+                  
+                EndIf
               EndIf
               
-              ;화음 입력 안끝났을 때(입력하는 도중)
-              If chordFlag = 1
-                chordFlag = 0
-                
-                *b.mySprite_lv3 = FindSprite_lv3("background")
-                *b\active = 0
-                
-                *b.mySprite_lv3 = FindSprite_lv3("background2")
-                *b\active = 1
-                
-                
-                *p1.mySprite_lv3 = FindSprite_lv3("ant")
-                *p1\active = 0
-                *p1.mySprite_lv3 = FindSprite_lv3("ant2")
-                *p1\active = 0
-                
-              EndIf
-              
-              DrawNote_lv3(currentBar)
-              
-            EndIf
-          EndIf
+            EndIf 
+          EndIf 
           
           
-          ;전체 재생
-          If KeyboardReleased(#PB_Key_0)
-            For i=1 To 8   
-              *p.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(i))
-              *p\active = 0
-              *p.mySprite_lv3 = FindSprite_lv3("bar_c"+Str(i))
-              *p\active = 0        
-            Next  
-            
-             *p.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(1))
-          *p\active = 1
-          *p.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(2))
-          *p\active = 1
-            
-            
-            PlayAll_lv3()
-            
-            ;    currentBar = 3
-            
-          Delay(500)
+          ;- 키보드 이벤트
+          ExamineKeyboard()
           
-          ;종료하면 첫째마디로 이동
-          currentBar = 0
-          For i=1 To 8         
-            If (i=currentBar*2+1) Or (i=currentBar*2+2)
-              *p.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(i))
-              *p\active = 1
-              *p.mySprite_lv3 = FindSprite_lv3("bar_c"+Str(i))
-              *p\active = 0
-            Else
-              *p.mySprite_lv3 = FindSprite_lv3("bar_c"+Str(i))
-              *p\active = 1
-            EndIf
-          Next
-        ;EndIf
-        
-        DrawNote_lv3(currentBar)
-            
-            
-            
-          EndIf
-          
-          ;--채점
-          If KeyboardReleased(#PB_Key_9)
-            ;1. 코드 진행 체크
-            
-            ;2. 멜로디x코드 올바른지 체크
-            Scoring_lv3()
-            
-            For i=0 To 7
-              If score(i) = 0
-                ;녹색 동그라미
-                InitMySprite_lv3("result"+Str(i), "graphics/graphics_lv3/result_o.png", 70+80*i, 30, 0, 1)
-                
-              Else
-                ;빨간 동그라미
-                InitMySprite_lv3("result"+Str(i), "graphics/graphics_lv3/result_x.png", 70+80*i, 30, 0, 1)
-              EndIf
-            Next
-            
-          EndIf
           
         EndIf
         
@@ -1729,7 +1733,7 @@ Procedure CreateLEVEL3()
         FlipBuffers()
         
         
-        If  KeyboardPushed(#PB_Key_8)
+        If micbit$ = "7"
           
           FreeImage(pbImage)
           cvReleaseCapture(@*capture)
@@ -1775,8 +1779,8 @@ Procedure CreateLEVEL3()
   
 EndProcedure
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 1144
-; FirstLine = 305
-; Folding = oAAs+
+; CursorPosition = 1201
+; FirstLine = 1191
+; Folding = -----
 ; EnableXP
 ; DisableDebugger

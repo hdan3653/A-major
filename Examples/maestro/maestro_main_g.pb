@@ -39,23 +39,28 @@ Global BackgroundX = 1536, BackgroundY = 897
 
 
 ;Setup Font
-Global ImpactFont = LoadFont(#PB_Any, "Impact", 30)
-Global Font15 = LoadFont(#PB_Any, "Impact", 15)
-Global Font20 = LoadFont(#PB_Any, "Impact", 20)
-Global Font25 = LoadFont(#PB_Any, "Impact", 25)
-Global Font40 = LoadFont(#PB_Any, "Impact", 40,#PB_Font_Bold)
-Global Font50 = LoadFont(#PB_Any, "Impact", 50)
-Global Font100 = LoadFont(#PB_Any, "Impact", 100)
+Global Impact20 = LoadFont(#PB_Any, "Impact", 20)
+Global Impact25 = LoadFont(#PB_Any, "Impact", 25)
+Global Impact30 = LoadFont(#PB_Any, "Impact", 30)
+Global Impact50 = LoadFont(#PB_Any, "Impact", 50)
+Global Impact100 = LoadFont(#PB_Any, "Impact", 100)
+Global Font15 = LoadFont(#PB_Any, "a영고딕E", 15)
+                                           Global Font20 = LoadFont(#PB_Any, "a영고딕E", 20)
+                                                                                      Global Font30 = LoadFont(#PB_Any, "a영고딕E", 30)
+                                                                                                                                 Global Font25 = LoadFont(#PB_Any, "a영고딕E", 25)
+                                                                                                                                                                            Global Font40 = LoadFont(#PB_Any, "a영고딕E", 40,#PB_Font_Bold)
+Global Font50 = LoadFont(#PB_Any, "a영고딕E", 50)
+                                           Global Font100 = LoadFont(#PB_Any, "a영고딕E", 100)
 
 
 Procedure DrawTextEx(X.i, Y.i, Text.s)
-   Protected I.i, Max = CountString(Text, #CRLF$)+1
-   Protected Line.s
-   For I = 1 To Max
-      Line = StringField(Text, I, #CRLF$)
-      DrawText(X, Y, Line, RGB(0,0,0))
-      Y + TextHeight(" ")
-   Next
+  Protected I.i, Max = CountString(Text, #CRLF$)+1
+  Protected Line.s
+  For I = 1 To Max
+    Line = StringField(Text, I, #CRLF$)
+    DrawText(X, Y, Line, RGB(0,0,0))
+    Y + TextHeight(" ")
+  Next
 EndProcedure
 
 Structure color
@@ -101,7 +106,7 @@ Global StageNodeX = 400, StageNodeY = 400
 Global StageNodePosX = 548 ,StageNodePosY = 349
 Global ScorePosX = 845, ScorePosY =349
 Global ScoreWidth=200 , ScoreHeight=50
-Global NodeTextX = StageNodePosX+105,NodeTextY = StageNodePosY+155
+Global NodeTextX = StageNodePosX+90,NodeTextY = StageNodePosY+155
 
 
 ;Setup Screen Color
@@ -114,7 +119,7 @@ Global Com
 
 IncludeFile "LEVEL1_g.pb"
 IncludeFile "LEVEL2_g.pb"
-IncludeFile "LEVEL3.pb"
+IncludeFile "LEVEL3_g.pb"
 IncludeFile "TUTORIAL_g.pb"
 IncludeFile "cv_colorcalibration.pb"
 
@@ -126,76 +131,76 @@ Procedure drawStageSelect(StageNum, LeftOrRight, LevelNum)
   
   
   If InitSprite() = 0 Or InitKeyboard() = 0
-  MessageRequester("Error", "Sprite system can't be initialized", 0)
+    MessageRequester("Error", "Sprite system can't be initialized", 0)
   EndIf
-
+  
   UsePNGImageDecoder()
   LoadImage(#Image_MAIN, "./graphics/MAIN.png")
- ; Font50 = LoadFont(#PB_Any, "Impact", 50)
+  ; Font50 = LoadFont(#PB_Any, "Impact", 50)
   ;  Font202 = LoadFont(#PB_Any, "System", 50)
   
   
-       Repeat
-        FlipBuffers()
-
-      StartDrawing(ScreenOutput())
-
-       DrawImage(ImageID(#Image_StageBackground), 0, 0,BackgroundX, BackgroundY) 
-       DrawingMode(#PB_2DDrawing_Transparent)
-       StopDrawing() 
-  
-       currentStageNum =StageNum
-       AfterStage = currentStageNum+1
-       BeforeStage = currentStageNum-1
-       
-       
-       If LeftOrRight = 0
-       
+  Repeat
+    FlipBuffers()
+    
+    StartDrawing(ScreenOutput())
+    
+    DrawImage(ImageID(#Image_StageBackground), 0, 0,BackgroundX, BackgroundY) 
+    DrawingMode(#PB_2DDrawing_Transparent)
+    StopDrawing() 
+    
+    currentStageNum =StageNum
+    AfterStage = currentStageNum+1
+    BeforeStage = currentStageNum-1
+    
+    
+    If LeftOrRight = 0
+      
       StartDrawing(ScreenOutput())     
       DrawImage(ImageID(#Image_StageNode), StageNodePosX, StageNodePosY,StageNodeX, StageNodeY) 
       DrawingMode(#PB_2DDrawing_Transparent)
-      DrawingFont(FontID(font50))
+      DrawingFont(FontID(Impact50))
       DrawText(NodeTextX, NodeTextY, "Stage"+AfterStage, TextColor)    
       StopDrawing()
-
+      
       StartDrawing(ScreenOutput())
       
       DrawImage(ImageID(#Image_StageNode), StageNodePosX-var_x+z, StageNodePosY,StageNodeX, StageNodeY) 
       DrawingMode(#PB_2DDrawing_Transparent)
-      DrawingFont(FontID(font50))
+      DrawingFont(FontID(Impact50))
       DrawText(NodeTextX -var_x+z, NodeTextY, "Stage"+StageNum, TextColor)    
       StopDrawing()
-        
-         var_x+20
-         If var_x > 700
-              Break  
-         EndIf  
-   
-      ElseIf LeftOrRight = 1
-  
+      
+      var_x+20
+      If var_x > 700
+        Break  
+      EndIf  
+      
+    ElseIf LeftOrRight = 1
+      
       StartDrawing(ScreenOutput())     
       DrawImage(ImageID(#Image_StageNode), StageNodePosX, StageNodePosY,StageNodeX, StageNodeY) 
       DrawingMode(#PB_2DDrawing_Transparent)
-      DrawingFont(FontID(font50))
+      DrawingFont(FontID(Impact50))
       DrawText(NodeTextX, NodeTextY, "Stage"+StageNum, TextColor)    
       StopDrawing()
       
       StartDrawing(ScreenOutput())
       DrawImage(ImageID(#Image_StageNode), StageNodePosX-var_x+z, StageNodePosY,StageNodeX, StageNodeY) 
       DrawingMode(#PB_2DDrawing_Transparent)
-      DrawingFont(FontID(font50))
+      DrawingFont(FontID(Impact50))
       DrawText(NodeTextX-var_x+z, NodeTextY, "Stage"+BeforeStage, TextColor)    
       StopDrawing()
-
-         y+20
-         z = NodeTextX - y
-         
-         If y > NodeTextX
-           Break  
-         EndIf  
-         
-       EndIf  
-
+      
+      y+20
+      z = NodeTextX - y
+      
+      If y > NodeTextX
+        Break  
+      EndIf  
+      
+    EndIf  
+    
     ExamineKeyboard()
   Until KeyboardPushed(#PB_Key_Escape)
   
@@ -203,212 +208,222 @@ Procedure drawStageSelect(StageNum, LeftOrRight, LevelNum)
   ProcedureReturn StageNum
   
   
-       
+  
 EndProcedure
 
 Procedure drawStageVibe(StageNum, LevelNum)
-
+  
   
   
   If InitSprite() = 0 Or InitKeyboard() = 0
-  MessageRequester("Error", "Sprite system can't be initialized", 0)
+    MessageRequester("Error", "Sprite system can't be initialized", 0)
   EndIf
-
+  
   UsePNGImageDecoder()
   LoadImage(#Image_MAIN, "./graphics/MAIN.png")
-
   
-    Repeat
-   
+  
+  Repeat
+    
     FlipBuffers()
-      StartDrawing(ScreenOutput())
-      DrawImage(ImageID(#Image_StageBackground), 0, 0,BackgroundX, BackgroundY) 
-      DrawingMode(#PB_2DDrawing_Transparent)
-      StopDrawing() 
-      
-      StartDrawing(ScreenOutput())
-      DrawImage(ImageID(#Image_StageNode), StageNodePosX-20*Sin(var_x), StageNodePosY,StageNodeX, StageNodeY)
-      DrawingMode(#PB_2DDrawing_Transparent)
-      DrawingFont(FontID(font50))
-      DrawText(NodeTextX-20*Sin(var_x), NodeTextY, "Stage"+StageNum, TextColor)
-      StopDrawing()
-      var_x+20      
+    StartDrawing(ScreenOutput())
+    DrawImage(ImageID(#Image_StageBackground), 0, 0,BackgroundX, BackgroundY) 
+    DrawingMode(#PB_2DDrawing_Transparent)
+    StopDrawing() 
+    
+    StartDrawing(ScreenOutput())
+    DrawImage(ImageID(#Image_StageNode), StageNodePosX-20*Sin(var_x), StageNodePosY,StageNodeX, StageNodeY)
+    DrawingMode(#PB_2DDrawing_Transparent)
+    DrawingFont(FontID(Impact50))
+    DrawText(NodeTextX-20*Sin(var_x), NodeTextY, "Stage"+StageNum, TextColor)
+    StopDrawing()
+    var_x+20      
     ExamineKeyboard()
   Until KeyboardPushed(#PB_Key_Escape) Or var_x > 300
-       
+  
   
 EndProcedure
 
 Procedure StageSelectScene(LevelNum)
   
   
-    If LevelNum = 1 
+  If LevelNum = 1 
     StageMax =3 
- ;  ElseIf LevelNum =2
-;     StageMax=2
-   EndIf 
+    ;  ElseIf LevelNum =2
+    ;     StageMax=2
+  EndIf 
   
   
   
   If InitSprite() = 0 Or InitKeyboard() = 0
-  MessageRequester("Error", "Sprite system can't be initialized", 0)
-EndIf
-
+    MessageRequester("Error", "Sprite system can't be initialized", 0)
+  EndIf
+  
   StageNum =1
-
+  
   UsePNGImageDecoder()
   LoadImage(#Image_MAIN, "graphics/MAIN.png")
-
+  
   Repeat
-   
+    
     FlipBuffers()
     
     
-          
-       If StageNum = 1         
-         Score = LEVEL1_stage1_score         
-       ElseIf StageNum = 2         
-          Score = LEVEL1_stage2_score
-       ElseIf  StageNum = 3         
-          Score = LEVEL1_stage3_score         
-       EndIf  
-      
-      StartDrawing(ScreenOutput())
-      Box(0, 0, 600, 600, RGB(0,0,0))
-      DrawImage(ImageID(#Image_StageBackground), 0, 0, BackgroundX, BackgroundY) 
-      DrawingMode(#PB_2DDrawing_Transparent)
-       StopDrawing() 
-
-         ; TODO 위치 조정
-       StartDrawing(ScreenOutput())
-       DrawingMode(#PB_2DDrawing_Transparent)
-       DrawImage(ImageID (#Image_StageNode),StageNodePosX,StageNodePosY,StageNodeX,StageNodeY)
-       DrawingFont(FontID(font50))
-       DrawingMode(#PB_2DDrawing_Transparent)
-       DrawText(NodeTextX, NodeTextY, "Stage"+StageNum, TextColor)
-       DrawingFont(FontID(font100))
-       If Score < 10 
-       DrawText(NodeTextX-20, NodeTextY, "☆☆☆", TextColor)
-       ElseIf Score < 50
-       DrawText(NodeTextX-20, NodeTextY, "★☆☆", TextColor)
-       ElseIf Score < 100
-       DrawText(NodeTextX-20, NodeTextY, "★★☆", TextColor)
-       ElseIf Score < 150
-       DrawText(NodeTextX-20, NodeTextY, "★★★", TextColor)  
-        EndIf  
-       DrawingFont(FontID(font20))
-       DrawText(NodeTextX+20, NodeTextY+100, "score : " + Str(Score), TextColor)
-       StopDrawing()
-       
-
-       ExamineKeyboard()
-      If KeyboardPushed(#PB_Key_Left)
-        If  StageNum < StageMax      
+    
+    If StageNum = 1         
+      Score = LEVEL1_stage1_score         
+    ElseIf StageNum = 2         
+      Score = LEVEL1_stage2_score
+    ElseIf  StageNum = 3         
+      Score = LEVEL1_stage3_score         
+    EndIf  
+    
+    StartDrawing(ScreenOutput())
+    Box(0, 0, 600, 600, RGB(0,0,0))
+    DrawImage(ImageID(#Image_StageBackground), 0, 0, BackgroundX, BackgroundY) 
+    DrawingMode(#PB_2DDrawing_Transparent)
+    StopDrawing() 
+    
+    ; TODO 위치 조정
+    StartDrawing(ScreenOutput())
+    DrawingMode(#PB_2DDrawing_Transparent)
+    DrawImage(ImageID (#Image_StageNode),StageNodePosX,StageNodePosY,StageNodeX,StageNodeY)
+    DrawingFont(FontID(Impact50))
+    DrawingMode(#PB_2DDrawing_Transparent)
+    DrawText(NodeTextX, NodeTextY, "Stage"+StageNum, TextColor)
+    DrawingFont(FontID(Impact25))
+    If Score < 10 
+      DrawText(StageNodePosX+20, StageNodePosY+10, "☆☆☆", TextColor)
+    ElseIf Score < 50
+      DrawText(StageNodePosX+20, StageNodePosY+10, "★☆☆", TextColor)
+    ElseIf Score < 100
+      DrawText(StageNodePosX+20, StageNodePosY+10, "★★☆", TextColor)
+    ElseIf Score < 150
+      DrawText(StageNodePosX+20, StageNodePosY+10, "★★★", TextColor)
+    EndIf  
+    DrawingFont(FontID(Impact20))
+    DrawText(StageNodePosX+245, StageNodePosY+20, "score : " + Str(Score), TextColor)
+    StopDrawing()
+    
+    
+    micbit$ = ""
+    If IsSerialPort(Com) <> 0 And AvailableSerialPortInput(Com) > 0 
+      ;마이크로비트 포트 값
+      If ReadSerialPortData(Com, @Buffer, 1)
+        micbit$ = Chr(Buffer)
+        Debug "micbit: " + micbit$
+      EndIf
+    EndIf
+    
+    If micbit$ = "8"
+      If  StageNum < StageMax      
         drawStageSelect(StageNum, 0, LevelNum) 
         StageNum + 1        
-        Else
+      Else
         drawStageVibe(StageNum, LevelNum)
-        EndIf 
-      ElseIf KeyboardPushed(#PB_Key_Right)
-
+      EndIf 
+    ElseIf micbit$ = "6"
       If StageNum > 1
-      
-         drawStageSelect(StageNum, 1, LevelNum)
-          StageNum - 1  
-       Else
-         drawStageVibe(StageNum, LevelNum)
-       EndIf  
-         
-       EndIf 
-
-    ExamineKeyboard()
-    If KeyboardPushed(#PB_Key_Escape)
-          ProcedureReturn StageNum 
-    EndIf 
-
-  Until KeyboardPushed(#PB_Key_Escape)
-
+        
+        drawStageSelect(StageNum, 1, LevelNum)
+        StageNum - 1  
+      Else
+        drawStageVibe(StageNum, LevelNum)
+      EndIf
+    ElseIf micbit$ = "5"
+      ProcedureReturn StageNum
+    EndIf  
+    
+    
+  Until micbit$ = "5"
+  
 EndProcedure
 
 Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3,튜토, 캘리  확인 : 4, 종료 escape 
-
+  
   MENUSelect = 1
-
+  
   Repeat  
-
-   StartDrawing(ScreenOutput())
-   ; 똑같은건데 #Image_MENU는 오류나고 #Image_MENU2는 괜찮음. 어디서 이름이 겹치나..? 그래서 그냥 #Image_MENU2 로 합니다.
-   DrawImage(ImageID(#Image_MENU2), 0, 0, BackgroundX, BackgroundY)  
-   DrawingMode(#PB_2DDrawing_Transparent)
-   DrawingFont(FontID(font15))
-   ;DrawText(20, 15, "MENU SCENE", TextColor)
-   ;DrawText(20, 50, "USER NAME", TextColor)
-   
-   DrawImage(ImageID(#Image_LEVEL1_Button), 200, 350- (3*Sin(LEVEL1_pos)),LevelNodeX,LevelNodeY)  
-   DrawImage(ImageID(#Image_LEVEL2_Button), 600, 350 -(3*Sin(LEVEL2_pos)),LevelNodeX,LevelNodeY) 
-   DrawImage(ImageID(#Image_LEVEL3_Button), 1000, 350 -(3*Sin(LEVEL3_pos)),LevelNodeX,LevelNodeY) 
-   DrawImage(ImageID(#Image_Calibration_Button), 50, 100-(3*Sin(CaliButton)), 200,50)
-   DrawImage(ImageID(#Image_Calibration_Button), 1300, 100-(3*Sin(Tutorialbutton)), 200,50)
-   DrawText(60, 120-(3*Sin(CaliButton)),"캘리브레이션", TextColor)
-   DrawText(1310, 120-(3*Sin(Tutorialbutton)),"튜토리얼", TextColor)
-   DrawingMode(#PB_2DDrawing_Transparent)
-   
-   StopDrawing()    
-   
-
-   If MENUSelect = 1 ;LEVEL1
-     LEVEL1_pos +1     
-   ElseIf MENUSelect = 2 ;LEVEL2
-     LEVEL2_pos +1
-   ElseIf MENUSelect = 3 ;LEVEL3
-     LEVEL3_pos +1     
-   ElseIf MENUSelect = 4 ; calibration 화면
-     CaliButton + 1
-   ElseIf MENUSelect =5 
-     Tutorialbutton + 1
-   EndIf  
-   
-    ; 좌우로 눌러서 메뉴 선택 , 4로 확인
-    If  ExamineKeyboard()
-    If KeyboardReleased(#PB_Key_Left)
-        If  MENUSelect > 1
-        MENUSelect - 1
-        EndIf 
-    ElseIf   KeyboardReleased(#PB_Key_Right) 
-      
-      If MENUSelect < 5
-        MENUSelect + 1
-      EndIf  
-      
+    
+    StartDrawing(ScreenOutput())
+    ; 똑같은건데 #Image_MENU는 오류나고 #Image_MENU2는 괜찮음. 어디서 이름이 겹치나..? 그래서 그냥 #Image_MENU2 로 합니다.
+    DrawImage(ImageID(#Image_MENU2), 0, 0, BackgroundX, BackgroundY)  
+    DrawingMode(#PB_2DDrawing_Transparent)
+    DrawingFont(FontID(Font15))
+    ;DrawText(20, 15, "MENU SCENE", TextColor)
+    ;DrawText(20, 50, "USER NAME", TextColor)
+    
+    DrawImage(ImageID(#Image_LEVEL1_Button), 200, 350- (3*Sin(LEVEL1_pos)),LevelNodeX,LevelNodeY)  
+    DrawImage(ImageID(#Image_LEVEL2_Button), 600, 350 -(3*Sin(LEVEL2_pos)),LevelNodeX,LevelNodeY) 
+    DrawImage(ImageID(#Image_LEVEL3_Button), 1000, 350 -(3*Sin(LEVEL3_pos)),LevelNodeX,LevelNodeY) 
+    DrawImage(ImageID(#Image_Calibration_Button), 50, 100-(3*Sin(CaliButton)), 200,50)
+    DrawImage(ImageID(#Image_Calibration_Button), 1300, 100-(3*Sin(Tutorialbutton)), 200,50)
+    DrawText(80, 115-(3*Sin(CaliButton)),"캘리브레이션", TextColor)
+    DrawText(1350, 115-(3*Sin(Tutorialbutton)),"튜토리얼", TextColor)
+    DrawingMode(#PB_2DDrawing_Transparent)
+    
+    StopDrawing()    
+    
+    
+    If MENUSelect = 1 ;LEVEL1
+      LEVEL1_pos +1     
+    ElseIf MENUSelect = 2 ;LEVEL2
+      LEVEL2_pos +1
+    ElseIf MENUSelect = 3 ;LEVEL3
+      LEVEL3_pos +1     
+    ElseIf MENUSelect = 4 ; calibration 화면
+      CaliButton + 1
+    ElseIf MENUSelect =5 
+      Tutorialbutton + 1
+    EndIf  
+    
+    micbit$ = ""
+    If IsSerialPort(Com) <> 0 And AvailableSerialPortInput(Com) > 0 
+      ;마이크로비트 포트 값
+      If ReadSerialPortData(Com, @Buffer, 1)
+        micbit$ = Chr(Buffer)
+        Debug "micbit: " + micbit$
+      EndIf
     EndIf
-   EndIf 
-   
-   If KeyboardReleased(#PB_Key_Escape)
-     MENUSelect = 10
-     Break  
-     EndIf  
-
-       FlipBuffers()
- Until KeyboardReleased(#PB_Key_4)
- 
-
-    If MENUSelect = 1
-      SceneNumber = #SceneLevel1
-    ElseIf   MENUSelect = 2 
-      
-      SceneNumber = #SceneLevel2
-    ElseIf MENUSelect =3 
-      SceneNumber = #SceneLevel3
-    ElseIf MENUSelect = 4 ;CalibrationScene
-      SceneNumber = #CalibrationScene
-    ElseIf MENUSelect =5
-      SceneNumber = #Tutorial
-      
-    ElseIf  MENUSelect = 10
-      SceneNumber = #Program_End
-    EndIf   
+    
+    If micbit$ = "6"
+      If  MENUSelect > 1
+          MENUSelect - 1
+        EndIf  
+    ElseIf micbit$ = "8"
+      If MENUSelect < 5
+          MENUSelect + 1
+        EndIf
+    EndIf  
+    
+    
+    ExamineKeyboard()   
+    If KeyboardReleased(#PB_Key_Escape)
+      MENUSelect = 10
+      Break  
+    EndIf  
+    
+    FlipBuffers()
+  Until micbit$ = "5"
+  
+  
+  If MENUSelect = 1
+    SceneNumber = #SceneLevel1
+  ElseIf   MENUSelect = 2 
+    
+    SceneNumber = #SceneLevel2
+  ElseIf MENUSelect =3 
+    SceneNumber = #SceneLevel3
+  ElseIf MENUSelect = 4 ;CalibrationScene
+    SceneNumber = #CalibrationScene
+  ElseIf MENUSelect =5
+    SceneNumber = #Tutorial
+    
+  ElseIf  MENUSelect = 10
+    SceneNumber = #Program_End
+  EndIf   
   Debug MENUSelect
-
+  
 EndProcedure
 
 
@@ -427,20 +442,23 @@ MainWindow= OpenWindow(0, 0, 0, 1980, 1020, "QookQook", #PB_Window_SystemMenu |#
 OpenWindowedScreen(WindowID(0), 0, 0, 1980, 1020)
 Com = OpenSerialPort(#PB_Any, "COM3", 115200, #PB_SerialPort_NoParity, 8, 1, #PB_SerialPort_NoHandshake, 64, 64)
 
- SceneNumber = #StartScene
+SceneNumber = #StartScene
 
-  Repeat
-    FlipBuffers()
-    
+Repeat
+  FlipBuffers()
+  
   If SceneNumber = #StartScene
     
-  StartDrawing(ScreenOutput())
-  DrawImage(ImageID(#Image_MAIN), 0, 0, BackgroundX, BackgroundY)
-  DrawingMode(#PB_2DDrawing_Transparent)
-  DrawingFont(FontID(ImpactFont))
-  DrawTextEx(0,0, "A-MAJOR")
-    DrawText(680, 700 + 3*Sin(posy), "아무키나 누르세요", TextColor) 
-  StopDrawing() 
+    StartDrawing(ScreenOutput())
+    DrawImage(ImageID(#Image_MAIN), 0, 0, BackgroundX, BackgroundY)
+    DrawingMode(#PB_2DDrawing_Transparent)
+    DrawingFont(FontID(Impact30))
+    DrawTextEx(0,0, "A-MAJOR")
+    DrawingFont(FontID(Impact100))
+    DrawText(460, 160 + 3*Sin(posy), "Qook Qook", RGB(231,63,83)) 
+    DrawingFont(FontID(Font25))
+    DrawText(600, 700 + 3*Sin(posy), "아무키나 누르세요", RGB(0,0,0)) 
+    StopDrawing() 
     
     posy= var_x/5
     var_x+1
@@ -454,57 +472,57 @@ Com = OpenSerialPort(#PB_Any, "COM3", 115200, #PB_SerialPort_NoParity, 8, 1, #PB
     
   ElseIf SceneNumber = #MenuSelect
     MenuSelectScene()
-     ;Scene Tutorial
+    ;Scene Tutorial
   ElseIf SceneNumber = #Tutorial
     CreateTutorial()
     SceneNumber = #MenuSelect
     ClearScreen(RGB(0, 0, 0))
-     ;Scene Level 1
+    ;Scene Level 1
   ElseIf SceneNumber = #SceneLevel1
     SelectedStage = StageSelectScene(1)
     CreateLevel1(SelectedStage)
     SceneNumber = #MenuSelect
     ClearScreen(RGB(0, 0, 0))
-  ;Scene Level 2  
-    ElseIf SceneNumber = #SceneLevel2
+    ;Scene Level 2  
+  ElseIf SceneNumber = #SceneLevel2
     CreateLevel2()
     SceneNumber = #MenuSelect
     ClearScreen(RGB(0, 0, 0))
-  ;Scene Level 3
-    ElseIf SceneNumber = #SceneLevel3    
-      CreateLEVEL3()
-      SceneNumber = #MenuSelect
-      ClearScreen(RGB(0, 0, 0))  
-       ;Scene Calibration
-    ElseIf SceneNumber = #CalibrationScene ; 여기 제스쳐 할때 캘리브레이션한 마스크 리턴해가지고 trackred한테 넘겨주면될듯?
-      Createcali()
-      SceneNumber = #MenuSelect
-      ClearScreen(RGB(0, 0, 0))
-      
-      ElseIf  SceneNumber = #Program_End
-      Break
-      
-    EndIf 
+    ;Scene Level 3
+  ElseIf SceneNumber = #SceneLevel3    
+    CreateLEVEL3()
+    SceneNumber = #MenuSelect
+    ClearScreen(RGB(0, 0, 0))  
+    ;Scene Calibration
+  ElseIf SceneNumber = #CalibrationScene ; 여기 제스쳐 할때 캘리브레이션한 마스크 리턴해가지고 trackred한테 넘겨주면될듯?
+    Createcali()
+    SceneNumber = #MenuSelect
+    ClearScreen(RGB(0, 0, 0))
     
-  Until KeyboardReleased(#PB_Key_6) 
+  ElseIf  SceneNumber = #Program_End
+    Break
+    
+  EndIf 
   
-  
-  FreeArray(problem_list()) 
-  FreeArray(userAnswers()) 
-  FreeArray(ptBox())
-  FreeImage(pbImage)
-  cvReleaseCapture(@*capture)  
-  midiOutReset_(hMidiOut)
-  midiOutClose_(hMidiOut)
-  CloseWindow(#PB_All)
-  CloseConsole()
-  cvDestroyAllWindows()
-  CloseScreen()
-  
+Until KeyboardReleased(#PB_Key_6) 
+
+
+FreeArray(problem_list()) 
+FreeArray(userAnswers()) 
+FreeArray(ptBox())
+FreeImage(pbImage)
+cvReleaseCapture(@*capture)  
+midiOutReset_(hMidiOut)
+midiOutClose_(hMidiOut)
+CloseWindow(#PB_All)
+CloseConsole()
+cvDestroyAllWindows()
+CloseScreen()
+
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 117
-; FirstLine = 108
-; Folding = p
+; CursorPosition = 315
+; FirstLine = 309
+; Folding = -
 ; EnableXP
-; Executable = maestro.exe
+; Executable = maestro_g.exe

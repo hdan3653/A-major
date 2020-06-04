@@ -154,6 +154,7 @@ If *capture
 
     If *image
       cvFlip(*image, #Null, 1)
+      cvSmooth(*image, *image, #CV_GAUSSIAN, 3, 3, 0, 0)
       cvCopy(*image, *frame, #Null)
       cvCvtColor(*frame, *hsv, #CV_BGR2HSV, 1)
 
@@ -255,7 +256,7 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 244
-; FirstLine = 157
+; CursorPosition = 149
+; FirstLine = 82
 ; Folding = z
 ; EnableXP

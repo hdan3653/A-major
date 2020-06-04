@@ -73,7 +73,7 @@ ProcedureC TrackRight(*imgHSV.IplImage)
   moment01.d = moments\m01
   area.d = moments\m00
   
-  If area > 1000
+  If area > 100
     posX = moment10 / area
     posY = moment01 / area
     
@@ -97,7 +97,7 @@ ProcedureC TrackLeft(*imgHSV.IplImage)
   moment01.d = moments\m01
   area.d = moments\m00
   
-  If area > 1000
+  If area > 100
     posX = moment10 / area
     posY = moment01 / area
     
@@ -814,7 +814,7 @@ Procedure ant_saying(script.s, pos_x, pos_y)
   SetMySprite(*p, 900, 500, 1)  
   StartDrawing(ScreenOutput())  
   DrawingMode(#PB_2DDrawing_Transparent)
-  DrawingFont(FontID(Font20))
+  DrawingFont(FontID(Font15))
   DrawTextEx(pos_x, pos_y, script)
   StopDrawing()
   
@@ -823,12 +823,12 @@ EndProcedure
 Procedure LEVEL1_Tutorial(x, Tutorial_Num_Lv1)
   
   pos_x = 1000
-  pos_y = 600
+  pos_y = 530
   
   Select Tutorial_Num_Lv1
       
     Case 1     
-      ant_saying("안녕 나는 음악개미야", pos_x, pos_y)
+      ant_saying("안녕 나는 음악개미 꾹꾹이야", pos_x, pos_y)
       
     Case 2
       ant_saying("LEVEL1에 관해 간단히 설명해줄게", pos_x, pos_y) 
@@ -837,24 +837,24 @@ Procedure LEVEL1_Tutorial(x, Tutorial_Num_Lv1)
       ant_saying("내 앞에 경단이 보이지?", pos_x, pos_y)
       
     Case 4
-      ant_saying("이 경단은 과일 세개로 이루어지는 화음 경단이야", pos_x, pos_y)
+      ant_saying("이 경단은 과일 세 개로 이루어지는"+#CRLF$+"화음 경단이야", pos_x, pos_y)
       
     Case 5
-      ant_saying("이 경단에 어울리는 과일을 세개씩 모아서 가져가려고 해", pos_x, pos_y)
+      ant_saying("이 경단에 어울리는 과일을 세개씩 모아서"+#CRLF$+"가져가려고 해", pos_x, pos_y)
       
     Case 6
-      ant_saying("OO을 누르면 어울리는 과일의 소리를 들을 수 있어", pos_x, pos_y)
+      ant_saying("왼쪽 마커를 몸에 터치하면"+#CRLF$+"어울리는 과일의 소리를 들을 수 있어", pos_x, pos_y)
       
     Case 7
-      ant_saying("OO을 누르면 일시 멈춤 할 수 있어", pos_x, pos_y)
+      ant_saying("<왼쪽마커 위 제스처>로"+#CRLF$+"튜토리얼을 확인 할 수 있어", pos_x, pos_y)
     Case 8
-      ant_saying("화음을 잘 듣고 마커를 사용해서 과일을 골라줘", pos_x, pos_y)     
+      ant_saying("<오른쪽 마커 아래 제스처>로 화음을 잘 듣고"+#CRLF$+"마커를 사용해서 과일을 골라줘", pos_x, pos_y)     
                                                      
     Case 9
-      ant_saying("마커의 사용방법을 모르면 마커 사용법을 익히고 오도록해!", pos_x, pos_y)
+      ant_saying("마커의 사용방법을 모르면"+#CRLF$+"먼저 마커 사용법을 익히고 오도록해!", pos_x, pos_y)
       
     Case 10
-      ant_saying("소리가 어울리지 않으면 경단이 부숴질거야!", pos_x, pos_y) 
+      ant_saying("정답 화음을 맞추지 못하면 경단이 부서질거야!", pos_x, pos_y) 
       
     Case 11
       ant_saying("게임 시작!", pos_x, pos_y)   
@@ -870,7 +870,7 @@ Procedure LEVEL1_Tutorial(x, Tutorial_Num_Lv1)
     StartDrawing(ScreenOutput())  
     DrawingMode(#PB_2DDrawing_Transparent)
     DrawingFont(FontID(Font15))
-    DrawText(1450+2*Sin(x), 700, "다음" , RGB(0,0,0))
+    DrawText(1430+2*Sin(x), 680, "다음" , RGB(0,0,0))
     ;  DrawText(100-2*Sin(x), 150, "이전" , RGB(255,255,255))
     StopDrawing()
   ElseIf Tutorial_Num_Lv1 = 12
@@ -878,14 +878,14 @@ Procedure LEVEL1_Tutorial(x, Tutorial_Num_Lv1)
     DrawingMode(#PB_2DDrawing_Transparent)
     DrawingFont(FontID(Font15))
     ;  DrawText(1300+2*Sin(x), 150, "다음" , RGB(0,255,255))
-    DrawText(1000-2*Sin(x), 700, "이전" , RGB(0,0,0))
+    DrawText(1000-2*Sin(x), 680, "이전" , RGB(0,0,0))
     StopDrawing()
   Else
     StartDrawing(ScreenOutput())  
     DrawingMode(#PB_2DDrawing_Transparent)
     DrawingFont(FontID(Font15))
-    DrawText(1450+2*Sin(x), 700, "다음" , RGB(0,0,0))
-    DrawText(1000-2*Sin(x), 700, "이전" , RGB(0,0,0))
+    DrawText(1430+2*Sin(x), 680, "다음" , RGB(0,0,0))
+    DrawText(1000-2*Sin(x), 680, "이전" , RGB(0,0,0))
     StopDrawing()
   EndIf  
   
@@ -902,8 +902,8 @@ Procedure Gamestage(StageNum)
   DrawingMode(#PB_2DDrawing_Transparent)
   
   
-  DrawingFont(FontID(Font100))
-  DrawText(540, 350, "Stage" + StageNum, TextColor)
+  DrawingFont(FontID(Impact100))
+  DrawText(570, 350, "Stage" + StageNum, TextColor)
   StopDrawing()
   
   FlipBuffers()
@@ -1008,6 +1008,7 @@ Procedure CreateLEVEL1(SelectedStage)
       
       TransparentSpriteColor(#PB_Default, RGB(255, 0, 255))
       InitMySprite("background", "graphics/background.png", 0, 0)
+      InitMySprite("gesture_lv1", "graphics/gesture_lv1.png", 900, 740, 1)
       InitMySprite("line1", "graphics/line1.png", 800, 160)
       InitMySprite("line2", "graphics/line2.png", 890, 160)
       InitMySprite("line3", "graphics/line3.png", 990, 160)
@@ -1038,9 +1039,9 @@ Procedure CreateLEVEL1(SelectedStage)
       InitMySprite("correct","graphics/correct.png", 500,500,0)
       InitMySprite("incorrect","graphics/incorrect.png", 500,500,0)
       InitMySprite("ant_say", "graphics/ant_say.png", 500,500,0)   
-      InitMySprite("lv1_tutorial_1", "graphics/lv1_tutorial_1.png", 500,500,0)   
-      InitMySprite("lv1_tutorial_2", "graphics/lv1_tutorial_2.png", 500,500,0)   
-      InitMySprite("lv1_tutorial_3", "graphics/lv1_tutorial_3.png", 500,500,0)   
+      InitMySprite("lv1_tutorial_1", "graphics/lv1_tutorial_1.png", 650,500,0)   
+      InitMySprite("lv1_tutorial_2", "graphics/lv1_tutorial_2.png", 650,500,0)   
+      InitMySprite("lv1_tutorial_3", "graphics/lv1_tutorial_3.png", 650,500,0)   
       
       line_position(0) = 800
       line_position(1) = 890
@@ -1124,12 +1125,13 @@ Procedure CreateLEVEL1(SelectedStage)
             If IsSerialPort(Com) <> 0 And AvailableSerialPortInput(Com) > 0 
               ;마이크로비트 포트 값
               If ReadSerialPortData(Com, @Buffer, 1)
-                micbit$ = Chr(Buffer)           
+                micbit$ = Chr(Buffer)
+                Debug "micbit: " + micbit$
               EndIf
             EndIf 
             
             ;마이크로비트 인터랙션
-            If (Asc(micbit$) < 50)
+            If (Asc(micbit$) > 47 And Asc(micbit$) < 50)
               If(micbit$ = "0")
                 TrackRight(*imgHSV)
               ElseIf(micbit$ = "1")
@@ -1137,6 +1139,7 @@ Procedure CreateLEVEL1(SelectedStage)
               EndIf
               ;상태가 음 출력 상태이면 음을 출력한다
               If markerState = 1
+                Debug "checkarea: " + micbit$
                 CheckArea(micbit$)
               EndIf
             Else
@@ -1212,11 +1215,11 @@ Procedure CreateLEVEL1(SelectedStage)
               
               
               *p = FindSprite("lv1_tutorial_1")
-              SetMySprite(*p, 0, 0, tuto_popup(1))    
+              SetMySprite(*p, 650, 250, tuto_popup(1))    
               *p = FindSprite("lv1_tutorial_2")
-              SetMySprite(*p, 0, 0, tuto_popup(2))    
+              SetMySprite(*p, 650, 250, tuto_popup(2))    
               *p = FindSprite("lv1_tutorial_3")
-              SetMySprite(*p, 0, 0, tuto_popup(3)) 
+              SetMySprite(*p, 650, 250, tuto_popup(3)) 
               
               
               
@@ -1244,8 +1247,8 @@ Procedure CreateLEVEL1(SelectedStage)
               
               StartDrawing(ScreenOutput())  
               DrawingMode(#PB_2DDrawing_Transparent)
-              DrawingFont(FontID(Font40))
-              DrawText(1040, 100, "SCORE : " + score , RGB(255,255,255))
+              DrawingFont(FontID(Font25))
+              DrawText(5, 5, "SCORE : " + score , RGB(255,255,255))
               StopDrawing()
               
               
@@ -1253,15 +1256,15 @@ Procedure CreateLEVEL1(SelectedStage)
               If markerState = 0
                 StartDrawing(ScreenOutput())  
                 DrawingMode(#PB_2DDrawing_Transparent)
-                DrawingFont(FontID(Font40))
-                DrawText(0, 800, "마커모드 : 상자조절" , RGB(255,255,255))
+                DrawingFont(FontID(Font15))
+                DrawText(5, 55, "마커모드 : 상자조절" , RGB(255,255,255))
                 StopDrawing()
                 
               ElseIf  markerState =1 
                 StartDrawing(ScreenOutput())  
                 DrawingMode(#PB_2DDrawing_Transparent)
-                DrawingFont(FontID(Font40))
-                DrawText(0, 800, "마커모드 : 음 입력모드" , RGB(255,255,255))
+                DrawingFont(FontID(Font15))
+                DrawText(5, 55, "마커모드 : 음 입력모드" , RGB(255,255,255))
                                                    StopDrawing()
               EndIf  
               
@@ -1270,6 +1273,12 @@ Procedure CreateLEVEL1(SelectedStage)
               FlipBuffers()
               
               If micbit$ = "7" And LEVEL1_State = #Status1_GameInPlay;Escape
+                ForEach sprite_list()
+                DeleteElement(sprite_list())
+              Next
+              ForEach position_list()
+                DeleteElement(position_list())
+              Next
                 FreeImage(pbImage)
                 cvReleaseCapture(@*capture)
                 midiOutReset_(hMidiOut)
@@ -1304,8 +1313,8 @@ Procedure CreateLEVEL1(SelectedStage)
   
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 1271
-; FirstLine = 1262
+; CursorPosition = 75
+; FirstLine = 66
 ; Folding = -----
 ; EnableXP
 ; DisableDebugger
