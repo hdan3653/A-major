@@ -95,7 +95,8 @@ Global chordCount = 0
 Global check = 0
 Global chordFlag = 0
 Global Dim score(7)
-
+Global Tutorial_Num_Lv3 = 1
+Global Tutorial_lock_Lv3 = #True
 Global Dim keyColor.color(6)
 
 
@@ -861,9 +862,6 @@ Procedure PlayChordSound_lv3()
   
 EndProcedure
 
-
-
-
 Procedure CalcArea_lv3(x, y)
   tone = -1
   i = 0
@@ -887,9 +885,6 @@ Procedure CalcArea_lv3(x, y)
   
   ProcedureReturn tone ; 음을 반환
 EndProcedure
-
-
-
 
 Procedure CheckArea_lv3(key)
   If(key = #PB_Key_2)
@@ -935,6 +930,113 @@ Procedure CheckArea_lv3(key)
   EndIf
   
 EndProcedure
+
+Procedure ant_saying_lv3(script.s, pos_x, pos_y)
+  
+  *p = FindSprite_lv3("ant_say")
+  SetMySprite_lv3(*p, 900, 500, 1)  
+  StartDrawing(ScreenOutput())  
+  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingFont(FontID(Font15))
+  DrawTextEx(pos_x, pos_y, script)
+  StopDrawing()
+  
+EndProcedure
+
+
+Procedure LEVEL3_Tutorial(x, Tutorial_Num_Lv3)
+  
+  pos_x = 1000
+  pos_y = 550
+  ;x + 1
+ ; Debug  Tutorial_Num_Lv2
+  
+  
+  Select Tutorial_Num_Lv3
+      
+    Case 1     
+      *p = FindSprite_lv3("ant_tuto")   
+      SetMySprite_lv3(*p, 800, 630, 1)
+      
+      ant_saying_lv3("여기까지 잘 따라와주었구나!"+#CRLF$+"이제 마지막 3단계에서는 직접 작곡을 해 볼 차례야", pos_x, pos_y)
+      
+    Case 2
+      ant_saying_lv3("먼저 생각나는 멜로디를 한 번 입력해봐!"+#CRLF$+"1단계에서 했던 것처럼 원하는 과일을"+#CRLF$+"마커로 입력하면 가지에 과일이 생길거야", pos_x, pos_y) 
+      
+    Case 3 
+      
+      ant_saying_lv3("다른 마디로 이동하고 싶을 땐"+#CRLF$+"<오른쪽 마커의 왼쪽, 오른쪽 제스처>를 이용해봐!", pos_x, pos_y)
+      
+    Case 4
+      
+      ant_saying_lv3("혹시 입력한 멜로디가 마음에 들지 않으면"+#CRLF$+"OO제스처를 이용해서 수정할 수 있으니 걱정마!"+#CRLF$+"수정은 한 번에 두 마디씩 할 수 있어", pos_x, pos_y)
+      
+    Case 5
+      ant_saying_lv3("멜로디를 다 입력했으면 이제 화음을 넣어보자!", pos_x, pos_y)
+      
+    Case 6       
+      ant_saying_lv3("OO제스처를 사용하면 화음을 입력할 수 있는 상태가 될거야."+#CRLF$+"혹시 화음을 입력하다가 다시 멜로디를 수정하고 싶을 때도"+#CRLF$+"이 제스처를 사용하면 음을 입력할 수 있어", pos_x, pos_y)
+
+    Case 7
+      ant_saying_lv3("멜로디에 있는 과일과 비슷한 과일로"+#CRLF$+"이루어진 화음을 고르면 잘 어울릴거야."+#CRLF$+"2단계에서도 해봤으니 잘 할 수 있겠지?", pos_x, pos_y)     
+    Case 8       
+      ant_saying_lv3("화음을 넣을 때도 OO제스처로 원하는 마디로 이동할 수 있어."+#CRLF$+"두 마디에 화음을 다 입력하면"+#CRLF$+"오른쪽 제스처로 다음 마디로 넘겨봐!", pos_x, pos_y)         
+    Case 9
+     
+      
+      ant_saying_lv3("잘못 입력했을 때도 OO 제스처로 다시 입력할 수 있어", pos_x, pos_y)
+      
+    Case 10
+      ant_saying_lv3("화음까지 다 입력했다면,"+#CRLF$+"입력한 화음이 멜로디랑 같이 어떤 소리를 낼지 궁금할거야", pos_x, pos_y) 
+      
+    Case 11
+      ant_saying_lv3("OO제스처를 통해 우리가 만든 곡을 한번 들어봐", pos_x, pos_y)   
+      
+    Case 12
+      ant_saying_lv3("혹시 마음에 들지 않는다면"+#CRLF$+"OO제스처로 화음이나 음 입력 모드로 돌아가서"+#CRLF$+"OO제스처로 수정한 다음에 다시 들어볼 수 있어", pos_x, pos_y)   
+      
+    Case  13  
+      ant_saying_lv3("마음에 든다면 OO제스처로 곡을 완성해줘!"+#CRLF$+"그러면 1, 2단계에서 배운 내용을 잘 적용했는지 확인할 수 있을거야", pos_x, pos_y)   
+     Case 14
+      
+       ant_saying_lv3("그러면 게임 시작!", pos_x, pos_y)
+    Case 15    
+      *p = FindSprite_lv3("ant_say")
+      SetMySprite_lv3(*p, 900, 500, 0)
+       *p = FindSprite_lv3("ant_tuto")   
+      SetMySprite_lv3(*p, 900, 500, 0)
+      Tutorial_lock_Lv3 = #False  
+      
+  EndSelect
+  
+    If Tutorial_Num_Lv3 = 1
+    StartDrawing(ScreenOutput())  
+    DrawingMode(#PB_2DDrawing_Transparent)
+    DrawingFont(FontID(Font15))
+    DrawText(1450+2*Sin(x), 700, "다음" , RGB(0,0,0))
+    ;  DrawText(100-2*Sin(x), 150, "이전" , RGB(255,255,255))
+    StopDrawing()
+  ElseIf Tutorial_Num_Lv3 = 15
+    StartDrawing(ScreenOutput())  
+    DrawingMode(#PB_2DDrawing_Transparent)
+    DrawingFont(FontID(Font15))
+    ;  DrawText(1300+2*Sin(x), 150, "다음" , RGB(0,255,255))
+    DrawText(1000-2*Sin(x), 700, "이전" , RGB(0,0,0))
+    StopDrawing()
+  Else
+    StartDrawing(ScreenOutput())  
+    DrawingMode(#PB_2DDrawing_Transparent)
+    DrawingFont(FontID(Font15))
+    DrawText(1450+2*Sin(x), 700, "다음" , RGB(0,0,0))
+    DrawText(1000-2*Sin(x), 700, "이전" , RGB(0,0,0))
+    StopDrawing()
+  EndIf  
+  
+  
+EndProcedure
+
+
+
 
 
 Procedure ClearNote_lv3()
@@ -1288,6 +1390,11 @@ Procedure CreateLEVEL3()
       InitMySprite_lv3("c7", "graphics/graphics_lv3/container_s.png", 550, 30, 0, 0)
       InitMySprite_lv3("c8", "graphics/graphics_lv3/container_s.png", 630, 30, 0, 0)
       
+      
+      ;튜토리얼 개미
+      InitMySprite_lv3("ant_tuto", "graphics/ant.png", 800, 630, 0)
+      InitMySprite_lv3("ant_say", "graphics/ant_say.png", 500,500,0)   
+      
       x_note1 = 800
       x_note2 = 840
       y_note1 = 610
@@ -1338,6 +1445,16 @@ Procedure CreateLEVEL3()
             Next
             
           Next
+          
+          
+            ; 처음 Tutorial_lock 걸려있는 동안은 tutorial 재생 
+            If   Tutorial_lock_Lv3
+              LEVEL3_Tutorial( inc_x , Tutorial_Num_Lv3)
+              inc_x+1
+              
+            EndIf
+          
+          
           
           
           ;- 키보드 이벤트
@@ -1460,6 +1577,22 @@ Procedure CreateLEVEL3()
             EndIf
           EndIf
           
+          
+          
+          If KeyboardReleased(#PB_Key_B)
+            
+            Tutorial_Num_Lv3 + 1
+            
+            
+          EndIf
+          
+          
+         If KeyboardReleased(#PB_Key_V)
+            
+            Tutorial_Num_Lv3 -1
+
+          EndIf
+
           ;뒤의 마디로 이동
           If KeyboardReleased(#PB_Key_Right)
             
@@ -1639,8 +1772,8 @@ Procedure CreateLEVEL3()
   
 EndProcedure
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 1566
-; FirstLine = 1558
-; Folding = -----
+; CursorPosition = 887
+; FirstLine = 169
+; Folding = IAAM+
 ; EnableXP
 ; DisableDebugger

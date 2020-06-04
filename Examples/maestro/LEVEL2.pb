@@ -715,7 +715,7 @@ EndProcedure
 Procedure LEVEL2_Tutorial()
   
   pos_x = 1000
-  pos_y = 500
+  pos_y = 530
   x + 1
   Debug  Tutorial_Num_Lv2
   
@@ -730,11 +730,11 @@ Procedure LEVEL2_Tutorial()
       
     Case 3 
       
-      ant_saying("LEVEL2는 주어진 멜로디에 알맞은 경단, "+#CRLF$+" 즉 화음을 넣는 단계야", pos_x, pos_y)
+      ant_saying("LEVEL2는 주어진 멜로디에 알맞은 경단,"+#CRLF$+"즉, 화음을 넣는 단계야", pos_x, pos_y)
       
     Case 4
       
-      ant_saying("멜로디는 '마디'로 구분되는데, "+#CRLF$+" 작은 나뭇잎 보이지? "+#CRLF$+"저걸로 마디를 구분해", pos_x, pos_y)
+      ant_saying("멜로디는 '마디'로 구분되는데, "+#CRLF$+"나뭇가지에 매달린 작은 나뭇잎 보이지? "+#CRLF$+"저걸로 마디를 구분해", pos_x, pos_y)
       
       *p = FindSprite("leaf_highlight")
       SetMySprite(*p, 1170 , 140 , 1)
@@ -742,41 +742,43 @@ Procedure LEVEL2_Tutorial()
     Case 5
       *p = FindSprite("madi_highlight")
       SetMySprite(*p, 800 , 440 , 1)
-      ant_saying("작은 나뭇잎 까지, "+#CRLF$+"즉, 표시한 부분이 한 마디가 되는거야!", pos_x, pos_y)
+      ant_saying("작은 나뭇잎 두 장의 사이 "+#CRLF$+"즉, 표시한 부분이 한 마디가 되는거야!", pos_x, pos_y)
       
     Case 6       
-      ant_saying("LEVEL2의 멜로디는 총 8마디야!", pos_x, pos_y)
+      ant_saying("LEVEL2에 등장하는 멜로디는 총 8마디야!", pos_x, pos_y)
       *p = FindSprite("leaf_highlight")
       SetMySprite(*p, 1170 , 140 , 0)
       *p = FindSprite("madi_highlight")
       SetMySprite(*p, 800 , 440 , 0)
       
     Case 7
-      ant_saying("왼쪽오른쪽 제스쳐를 통해서 마디를 이동할 수 있지", pos_x, pos_y)
+      ant_saying("<오른쪽 마커의 왼쪽 오른쪽 제스쳐>를 통해서"+#CRLF$+"마디의 앞 뒤로 이동할 수 있지", pos_x, pos_y)
       
     Case 8       
       *p = FindSprite("madis_highlight")
       SetMySprite(*p, 50 , 40 , 1)
       
-      ant_saying("마디 정보는 왼쪽 위에서 확인할 수 있어!", pos_x, pos_y)     
+      ant_saying("지금 내가 있는 마디 정보는"+#CRLF$+"왼쪽 위에서 확인할 수 있어!", pos_x, pos_y)     
       
     Case 9
       
       *p = FindSprite("madis_highlight")
       SetMySprite(*p, 50 , 40 , 0)
       
-      ant_saying("멜로디의 음에 따라서 "+#CRLF$+"알맞음 화음을 붙이는 방법을 알려줄게", pos_x, pos_y)
+      ant_saying("멜로디의 음에 따라서 "+#CRLF$+"알맞은 화음을 붙이는 방법을 알려줄게", pos_x, pos_y)
       
     Case 10
-      ant_saying("어쩌고 저쩌고", pos_x, pos_y) 
+      ant_saying("마디에 들어있는 과일들을 보고"+#CRLF$+"그 과일들이 들어간 화음 중"+#CRLF$+"멜로디와 어울리는 것을 선택하면 돼.", pos_x, pos_y) 
       
     Case 11
-      ant_saying("제스쳐를 이용해서 마디를 이동하고,"+#CRLF$+" 비어있는 곳에 마커를 이용해서 알맞은 화음을 넣으면 돼!", pos_x, pos_y)   
+      ant_saying("제스쳐를 이용해서 마디를 이동하고,"+#CRLF$+"비어있는 곳에 마커를 이용해서 알맞은 화음을 넣으면 돼!", pos_x, pos_y)   
       
     Case 12
-      ant_saying("OO을 제스쳐로 음악을 재생하고 정답을 체크 할 수있지", pos_x, pos_y)   
+      ant_saying("<오른쪽마커 아래 제스처>로 음악을 재생하고"+#CRLF$+"<오른쪽마커 위 제스처>로 정답을 확인 할 수 있지", pos_x, pos_y)   
       
-    Case 13
+    Case  13  
+      ant_saying("그러면 게임 시작!", pos_x, pos_y)   
+    Case 14
       *p = FindSprite("ant_say")
       SetMySprite(*p, 900, 500, 0)
       Tutorial_lock_Lv2 = #False  
@@ -807,11 +809,11 @@ Procedure Gamestage_Lv2()
     DrawImage(ImageID(#Image_MENU2), 0, 0, BackgroundX, BackgroundY)  
     DrawingMode(#PB_2DDrawing_Transparent)
     
-    DrawingFont(FontID(Font20))  
+    DrawingFont(FontID(Font100))  
     DrawImage(ImageID(#Image_Lv2_Stage), 470, 350- (3*Sin(node1_pos)),StageNodeX_Lv2, StageNodeY_Lv2)  
     DrawImage(ImageID(#Image_Lv2_Stage), 470, 550 -(3*Sin(node2_pos)),StageNodeX_Lv2, StageNodeY_Lv2) 
-    DrawText(500, 450- (3*Sin(node1_pos)), "비행기", TextColor)
-    DrawText(500, 650 -(3*Sin(node2_pos)), "학교 종", TextColor)
+    DrawText(510, 420- (3*Sin(node1_pos)), "비행기", TextColor)
+    DrawText(510, 620 -(3*Sin(node2_pos)), "학교 종", TextColor)
     DrawingMode(#PB_2DDrawing_Transparent)  
     StopDrawing()    
     
@@ -1030,7 +1032,7 @@ Procedure CreateLEVEL2 ()
             If  Tutorial_lock_Lv2
               
               
-              If  KeyboardReleased(#PB_Key_Right) And Tutorial_Num_Lv2 <20
+              If  KeyboardReleased(#PB_Key_Right) And Tutorial_Num_Lv2 <14
                 
                 Tutorial_Num_Lv2 + 1
                 
@@ -1135,8 +1137,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 688
-; FirstLine = 178
-; Folding = AAE-
+; CursorPosition = 814
+; FirstLine = 187
+; Folding = AAw+
 ; EnableXP
 ; DisableDebugger

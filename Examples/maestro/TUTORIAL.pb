@@ -68,28 +68,28 @@ Procedure Tutorial_play()
     Case 2 
       
       
-      WriteScript("먼저 하단 왼쪽 의 화면은 당신의 모습입니다.어쩌고", scriptPos_x, scriptPos_y)
+      WriteScript("먼저 하단 왼쪽 의 화면은 당신의 모습입니다.", scriptPos_x, scriptPos_y)
     Case 3
       
       
       WriteScript("상반신이 잘 보이도록 위치를 조절해주세요.", scriptPos_x, scriptPos_y) 
     Case 4 
       
-      WriteScript("두손에 마커를 쥐었으면 이제 입력을 해봅시다.", scriptPos_x, scriptPos_y) 
+      WriteScript("두손에 마커를 쥐었으면 이제 가상의 피아노를 만들어봅시다.", scriptPos_x, scriptPos_y) 
     Case 5 
       
       
-      WriteScript("화면에 빨간 마커가 잘 보이도록 들고" +#CRLF$+" 상단을 터치하여 버튼을 눌러보세요.", scriptPos_x, scriptPos_y)
+      WriteScript("화면에 오른쪽 마커가 잘 보이도록 들고" +#CRLF$+" 마커로 이마를 터치하여 버튼을 눌러보세요.", scriptPos_x, scriptPos_y)
       Tuto_Lock_5 = #True
       
     Case 6          
       
-      WriteScript("화면에 초록 마커가 잘 보이도록 들고 "+#CRLF$+"하단을 터치하여 버튼을 눌러보세요.", scriptPos_x, scriptPos_y) 
+      WriteScript("화면에 왼쪽 마커가 잘 보이도록 들고 "+#CRLF$+"마커로 배꼽을 터치하여 버튼을 눌러보세요.", scriptPos_x, scriptPos_y) 
       Tuto_Lock_6 = #True
       
     Case 7 
       
-      WriteScript("색깔 박스가 잘 그려졋나요? 마커를 이용하여"+#CRLF$+" 박스의 크기를 적절히 조절해 보세요.", scriptPos_x, scriptPos_y) 
+      WriteScript("색깔 박스가 잘 그려졌나요? 마커를 이용하여"+#CRLF$+" 박스의 크기를 적절히 조절해 보세요. 가로로도 설정할 수 있어요.", scriptPos_x, scriptPos_y) 
       
     Case 8 
       
@@ -105,7 +105,7 @@ Procedure Tutorial_play()
       
       *p = FindSprite("highlight2")
       SetMySprite(*p, 750, 160, 1)
-      WriteScript("나뭇가지에 매달린 과일들이 보이시나요....?", scriptPos_x, scriptPos_y)       
+      WriteScript("나뭇가지에 매달린 과일들이 보이시나요?", scriptPos_x, scriptPos_y)       
       For i = 1 To 7
         *p = FindSprite("line"+i)
         SetMySprite(*p, 750 + 90*i , 160, 1)
@@ -116,37 +116,39 @@ Procedure Tutorial_play()
       *p = FindSprite("highlight2")
       SetMySprite(*p, 750, 160, 0)
       
-      WriteScript("마커로 음을 입력하기 위해 space를 눌러 "+#CRLF$+"마커 모드를 음 입력모드로 바꿀 수 있습니다.", scriptPos_x, scriptPos_y) 
+      WriteScript("마커로 음을 입력하기 위해 왼쪽마커의 화살표를 위로한 뒤 B버튼을 눌러"+#CRLF$+"마커 모드를 음 입력모드로 바꿀 수 있습니다.", scriptPos_x, scriptPos_y) 
       Tuto_Lock_10= #True
       
     Case 11
-      WriteScript("이 과일들은 차례로 도레미파솔라시도"+#CRLF$+" 어쩌고 입니다 <-이걸 어떻게 쉽게 풀어서 쓰지", scriptPos_x, scriptPos_y)
+      WriteScript("이 과일들은 사과부터 포도까지 차례로 도레미파솔라시 입니다.", scriptPos_x, scriptPos_y)
       
     Case 12 
-      WriteScript("이 과일들은 각각 음을 가지고 있고 캠 화면의 같은 색깔의 상자에 대응됩니다.", scriptPos_x, scriptPos_y)
+      WriteScript("이 과일들은 각각 음을 가지고 있고 카메라 화면의 같은 색깔의 상자에 대응됩니다.", scriptPos_x, scriptPos_y)
       
     Case 13 
-    WriteScript("마커를 이용하여 자유롭게 음 입력을 해보고 소리를 들어보세요.", scriptPos_x, scriptPos_y)
-                                                                   Case 14 
+    WriteScript("마커를 이용하여 자유롭게 음을 입력을 해보고 소리를 들어보세요.", scriptPos_x, scriptPos_y)
+      Case 14 
       WriteScript("다음은 화음에 대해 알아보겠습니다.", scriptPos_x, scriptPos_y)
       
     Case 15 
-      WriteScript("상자의 모양이 바뀌었습니다."+#CRLF$+" 앞서 말했던 음들이 세가지가 모이면 조화로운 소리가 어쩌고 <-화음정의찾아서 어쩌고", scriptPos_x, scriptPos_y)
+      WriteScript("상자의 모양이 바뀌었습니다.", scriptPos_x, scriptPos_y)
       Tuto_Lock_15 = #True
     Case 16 
-      WriteScript("화음 설명 어쩌고 저쩌고", scriptPos_x, scriptPos_y)
+      WriteScript("3개의 음이 모여 조화로운 소리를 만들 때 화음이 됩니다.", scriptPos_x, scriptPos_y)
       Tuto_Lock_15 = #True
     Case 17 
-      WriteScript("아래는 화음 개미(?)입니다. 개미가 세개의 음을 모아 화음으로 굴려줍니다", scriptPos_x, scriptPos_y)
+      WriteScript("아래는 과일을 좋아하는 음악 개미입니다."+#CRLF$+"개미가 세개의 음을 모아 화음으로 굴려줍니다", scriptPos_x, scriptPos_y)
     Case 18 
-      WriteScript("마커를 이용하여 화음을 잘 듣고 기억하세요.", scriptPos_x, scriptPos_y)
-    Case 19 
-      WriteScript("1단계에서는 화음을 듣고 화음에 맞는 음 맞추기, 총 3단계", scriptPos_x, scriptPos_y)
-    Case 20 
+      WriteScript("마커를 이용하여 화음을 잘 듣고 기억하세요.", scriptPos_x, scriptPos_y)     
+     Case 19
+      WriteScript("게임은 총 3단계로 이루어져있습니다.", scriptPos_x, scriptPos_y)
+    Case 20
+      WriteScript("1단계에서는 화음을 듣고 화음에 맞는 음 맞추기", scriptPos_x, scriptPos_y)
+    Case 21
       WriteScript("2단계에서는 멜로디에 맞는 화음을 넣는 단계", scriptPos_x, scriptPos_y)
-    Case 21 
+    Case 22
       WriteScript("3단계에서는 직접 작곡을 해볼 수 있습니다.", scriptPos_x, scriptPos_y)   
-    Case 22 
+    Case 23
       WriteScript("이상으로 튜토리얼을 마치겠습니다.", scriptPos_x, scriptPos_y)
       
   EndSelect
@@ -457,8 +459,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 456
-; FirstLine = 416
+; CursorPosition = 43
+; FirstLine = 33
 ; Folding = -
 ; EnableXP
 ; DisableDebugger
