@@ -947,7 +947,7 @@ EndProcedure
 Procedure LEVEL3_Tutorial(x, Tutorial_Num_Lv3)
   
   pos_x = 1000
-  pos_y = 550
+  pos_y = 530
   ;x + 1
  ; Debug  Tutorial_Num_Lv2
   
@@ -958,7 +958,7 @@ Procedure LEVEL3_Tutorial(x, Tutorial_Num_Lv3)
       *p = FindSprite_lv3("ant_tuto")   
       SetMySprite_lv3(*p, 800, 630, 1)
       
-      ant_saying_lv3("여기까지 잘 따라와주었구나!"+#CRLF$+"이제 마지막 3단계에서는 직접 작곡을 해 볼 차례야", pos_x, pos_y)
+      ant_saying_lv3("여기까지 잘 따라와주었구나!"+#CRLF$+"이제 마지막 3단계에서는"+#CRLF$+"직접 작곡을 해 볼 차례야", pos_x, pos_y)
       
     Case 2
       ant_saying_lv3("먼저 생각나는 멜로디를 한 번 입력해봐!"+#CRLF$+"1단계에서 했던 것처럼 원하는 과일을"+#CRLF$+"마커로 입력하면 가지에 과일이 생길거야", pos_x, pos_y) 
@@ -1013,7 +1013,7 @@ Procedure LEVEL3_Tutorial(x, Tutorial_Num_Lv3)
     StartDrawing(ScreenOutput())  
     DrawingMode(#PB_2DDrawing_Transparent)
     DrawingFont(FontID(Font15))
-    DrawText(1450+2*Sin(x), 700, "다음" , RGB(0,0,0))
+    DrawText(1430+2*Sin(x), 680, "다음" , RGB(0,0,0))
     ;  DrawText(100-2*Sin(x), 150, "이전" , RGB(255,255,255))
     StopDrawing()
   ElseIf Tutorial_Num_Lv3 = 15
@@ -1021,14 +1021,14 @@ Procedure LEVEL3_Tutorial(x, Tutorial_Num_Lv3)
     DrawingMode(#PB_2DDrawing_Transparent)
     DrawingFont(FontID(Font15))
     ;  DrawText(1300+2*Sin(x), 150, "다음" , RGB(0,255,255))
-    DrawText(1000-2*Sin(x), 700, "이전" , RGB(0,0,0))
+    DrawText(1000-2*Sin(x), 680, "이전" , RGB(0,0,0))
     StopDrawing()
   Else
     StartDrawing(ScreenOutput())  
     DrawingMode(#PB_2DDrawing_Transparent)
     DrawingFont(FontID(Font15))
-    DrawText(1450+2*Sin(x), 700, "다음" , RGB(0,0,0))
-    DrawText(1000-2*Sin(x), 700, "이전" , RGB(0,0,0))
+    DrawText(1430+2*Sin(x), 680, "다음" , RGB(0,0,0))
+    DrawText(1000-2*Sin(x), 680, "이전" , RGB(0,0,0))
     StopDrawing()
   EndIf  
   
@@ -1339,7 +1339,7 @@ Procedure CreateLEVEL3()
       InitKeyboard()
       
       ;Screen과 Sprite 생성
-      Screen_0 = OpenWindowedScreen(WindowID(Window_0), 0, 0, WindowWidth(0), WindowHeight(0))
+  ;    Screen_0 = OpenWindowedScreen(WindowID(Window_0), 0, 0, WindowWidth(0), WindowHeight(0))
       
       UsePNGImageDecoder()
       
@@ -1772,8 +1772,8 @@ Procedure CreateLEVEL3()
   
 EndProcedure
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 887
-; FirstLine = 169
-; Folding = IAAM+
+; CursorPosition = 1029
+; FirstLine = 245
+; Folding = IAAM9
 ; EnableXP
 ; DisableDebugger

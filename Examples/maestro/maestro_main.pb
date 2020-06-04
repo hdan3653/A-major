@@ -39,13 +39,18 @@ Global BackgroundX = 1536, BackgroundY = 897
 
 
 ;Setup Font
-Global ImpactFont = LoadFont(#PB_Any, "Impact", 30)
-Global Font15 = LoadFont(#PB_Any, "Impact", 15)
-Global Font20 = LoadFont(#PB_Any, "Impact", 20)
-Global Font25 = LoadFont(#PB_Any, "Impact", 25)
-Global Font40 = LoadFont(#PB_Any, "Impact", 40,#PB_Font_Bold)
-Global Font50 = LoadFont(#PB_Any, "Impact", 50)
-Global Font100 = LoadFont(#PB_Any, "Impact", 100)
+Global Impact20 = LoadFont(#PB_Any, "Impact", 20)
+Global Impact25 = LoadFont(#PB_Any, "Impact", 25)
+Global Impact30 = LoadFont(#PB_Any, "Impact", 30)
+Global Impact50 = LoadFont(#PB_Any, "Impact", 50)
+Global Impact100 = LoadFont(#PB_Any, "Impact", 100)
+Global Font15 = LoadFont(#PB_Any, "a영고딕E", 15)
+Global Font20 = LoadFont(#PB_Any, "a영고딕E", 20)
+Global Font30 = LoadFont(#PB_Any, "a영고딕E", 30)
+Global Font25 = LoadFont(#PB_Any, "a영고딕E", 25)
+Global Font40 = LoadFont(#PB_Any, "a영고딕E", 40,#PB_Font_Bold)
+Global Font50 = LoadFont(#PB_Any, "a영고딕E", 50)
+Global Font100 = LoadFont(#PB_Any, "a영고딕E", 100)
 
 
 Procedure DrawTextEx(X.i, Y.i, Text.s)
@@ -120,16 +125,12 @@ IncludeFile "cv_colorcalibration.pb"
 
 Procedure drawStageSelect(StageNum, LeftOrRight, LevelNum)
   
-  
-  
   If InitSprite() = 0 Or InitKeyboard() = 0
     MessageRequester("Error", "Sprite system can't be initialized", 0)
   EndIf
   
   UsePNGImageDecoder()
   LoadImage(#Image_MAIN, "./graphics/MAIN.png")
-  ; Font50 = LoadFont(#PB_Any, "Impact", 50)
-  ;  Font202 = LoadFont(#PB_Any, "System", 50)
   
   
   Repeat
@@ -151,7 +152,7 @@ Procedure drawStageSelect(StageNum, LeftOrRight, LevelNum)
       StartDrawing(ScreenOutput())     
       DrawImage(ImageID(#Image_StageNode), StageNodePosX, StageNodePosY,StageNodeX, StageNodeY) 
       DrawingMode(#PB_2DDrawing_Transparent)
-      DrawingFont(FontID(font50))
+      DrawingFont(FontID(Impact50))
       DrawText(NodeTextX, NodeTextY, "Stage"+AfterStage, TextColor)    
       StopDrawing()
       
@@ -159,7 +160,7 @@ Procedure drawStageSelect(StageNum, LeftOrRight, LevelNum)
       
       DrawImage(ImageID(#Image_StageNode), StageNodePosX-var_x+z, StageNodePosY,StageNodeX, StageNodeY) 
       DrawingMode(#PB_2DDrawing_Transparent)
-      DrawingFont(FontID(font50))
+      DrawingFont(FontID(Impact50))
       DrawText(NodeTextX -var_x+z, NodeTextY, "Stage"+StageNum, TextColor)    
       StopDrawing()
       
@@ -173,14 +174,14 @@ Procedure drawStageSelect(StageNum, LeftOrRight, LevelNum)
       StartDrawing(ScreenOutput())     
       DrawImage(ImageID(#Image_StageNode), StageNodePosX, StageNodePosY,StageNodeX, StageNodeY) 
       DrawingMode(#PB_2DDrawing_Transparent)
-      DrawingFont(FontID(font50))
+      DrawingFont(FontID(Impact50))
       DrawText(NodeTextX, NodeTextY, "Stage"+StageNum, TextColor)    
       StopDrawing()
       
       StartDrawing(ScreenOutput())
       DrawImage(ImageID(#Image_StageNode), StageNodePosX-var_x+z, StageNodePosY,StageNodeX, StageNodeY) 
       DrawingMode(#PB_2DDrawing_Transparent)
-      DrawingFont(FontID(font50))
+      DrawingFont(FontID(Impact50))
       DrawText(NodeTextX-var_x+z, NodeTextY, "Stage"+BeforeStage, TextColor)    
       StopDrawing()
       
@@ -226,7 +227,7 @@ Procedure drawStageVibe(StageNum, LevelNum)
     StartDrawing(ScreenOutput())
     DrawImage(ImageID(#Image_StageNode), StageNodePosX-20*Sin(var_x), StageNodePosY,StageNodeX, StageNodeY)
     DrawingMode(#PB_2DDrawing_Transparent)
-    DrawingFont(FontID(font50))
+    DrawingFont(FontID(Impact50))
     DrawText(NodeTextX-20*Sin(var_x), NodeTextY, "Stage"+StageNum, TextColor)
     StopDrawing()
     var_x+20      
@@ -280,10 +281,10 @@ Procedure StageSelectScene(LevelNum)
     StartDrawing(ScreenOutput())
     DrawingMode(#PB_2DDrawing_Transparent)
     DrawImage(ImageID (#Image_StageNode),StageNodePosX,StageNodePosY,StageNodeX,StageNodeY)
-    DrawingFont(FontID(font50))
+    DrawingFont(FontID(Impact50))
     DrawingMode(#PB_2DDrawing_Transparent)
     DrawText(NodeTextX, NodeTextY, "Stage"+StageNum, TextColor)
-    DrawingFont(FontID(Font25))
+    DrawingFont(FontID(Impact25))
     If Score < 10 
       DrawText(StageNodePosX+20, StageNodePosY+10, "☆☆☆", TextColor)
     ElseIf Score < 50
@@ -293,7 +294,7 @@ Procedure StageSelectScene(LevelNum)
     ElseIf Score < 150
       DrawText(StageNodePosX+20, StageNodePosY+10, "★★★", TextColor)  
     EndIf  
-    DrawingFont(FontID(font20))
+    DrawingFont(FontID(Impact20))
     DrawText(StageNodePosX+245, StageNodePosY+20, "score : " + Str(Score), TextColor)
     StopDrawing()
     
@@ -337,7 +338,7 @@ Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3,튜토, �
     ; 똑같은건데 #Image_MENU는 오류나고 #Image_MENU2는 괜찮음. 어디서 이름이 겹치나..? 그래서 그냥 #Image_MENU2 로 합니다.
     DrawImage(ImageID(#Image_MENU2), 0, 0, BackgroundX, BackgroundY)  
     DrawingMode(#PB_2DDrawing_Transparent)
-    DrawingFont(FontID(font15))
+    DrawingFont(FontID(Font15))
     ;DrawText(20, 15, "MENU SCENE", TextColor)
     ;DrawText(20, 50, "USER NAME", TextColor)
     
@@ -346,8 +347,8 @@ Procedure MenuSelectScene() ;제스쳐로 선택하도록 LEVEL1 ,2,3,튜토, �
     DrawImage(ImageID(#Image_LEVEL3_Button), 1000, 350 -(3*Sin(LEVEL3_pos)),LevelNodeX,LevelNodeY) 
     DrawImage(ImageID(#Image_Calibration_Button), 50, 100-(3*Sin(CaliButton)), 200,50)
     DrawImage(ImageID(#Image_Calibration_Button), 1300, 100-(3*Sin(Tutorialbutton)), 200,50)
-    DrawText(60, 120-(3*Sin(CaliButton)),"캘리브레이션", TextColor)
-    DrawText(1310, 120-(3*Sin(Tutorialbutton)),"튜토리얼", TextColor)
+    DrawText(80, 115-(3*Sin(CaliButton)),"캘리브레이션", TextColor)
+    DrawText(1350, 115-(3*Sin(Tutorialbutton)),"튜토리얼", TextColor)
     DrawingMode(#PB_2DDrawing_Transparent)
     
     StopDrawing()    
@@ -433,9 +434,10 @@ Repeat
     StartDrawing(ScreenOutput())
     DrawImage(ImageID(#Image_MAIN), 0, 0, BackgroundX, BackgroundY)
     DrawingMode(#PB_2DDrawing_Transparent)
-    DrawingFont(FontID(ImpactFont))
+    DrawingFont(FontID(Impact30))
     DrawTextEx(0,0, "A-MAJOR")
-    DrawText(680, 700 + 3*Sin(posy), "아무키나 누르세요", TextColor) 
+    DrawingFont(FontID(Font25))
+    DrawText(600, 700 + 3*Sin(posy), "아무키나 누르세요", TextColor) 
     StopDrawing() 
     
     posy= var_x/5
@@ -499,8 +501,8 @@ CloseScreen()
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 293
-; FirstLine = 153
-; Folding = o
+; CursorPosition = 45
+; FirstLine = 21
+; Folding = +
 ; EnableXP
 ; Executable = maestro.exe

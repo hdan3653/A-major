@@ -418,8 +418,11 @@ Procedure MovingAnt_Lv2(code.i, bar.i)
   *p.mySprite = InitMySprite("ant"+Str(currentBar), "graphics/ant.png", Lv2_antX, Lv2_antY)
   
   ; ## 05.30 추가
-  DrawBarMarker_Lv2()
   
+
+  If Tutorial_Num <0 
+  DrawBarMarker_Lv2()
+  EndIf
   
 EndProcedure 
 
@@ -443,6 +446,11 @@ Procedure CheckArea_Lv2(key)
     MovingAnt_Lv2(code, 0)
   EndIf
 EndProcedure
+
+
+
+
+
 
 Procedure DrawNotes_Lv2()
   ;-- TODO DrawNote
@@ -716,7 +724,7 @@ Procedure LEVEL2_Tutorial()
   
   pos_x = 1000
   pos_y = 530
-  x + 1
+ ; x + 1
   Debug  Tutorial_Num_Lv2
   
   
@@ -741,7 +749,7 @@ Procedure LEVEL2_Tutorial()
       
     Case 5
       *p = FindSprite("madi_highlight")
-      SetMySprite(*p, 800 , 440 , 1)
+      SetMySprite(*p, 800 , 180 , 1)
       ant_saying("작은 나뭇잎 두 장의 사이 "+#CRLF$+"즉, 표시한 부분이 한 마디가 되는거야!", pos_x, pos_y)
       
     Case 6       
@@ -749,21 +757,21 @@ Procedure LEVEL2_Tutorial()
       *p = FindSprite("leaf_highlight")
       SetMySprite(*p, 1170 , 140 , 0)
       *p = FindSprite("madi_highlight")
-      SetMySprite(*p, 800 , 440 , 0)
+      SetMySprite(*p, 800 , 240 , 0)
       
     Case 7
       ant_saying("<오른쪽 마커의 왼쪽 오른쪽 제스쳐>를 통해서"+#CRLF$+"마디의 앞 뒤로 이동할 수 있지", pos_x, pos_y)
       
     Case 8       
       *p = FindSprite("madis_highlight")
-      SetMySprite(*p, 50 , 40 , 1)
+      SetMySprite(*p, 50 , 10 , 1)
       
       ant_saying("지금 내가 있는 마디 정보는"+#CRLF$+"왼쪽 위에서 확인할 수 있어!", pos_x, pos_y)     
       
     Case 9
       
       *p = FindSprite("madis_highlight")
-      SetMySprite(*p, 50 , 40 , 0)
+      SetMySprite(*p, 50 , 0, 0)
       
       ant_saying("멜로디의 음에 따라서 "+#CRLF$+"알맞은 화음을 붙이는 방법을 알려줄게", pos_x, pos_y)
       
@@ -809,11 +817,11 @@ Procedure Gamestage_Lv2()
     DrawImage(ImageID(#Image_MENU2), 0, 0, BackgroundX, BackgroundY)  
     DrawingMode(#PB_2DDrawing_Transparent)
     
-    DrawingFont(FontID(Font100))  
+    DrawingFont(FontID(Font40))  
     DrawImage(ImageID(#Image_Lv2_Stage), 470, 350- (3*Sin(node1_pos)),StageNodeX_Lv2, StageNodeY_Lv2)  
     DrawImage(ImageID(#Image_Lv2_Stage), 470, 550 -(3*Sin(node2_pos)),StageNodeX_Lv2, StageNodeY_Lv2) 
-    DrawText(510, 420- (3*Sin(node1_pos)), "비행기", TextColor)
-    DrawText(510, 620 -(3*Sin(node2_pos)), "학교 종", TextColor)
+    DrawText(670, 390- (3*Sin(node1_pos)), "비행기", TextColor)
+    DrawText(670, 590 -(3*Sin(node2_pos)), "학교종", TextColor)
     DrawingMode(#PB_2DDrawing_Transparent)  
     StopDrawing()    
     
@@ -972,7 +980,7 @@ Procedure CreateLEVEL2 ()
                 StartDrawing(ScreenOutput())  
                 DrawingMode(#PB_2DDrawing_Transparent)
                 DrawingFont(FontID(Font15))
-                DrawText(1450+2*Sin(x), 680, "다음" , RGB(0,0,0))
+                DrawText(1430+2*Sin(x), 680, "다음" , RGB(0,0,0))
                 ;  DrawText(100-2*Sin(x), 150, "이전" , RGB(255,255,255))
                 StopDrawing()
               ElseIf Tutorial_Num_Lv2 = 12
@@ -986,7 +994,7 @@ Procedure CreateLEVEL2 ()
                 StartDrawing(ScreenOutput())  
                 DrawingMode(#PB_2DDrawing_Transparent)
                 DrawingFont(FontID(Font15))
-                DrawText(1450+2*Sin(x), 680, "다음" , RGB(0,0,0))
+                DrawText(1430+2*Sin(x), 680, "다음" , RGB(0,0,0))
                 DrawText(1000-2*Sin(x), 680, "이전" , RGB(0,0,0))
                 StopDrawing()
               EndIf  
@@ -1137,8 +1145,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 814
-; FirstLine = 187
-; Folding = AAw+
+; CursorPosition = 751
+; FirstLine = 132
+; Folding = AAQ-
 ; EnableXP
 ; DisableDebugger

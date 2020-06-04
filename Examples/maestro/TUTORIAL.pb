@@ -53,7 +53,7 @@ Procedure Tutorial_play()
   
   
   scriptPos_x = 50
-  scriptPos_y = 50
+  scriptPos_y = 25
   
   Select Tutorial_Num
       
@@ -399,7 +399,7 @@ Procedure CreateTutorial()
               DrawingMode(#PB_2DDrawing_Transparent)
               DrawingFont(FontID(Font20))
               DrawText(0, 800, "마커모드 : 음 입력모드" , RGB(255,255,255))
-                                                 StopDrawing()
+              StopDrawing()
             EndIf  
             
             
@@ -407,7 +407,7 @@ Procedure CreateTutorial()
               StartDrawing(ScreenOutput())  
               DrawingMode(#PB_2DDrawing_Transparent)
               DrawingFont(FontID(Font20))
-              DrawText(1300+2*Sin(x), 110, "다음" , RGB(0,0,0))
+              DrawText(1420+2*Sin(x), 110, "다음" , RGB(0,0,0))
               ;  DrawText(100-2*Sin(x), 150, "이전" , RGB(255,255,255))
               StopDrawing()
             ElseIf Tutorial_Num >=20
@@ -415,14 +415,14 @@ Procedure CreateTutorial()
               DrawingMode(#PB_2DDrawing_Transparent)
               DrawingFont(FontID(Font20))
               ;  DrawText(1300+2*Sin(x), 150, "다음" , RGB(255,255,255))
-              DrawText(100-2*Sin(x), 110, "이전" , RGB(0,0,0))
+              DrawText(50-2*Sin(x), 110, "이전" , RGB(0,0,0))
               StopDrawing()
             Else
               StartDrawing(ScreenOutput())  
               DrawingMode(#PB_2DDrawing_Transparent)
               DrawingFont(FontID(Font20))
-              DrawText(1300+2*Sin(x), 110, "다음" , RGB(0,0,0))
-              DrawText(100-2*Sin(x), 110, "이전" , RGB(0,0,0))
+              DrawText(1420+2*Sin(x), 110, "다음" , RGB(0,0,0))
+              DrawText(50-2*Sin(x), 110, "이전" , RGB(0,0,0))
               StopDrawing()
             EndIf  
             
@@ -459,8 +459,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 43
-; FirstLine = 33
-; Folding = -
+; CursorPosition = 401
+; FirstLine = 348
+; Folding = 9
 ; EnableXP
 ; DisableDebugger

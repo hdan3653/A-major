@@ -777,7 +777,7 @@ EndProcedure
 Procedure LEVEL1_Tutorial(x, Tutorial_Num_Lv1)
   
   pos_x = 1000
-  pos_y = 500
+  pos_y = 530
   
   Select Tutorial_Num_Lv1
       
@@ -824,7 +824,7 @@ Procedure LEVEL1_Tutorial(x, Tutorial_Num_Lv1)
     StartDrawing(ScreenOutput())  
     DrawingMode(#PB_2DDrawing_Transparent)
     DrawingFont(FontID(Font15))
-    DrawText(1450+2*Sin(x), 700, "다음" , RGB(0,0,0))
+    DrawText(1430+2*Sin(x), 680, "다음" , RGB(0,0,0))
     ;  DrawText(100-2*Sin(x), 150, "이전" , RGB(255,255,255))
     StopDrawing()
   ElseIf Tutorial_Num_Lv1 = 12
@@ -832,14 +832,14 @@ Procedure LEVEL1_Tutorial(x, Tutorial_Num_Lv1)
     DrawingMode(#PB_2DDrawing_Transparent)
     DrawingFont(FontID(Font15))
     ;  DrawText(1300+2*Sin(x), 150, "다음" , RGB(0,255,255))
-    DrawText(1000-2*Sin(x), 700, "이전" , RGB(0,0,0))
+    DrawText(1000-2*Sin(x), 680, "이전" , RGB(0,0,0))
     StopDrawing()
   Else
     StartDrawing(ScreenOutput())  
     DrawingMode(#PB_2DDrawing_Transparent)
     DrawingFont(FontID(Font15))
-    DrawText(1450+2*Sin(x), 700, "다음" , RGB(0,0,0))
-    DrawText(1000-2*Sin(x), 700, "이전" , RGB(0,0,0))
+    DrawText(1430+2*Sin(x), 680, "다음" , RGB(0,0,0))
+    DrawText(1000-2*Sin(x), 680, "이전" , RGB(0,0,0))
     StopDrawing()
   EndIf  
   
@@ -856,8 +856,8 @@ Procedure Gamestage(StageNum)
   DrawingMode(#PB_2DDrawing_Transparent)
   
   
-  DrawingFont(FontID(Font100))
-  DrawText(540, 350, "Stage" + StageNum, TextColor)
+  DrawingFont(FontID(Impact100))
+  DrawText(570, 350, "Stage" + StageNum, TextColor)
   StopDrawing()
   
   FlipBuffers()
@@ -1201,8 +1201,8 @@ Procedure CreateLEVEL1(SelectedStage)
             
             StartDrawing(ScreenOutput())  
             DrawingMode(#PB_2DDrawing_Transparent)
-            DrawingFont(FontID(Font40))
-            DrawText(1040, 100, "SCORE : " + score , RGB(255,255,255))
+            DrawingFont(FontID(Font25))
+            DrawText(5, 5, "SCORE : " + score , RGB(255,255,255))
             StopDrawing()
             
             
@@ -1210,15 +1210,15 @@ Procedure CreateLEVEL1(SelectedStage)
             If markerState = 0
               StartDrawing(ScreenOutput())  
               DrawingMode(#PB_2DDrawing_Transparent)
-              DrawingFont(FontID(Font40))
-              DrawText(0, 800, "마커모드 : 상자조절" , RGB(255,255,255))
+              DrawingFont(FontID(Font15))
+              DrawText(5, 55, "마커모드 : 상자조절" , RGB(255,255,255))
               StopDrawing()
               
             ElseIf  markerState =1 
               StartDrawing(ScreenOutput())  
               DrawingMode(#PB_2DDrawing_Transparent)
-              DrawingFont(FontID(Font40))
-              DrawText(0, 800, "마커모드 : 음 입력모드" , RGB(255,255,255))
+              DrawingFont(FontID(Font15))
+              DrawText(5, 55, "마커모드 : 음 입력모드" , RGB(255,255,255))
                                                  StopDrawing()
             EndIf  
             
@@ -1265,8 +1265,8 @@ EndProcedure
 
 
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 779
-; FirstLine = 132
-; Folding = AAAg0
+; CursorPosition = 859
+; FirstLine = 116
+; Folding = AAAA7
 ; EnableXP
 ; DisableDebugger
