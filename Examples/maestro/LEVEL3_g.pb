@@ -413,16 +413,7 @@ Procedure AddNote_lv3()
       ;Debug "입력 끝"
       complete = 1
       barCount = 3
-      ;--맨 마지막 음 박자 계산! 나중에는 마지막 마디 입력 끝나면 저장하는걸로 바꾸기!!
-      *p.mySprite_lv3 = LastElement(bar_list_lv3(3)\note_lv3())
-      diff_lv3 = 1480 - *p\x
-      If diff_lv3 = 160
-        *p\beat = 800 ;두박자
-      ElseIf diff_lv3 = 80
-        *p\beat = 400 ;한박자
-      ElseIf diff_lv3 = 40
-        *p\beat = 200 ;반박자
-      EndIf
+
       ;inputCount = -1
       
     ElseIf editMode = 1
@@ -1143,9 +1134,9 @@ Procedure PlayAll_lv3()
   Repeat
     
     ClearNote_lv3()
-    Debug "어디지1"
+    
     ForEach bar_list_lv3(i)\note_lv3()
-      Debug "i ==== " + i
+
       note_lv3 = bar_list_lv3(i)\note_lv3()\num
       beat = bar_list_lv3(i)\note_lv3()\beat
       
@@ -1154,10 +1145,9 @@ Procedure PlayAll_lv3()
       FrameManager_lv3(bar_list_lv3(i)\note_lv3())
       DrawMySprite_lv3(bar_list_lv3(i)\note_lv3())
       
-      Debug "어디지2"
-      Debug bar_list_lv3(i)\note_lv3()\x
+
       If bar_list_lv3(i)\note_lv3()\x = 800
-        Debug "어디지5"
+
         *p.mySprite_lv3 = FirstElement(bar_list_lv3(i)\chord())
         chord = *p\num
         *p\active = 1
@@ -1174,10 +1164,10 @@ Procedure PlayAll_lv3()
           *b.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(2*(i+1)+1)) ;==============================================
           *b\active = 1                                                   ;==============================================
         EndIf
-        Debug "어디지3"
+
         
       ElseIf bar_list_lv3(i)\note_lv3()\x = 1160
-        Debug "어디지6"
+
         *p.mySprite_lv3 = LastElement(bar_list_lv3(i)\chord())
         chord = *p\num
         *p\active = 1
@@ -1193,20 +1183,16 @@ Procedure PlayAll_lv3()
           *b.mySprite_lv3 = FindSprite_lv3("bar_active_c"+Str(2*(i+1)+2)) ;==============================================
           *b\active = 1                                                   ;==============================================
         EndIf
-        Debug "어디지4"
+
       EndIf  
       
-      Debug "어디지7"
+
       currentTime = GetTickCount_()
       FrameManager_lv3(sprite_list_lv3())
-      Debug "bar cord: " + Str(bar_list_lv3(i)\chord())
       FrameManager_lv3(bar_list_lv3(i)\chord())
-      Debug "어디지9"
 
       DrawMySprite_lv3(sprite_list_lv3())
-      Debug "어디지10"
       DrawMySprite_lv3(bar_list_lv3(i)\chord())
-      Debug "어디지11"
       
       
       midiOutShortMsg_(hMidiOut, $90 | 0 | GetNote_lv3(note_lv3) << 8 | 127 << 16 )
@@ -1684,6 +1670,16 @@ Procedure CreateLEVEL3()
                 ;화음입력
                 If inputMode = 0
                   inputMode = 1
+                        ;--맨 마지막 음 박자 계산! 나중에는 마지막 마디 입력 끝나면 저장하는걸로 바꾸기!!
+      *p.mySprite_lv3 = LastElement(bar_list_lv3(3)\note_lv3())
+      diff_lv3 = 1480 - *p\x
+      If diff_lv3 = 160
+        *p\beat = 800 ;두박자
+      ElseIf diff_lv3 = 80
+        *p\beat = 400 ;한박자
+      ElseIf diff_lv3 = 40
+        *p\beat = 200 ;반박자
+      EndIf
                   currentBar = 0
                   DrawNote_lv3(currentBar)
                   ;숫자 마디 비활성화
@@ -1779,8 +1775,8 @@ Procedure CreateLEVEL3()
   
 EndProcedure
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 1201
-; FirstLine = 1191
+; CursorPosition = 770
+; FirstLine = 765
 ; Folding = -----
 ; EnableXP
 ; DisableDebugger

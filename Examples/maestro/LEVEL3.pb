@@ -370,16 +370,7 @@ Procedure AddNote_lv3()
       ;Debug "입력 끝"
       complete = 1
       barCount = 3
-      ;--맨 마지막 음 박자 계산! 나중에는 마지막 마디 입력 끝나면 저장하는걸로 바꾸기!!
-      *p.mySprite_lv3 = LastElement(bar_list_lv3(3)\note_lv3())
-      diff_lv3 = 1480 - *p\x
-      If diff_lv3 = 160
-        *p\beat = 800 ;두박자
-      ElseIf diff_lv3 = 80
-        *p\beat = 400 ;한박자
-      ElseIf diff_lv3 = 40
-        *p\beat = 200 ;반박자
-      EndIf
+      
       ;inputCount = -1
       
     ElseIf editMode = 1
@@ -1494,6 +1485,16 @@ Procedure CreateLEVEL3()
             ;화음입력
             If inputMode = 0
               inputMode = 1
+                            ;--맨 마지막 음 박자 계산! 나중에는 마지막 마디 입력 끝나면 저장하는걸로 바꾸기!!
+      *p.mySprite_lv3 = LastElement(bar_list_lv3(3)\note_lv3())
+      diff_lv3 = 1480 - *p\x
+      If diff_lv3 = 160
+        *p\beat = 800 ;두박자
+      ElseIf diff_lv3 = 80
+        *p\beat = 400 ;한박자
+      ElseIf diff_lv3 = 40
+        *p\beat = 200 ;반박자
+      EndIf
               currentBar = 0
               DrawNote_lv3(currentBar)
               ;숫자 마디 비활성화
@@ -1775,8 +1776,8 @@ Procedure CreateLEVEL3()
   
 EndProcedure
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 1144
-; FirstLine = 305
-; Folding = oAAs+
+; CursorPosition = 1496
+; FirstLine = 756
+; Folding = oQAs+
 ; EnableXP
 ; DisableDebugger
