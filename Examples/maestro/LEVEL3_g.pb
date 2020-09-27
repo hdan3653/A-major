@@ -4,6 +4,8 @@
 ; 처음 시작 후, 마우스 커서와 키보드 1(혹은 2)로 박스 영역 설정 -> 스페이스바로 상태 전환 -> 마우스 커서와 키보드 1(혹은 2)로 음 출력
 ; 키보드3 : 멜로디 입력 <-> 코드 입력 전환 (기본 상태는 멜로디 입력, 처음 누르면 코드 입력으로 전환)
 ; 키보드4 : 입력 <-> 수정 전환 (기본 상태는 입력, 처음 누르면 수정모드로 전환)
+Global bitStart, bitend ;논문용
+
 
 Structure mySprite_lv3
   sprite_id.i
@@ -103,8 +105,10 @@ Global Dim keyColor.color(6)
 ProcedureC TrackRight_Lv3(*imgHSV.IplImage)
   *imgThresh.IplImage = cvCreateImage(*imgHSV\width, *imgHSV\height, #IPL_DEPTH_8U, 1)
   cvInRangeS(*imgHSV, 160, 140, 40, 0, 179, 255, 255, 0, *imgThresh)
+  Debug "P1: " + GetTickCount_()
   moments.CvMoments
   cvMoments(*imgThresh, @moments, 1)
+  Debug "P2: " + GetTickCount_()
   moment10.d = moments\m10
   moment01.d = moments\m01
   area.d = moments\m00
@@ -929,6 +933,7 @@ Procedure CheckArea_lv3(bit$)
   ElseIf(bit$ = "0")
     ;    Debug("RED : " + Str(marker1X) + ", " + Str(marker1Y))
     tone = CalcArea_lv3(marker1X, marker1Y)
+    Debug "CalcArea ended: " + GetTickCount_()
   EndIf
   
   
@@ -945,9 +950,13 @@ Procedure CheckArea_lv3(bit$)
     inputTone = tone
     
     AddNote_lv3()
+    Debug "AddNote ended: " + GetTickCount_()
     
     If barCount < 4
       PlayPianoSound_lv3(tone+1)
+      bitend = GetTickCount_()
+      time = bitend - bitstart
+      Debug "start: " + bitStart + " end: " + bitend + " time: " + time
       ;answerTone = tone
       inputCount = inputCount + 1
       
@@ -1478,7 +1487,9 @@ Procedure CreateLEVEL3()
             
           EndIf
           
+          
           If IsSerialPort(Com) <> 0 And AvailableSerialPortInput(Com) > 0 
+            bitStart = GetTickCount_()
             ;마이크로비트 포트 값
             If ReadSerialPortData(Com, @Buffer, 1)
               micbit$ = Chr(Buffer)           
@@ -1487,10 +1498,13 @@ Procedure CreateLEVEL3()
           
           ;마이크로비트 인터랙션
           If (Asc(micbit$) > 47 And Asc(micbit$) < 50)
+            Debug "------------------CheckArea-------------------------"
             If(micbit$ = "0")
-              TrackRight(*imgHSV)
+              Debug "tracking start: " + GetTickCount_()
+              TrackRight_Lv3(*imgHSV)
+              Debug "tracking ended: " + GetTickCount_()
             ElseIf(micbit$ = "1")
-              TrackLeft(*imgHSV)
+              TrackLeft_Lv3(*imgHSV)
             EndIf
             ;상태가 음 출력 상태이면 음을 출력한다
             If markerState = 1
@@ -1775,8 +1789,8 @@ Procedure CreateLEVEL3()
   
 EndProcedure
 ; IDE Options = PureBasic 5.60 (Windows - x86)
-; CursorPosition = 770
-; FirstLine = 765
+; CursorPosition = 104
+; FirstLine = 104
 ; Folding = -----
 ; EnableXP
 ; DisableDebugger
